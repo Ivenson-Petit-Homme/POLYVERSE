@@ -1,0 +1,6 @@
+{
+  "name": "Polyverse",
+  "description": "Polyverse — Connecter vos idées à des résultats concrets. Design & Sérigraphie, Tech & Marketing digital, Finance & Investissement.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
