@@ -2,6 +2,7 @@ import React from 'react';
 import { PolyverseLogo } from './PolyverseLogo';
 import { NavigationTab } from '../types';
 import { POLYVERSE_INFO } from '../data/polyverseData';
+import polyverseFooterBg from '../assets/images/polyverse_hero_banner_1789375953738.jpg';
 import { Mail, Phone, MapPin, ArrowUp, MessageCircle, ExternalLink } from 'lucide-react';
 
 interface FooterProps {
@@ -20,8 +21,19 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
   };
 
   return (
-    <footer className="bg-[#0A2A4D] text-white border-t border-slate-800 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative bg-[#06152B] text-white border-t-2 border-slate-800/80 pt-16 pb-12 overflow-hidden">
+      {/* Background Image with Dark Contrast Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={polyverseFooterBg}
+          alt="Polyverse Footer Backdrop"
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover object-center filter brightness-90 contrast-110 opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#040D1A]/95 via-[#0A2A4D]/85 to-[#06152B]/95" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
           {/* Column 1: Brand & Slogan */}
           <div className="space-y-4">

@@ -152,15 +152,15 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-2 md:hidden">
             <button
               onClick={onOpenQuoteModal}
-              className="px-3.5 py-1.5 rounded-full bg-[#0A2A4D] text-white text-xs font-bold flex items-center space-x-1"
+              className="px-3.5 py-2 rounded-full bg-[#0A2A4D] text-white text-xs font-bold flex items-center space-x-1 min-h-[44px] cursor-pointer active:scale-95"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span>Devis</span>
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition"
-              aria-label="Toggle menu"
+              className="p-2.5 rounded-lg text-slate-700 hover:bg-slate-100 transition min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer active:scale-95"
+              aria-label="Menu de navigation"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

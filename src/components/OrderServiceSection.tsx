@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { POLYVERSE_INFO } from '../data/polyverseData';
 import { ScrollReveal } from './ScrollReveal';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import shippingLogisticsImg from '../assets/images/shipping_logistics_bg_1789429529421.jpg';
 import {
   ShoppingBag,
   Plane,
@@ -71,22 +73,22 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
 
   const handleGenerateWhatsAppLink = () => {
     const serviceName = getServiceTitle(selectedService);
-    let msg = `*NOUVO DEMANN SÈVIS POLYVERSE*\n`;
+    let msg = `*NOUVELLE DEMANDE DE SERVICE POLYVERSE*\n`;
     msg += `----------------------------------------\n`;
-    msg += `📌 *Sèvis:* ${serviceName}\n`;
-    msg += `📦 *Non Pwodui / Pwojè:* ${productName || 'Non presize'}\n`;
-    if (productUrl) msg += `🔗 *Lyen Sit:* ${productUrl}\n`;
-    msg += `🔢 *Kantite:* ${quantity}\n`;
-    if (color) msg += `🎨 *Koulè:* ${color}\n`;
-    if (size) msg += `📏 *Size / Gwosè:* ${size}\n`;
-    if (estimatedPriceUSD) msg += `💵 *Pri estimatif:* $${estimatedPriceUSD} USD\n`;
-    if (description) msg += `📝 *Deskripsyon / Detay:* ${description}\n`;
+    msg += `📌 *Service:* ${serviceName}\n`;
+    msg += `📦 *Nom Produit / Projet:* ${productName || 'Non précisé'}\n`;
+    if (productUrl) msg += `🔗 *Lien du Site:* ${productUrl}\n`;
+    msg += `🔢 *Quantité:* ${quantity}\n`;
+    if (color) msg += `🎨 *Couleur:* ${color}\n`;
+    if (size) msg += `📏 *Taille / Pointure:* ${size}\n`;
+    if (estimatedPriceUSD) msg += `💵 *Prix estimatif:* $${estimatedPriceUSD} USD\n`;
+    if (description) msg += `📝 *Description / Détails:* ${description}\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Kliyan:* ${clientName || 'Kliyan Polyverse'}\n`;
-    msg += `📱 *Telefòn/WhatsApp:* ${clientPhone || 'Presize nan chat'}\n`;
-    if (clientEmail) msg += `📧 *Imèl:* ${clientEmail}\n`;
-    if (deliveryAddress) msg += `📍 *Adrès livrezon:* ${deliveryAddress}\n`;
-    if (orderRef) msg += `🔖 *Kòd Referans:* ${orderRef}\n`;
+    msg += `👤 *Client:* ${clientName || 'Client Polyverse'}\n`;
+    msg += `📱 *Téléphone / WhatsApp:* ${clientPhone || 'À préciser en direct'}\n`;
+    if (clientEmail) msg += `📧 *E-mail:* ${clientEmail}\n`;
+    if (deliveryAddress) msg += `📍 *Adresse de livraison:* ${deliveryAddress}\n`;
+    if (orderRef) msg += `🔖 *Code Référence:* ${orderRef}\n`;
 
     return `https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${encodeURIComponent(msg)}`;
   };
@@ -111,16 +113,44 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
       <ScrollReveal>
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
-            Pilye Finance & Investissement
+            Pôle Finance, Logistique & Événements
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2A4D] tracking-tight">
             Achat Sans Carte, Shipping & Événements
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Pa bezwen kat kredi entènasyonal pou achte sou Amazon, Shein oswa eBay. Nou achte pou ou, nou resevwa koli w epi nou livre l ba ou rapidman an Ayiti !
+            Pas besoin de carte de crédit internationale pour commander sur Amazon, Shein ou eBay. Nous achetons pour vous, réceptionnons vos colis et assurons une livraison rapide et sécurisée en Haïti !
           </p>
         </div>
       </ScrollReveal>
+
+      {/* Visual Shipping & Air Logistics Hero Showcase */}
+      <div className="relative rounded-3xl overflow-hidden bg-[#0A2A4D] shadow-2xl border border-slate-700/80 min-h-[220px] flex items-center p-6 sm:p-10">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={shippingLogisticsImg}
+            alt="Shipping Logistics Hub"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
+        </div>
+
+        <div className="relative z-10 max-w-2xl space-y-3 text-white">
+          <div className="inline-flex items-center space-x-2 bg-orange-500/20 text-[#D85A30] border border-[#D85A30]/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+            <Plane className="w-3.5 h-3.5" />
+            <span>Fret Aérien & Hub Miami ➔ Haïti</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Achetez partout dans le monde, nous livrons chez vous
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+            Gestion intégrale des formalités : paiement immédiat en devises, réception en entrepôt sécurisé, dédouanement et remise en main propre à Port-au-Prince et en province.
+          </p>
+        </div>
+      </div>
+
+      <SectionDarkDivider label="Choix du Service & Formulaire Dédié" />
 
       {/* 3 Main Services Selector Tabs */}
       <div className="flex justify-center">
@@ -177,22 +207,22 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
               </div>
               <div className="space-y-2">
                 <h3 className="text-2xl font-bold text-[#0A2A4D]">
-                  Demann Ou An Anrejistre Avèk Siksè !
+                  Votre demande a été enregistrée avec succès !
                 </h3>
                 <p className="text-slate-600 max-w-md mx-auto text-sm">
-                  Ekip Polyverse la resevwa detay kòmand ou a. Pou nou finalize kalkil la epi trete l pi rapid, klike sou bouton WhatsApp anba a.
+                  L'équipe Polyverse a bien reçu les détails de votre commande. Pour finaliser le devis et accélérer le traitement, cliquez sur le bouton WhatsApp ci-dessous.
                 </p>
               </div>
 
               {/* Reference Code Card */}
               <div className="inline-flex items-center space-x-3 bg-slate-50 border border-slate-200 px-5 py-3 rounded-xl">
-                <span className="text-xs text-slate-500 uppercase font-semibold">Nimewo Referans :</span>
+                <span className="text-xs text-slate-500 uppercase font-semibold">Numéro de référence :</span>
                 <span className="font-mono font-bold text-[#185FA5] text-lg">{orderRef}</span>
                 <button
                   type="button"
                   onClick={() => copyToClipboard(orderRef)}
                   className="p-1 hover:bg-slate-200 rounded text-slate-600 transition"
-                  title="Kopye nimewo a"
+                  title="Copier la référence"
                 >
                   {copiedRef ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                 </button>
@@ -206,7 +236,7 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   className="inline-flex items-center justify-center space-x-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span>Konfime sou WhatsApp kounye a</span>
+                  <span>Confirmer sur WhatsApp maintenant</span>
                 </a>
 
                 <button
@@ -221,7 +251,7 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   }}
                   className="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition"
                 >
-                  Pase yon lòt kòmand
+                  Passer une autre commande
                 </button>
               </div>
             </div>
@@ -233,17 +263,17 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                 <div className="text-xs sm:text-sm text-slate-700 leading-relaxed">
                   {selectedService === 'achat-sans-carte' && (
                     <span>
-                      <strong>Sèvis Achat Sans Carte :</strong> Mete non pwodui a, lyen sit la (Amazon, Shein, etc.), koulè, gwosè ak kantite. Nou kalkile pri total an goud pou ou peye fasilman pa MonCash oswa Natcash !
+                      <strong>Service Achat Sans Carte :</strong> Indiquez le nom du produit, le lien du site (Amazon, Shein, eBay, etc.), la couleur, la taille et la quantité. Nous calculons le prix total en Gourdes ou en Dollars pour un paiement rapide par MonCash, Natcash ou virement !
                     </span>
                   )}
                   {selectedService === 'shipping' && (
                     <span>
-                      <strong>Sèvis Shipping & Livrezon :</strong> Presize koli w bezwen transpòte oswa achte nan men founisè lòtbò dlo. Nou ba w adrès depo nan Florid epi nou delivre l an Ayiti.
+                      <strong>Service Shipping & Livraison :</strong> Précisez les colis à acheminer ou à commander auprès de vos fournisseurs internationaux. Nous mettons à disposition notre adresse de transit en Floride et livrons directement en Haïti.
                     </span>
                   )}
                   {selectedService === 'planification-evenement' && (
                     <span>
-                      <strong>Planifikasyon Evènman :</strong> Dekri tip evènman an (Gala, Lansman, Konferans, Fèt promo). Nou jere lojistik, t-shirts, son, banyè ak kowòdinasyon konplè.
+                      <strong>Planification d'Événements :</strong> Décrivez votre événement (Gala, Lancement, Conférence, Promotion). Nous gérons la logistique intégrale : sonorisation, merchandising, t-shirts sérigraphiés et coordination complète.
                     </span>
                   )}
                 </div>
@@ -253,19 +283,19 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
               <div className="space-y-4">
                 <h3 className="text-base font-bold text-[#0A2A4D] flex items-center space-x-2 border-b border-slate-100 pb-2">
                   <span className="w-6 h-6 rounded-full bg-[#185FA5] text-white text-xs flex items-center justify-center font-bold">1</span>
-                  <span>Detay sou Pwodui oswa Sèvis Ou Bezwen An</span>
+                  <span>Détails du Produit ou du Service Requis</span>
                 </h3>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Non Pwodui a / Tit Demann nan *
+                    Nom du Produit / Intitulé de la Demande *
                   </label>
                   <input
                     type="text"
                     required
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
-                    placeholder="Eg: Robe de soirée Shein, Baskets Nike, Pack 100 t-shirts promo..."
+                    placeholder="Ex: Robe de soirée Shein, Baskets Nike, Pack 100 t-shirts promotionnels..."
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                   />
                 </div>
@@ -273,20 +303,20 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Lyen Pwodui sou Sit la (URL - opsyonèl)
+                      Lien du Produit en ligne (URL - optionnel)
                     </label>
                     <input
                       type="url"
                       value={productUrl}
                       onChange={(e) => setProductUrl(e.target.value)}
-                      placeholder="https://shein.com/item/... oswa amazon.com/..."
+                      placeholder="https://shein.com/item/... ou amazon.com/..."
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Pri Estimatif sou Sit la ($ USD)
+                      Prix Estimatif sur le Site ($ USD)
                     </label>
                     <input
                       type="number"
@@ -304,7 +334,7 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Kantite *
+                      Quantité *
                     </label>
                     <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden">
                       <button
@@ -333,26 +363,26 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Koulè (Couleur)
+                      Couleur souhaitée
                     </label>
                     <input
                       type="text"
                       value={color}
                       onChange={(e) => setColor(e.target.value)}
-                      placeholder="Eg: Nwa, Ble, Wouj, Blan..."
+                      placeholder="Ex: Noir, Bleu marine, Blanc, Rouge..."
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Size / Gwosè / Pointure
+                      Taille / Pointure
                     </label>
                     <input
                       type="text"
                       value={size}
                       onChange={(e) => setSize(e.target.value)}
-                      placeholder="Eg: S, M, L, XL, Pointure 42..."
+                      placeholder="Ex: S, M, L, XL, Pointure 42..."
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
@@ -360,13 +390,13 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Lòt Deskripsyon & Enstriksyon Espesyal
+                    Description & Instructions Particulières
                   </label>
                   <textarea
                     rows={3}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Mete tout lòt detay enpòtan sou modèl la, materyo a, oswa egzijans espesyal ou genyen..."
+                    placeholder="Indiquez toute précision utile sur le modèle, les matières ou vos impératifs de livraison..."
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition resize-none"
                   />
                 </div>
@@ -376,27 +406,27 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
               <div className="space-y-4 pt-4">
                 <h3 className="text-base font-bold text-[#0A2A4D] flex items-center space-x-2 border-b border-slate-100 pb-2">
                   <span className="w-6 h-6 rounded-full bg-[#185FA5] text-white text-xs flex items-center justify-center font-bold">2</span>
-                  <span>Enfòmasyon Pou Livrezon & Kontak</span>
+                  <span>Informations de Livraison & Contact</span>
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Non & Prenon Ou *
+                      Nom & Prénom *
                     </label>
                     <input
                       type="text"
                       required
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
-                      placeholder="Eg: Jean-Luc Petit-Homme"
+                      placeholder="Ex: Jean-Luc Petit-Homme"
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Nimewo WhatsApp / Telefòn *
+                      Numéro WhatsApp / Téléphone *
                     </label>
                     <input
                       type="tel"
@@ -412,27 +442,27 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Imèl (Email - opsyonèl)
+                      E-mail (optionnel)
                     </label>
                     <input
                       type="email"
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
-                      placeholder="nom@example.com"
+                      placeholder="votre.email@domaine.com"
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Vil & Adrès Livrezon an Ayiti *
+                      Ville & Adresse de Livraison en Haïti *
                     </label>
                     <input
                       type="text"
                       required
                       value={deliveryAddress}
                       onChange={(e) => setDeliveryAddress(e.target.value)}
-                      placeholder="Eg: Caracol, Cap-Haïtien, Delmas, Pétion-Ville..."
+                      placeholder="Ex: Caracol, Cap-Haïtien, Delmas, Pétion-Ville..."
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none text-sm font-medium transition"
                     />
                   </div>
@@ -443,20 +473,20 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
               <div className="pt-4 flex flex-col sm:flex-row gap-3">
                 <button
                   type="submit"
-                  className="flex-1 flex items-center justify-center space-x-2 px-6 py-4 bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold rounded-xl shadow-md transition duration-200"
+                  className="flex-1 flex items-center justify-center space-x-2 px-6 py-4 bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold rounded-xl shadow-md transition duration-200 cursor-pointer"
                 >
                   <FileText className="w-5 h-5" />
-                  <span>Valide Kòmand lan sou Sit la</span>
+                  <span>Valider la commande en ligne</span>
                 </button>
 
                 <a
                   href={handleGenerateWhatsAppLink()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-2 px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition duration-200"
+                  className="flex items-center justify-center space-x-2 px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition duration-200 cursor-pointer"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span>Voye Dirèk sou WhatsApp</span>
+                  <span>Envoyer directement sur WhatsApp</span>
                 </a>
               </div>
             </form>
@@ -465,40 +495,51 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
 
         {/* Right Column: Live Summary Card & Process Explainer */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Live Recap Card */}
-          <div className="bg-[#0A2A4D] text-white rounded-2xl p-6 shadow-md space-y-4">
+          {/* Live Recap Card with Shipping Background */}
+          <div className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-2xl p-6 shadow-xl space-y-4 border border-slate-700/70">
+            <div className="absolute inset-0 z-0 opacity-40">
+              <img
+                src={shippingLogisticsImg}
+                alt="Logistics Background"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover filter brightness-90"
+              />
+              <div className="absolute inset-0 bg-[#0A2A4D]/85" />
+            </div>
+
+            <div className="relative z-10 space-y-4">
             <span className="text-[11px] uppercase tracking-wider font-bold text-[#D85A30] bg-orange-950/60 px-2.5 py-1 rounded-full border border-orange-500/30">
               Aperçu de votre commande
             </span>
 
             <h4 className="text-lg font-bold text-white">
-              {productName || 'Non pwodui a ap parèt la a...'}
+              {productName || 'Le nom du produit apparaîtra ici...'}
             </h4>
 
             <div className="space-y-2 text-xs border-t border-slate-700/80 pt-3">
               <div className="flex justify-between py-1">
-                <span className="text-slate-400">Sèvis :</span>
+                <span className="text-slate-400">Service :</span>
                 <span className="font-semibold text-slate-200">{getServiceTitle(selectedService).split('(')[0]}</span>
               </div>
               <div className="flex justify-between py-1">
-                <span className="text-slate-400">Kantite :</span>
-                <span className="font-semibold text-slate-200">{quantity} pyès</span>
+                <span className="text-slate-400">Quantité :</span>
+                <span className="font-semibold text-slate-200">{quantity} pièce{quantity > 1 ? 's' : ''}</span>
               </div>
               {color && (
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-400">Koulè :</span>
+                  <span className="text-slate-400">Couleur :</span>
                   <span className="font-semibold text-slate-200">{color}</span>
                 </div>
               )}
               {size && (
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-400">Gwosè / Size :</span>
+                  <span className="text-slate-400">Taille / Pointure :</span>
                   <span className="font-semibold text-slate-200">{size}</span>
                 </div>
               )}
               {deliveryAddress && (
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-400">Livrezon :</span>
+                  <span className="text-slate-400">Livraison :</span>
                   <span className="font-semibold text-slate-200">{deliveryAddress}</span>
                 </div>
               )}
@@ -507,22 +548,23 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
             {totals && (
               <div className="bg-slate-800/80 rounded-xl p-3 border border-slate-700 space-y-1">
                 <div className="flex justify-between text-xs text-slate-300">
-                  <span>Pri atik estimatif :</span>
+                  <span>Prix estimatif articles :</span>
                   <span>${totals.totalUSD.toFixed(2)} USD</span>
                 </div>
                 <div className="flex justify-between text-sm font-extrabold text-[#D85A30]">
-                  <span>Total estimatif an Goud :</span>
+                  <span>Total estimatif en Gourdes :</span>
                   <span>≈ {totals.totalHTG.toLocaleString()} HTG</span>
                 </div>
                 <p className="text-[10px] text-slate-400 pt-1">
-                  * To referans 1$ = 150 HTG. Frè shipping ak sèvis yo konfime avèk ou anvan pèman.
+                  * Taux de référence 1$ = 150 HTG. Frais d'expédition et de dédouanement confirmés avant tout paiement.
                 </p>
               </div>
             )}
 
             <div className="pt-2 text-[11px] text-slate-300 flex items-center space-x-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Garanti sekirite 100% sou chak acha pa Polyverse.</span>
+              <span>Garantie de sécurité 100% sur chaque achat avec Polyverse.</span>
+            </div>
             </div>
           </div>
 
@@ -530,7 +572,7 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
             <h4 className="text-base font-bold text-[#0A2A4D] flex items-center space-x-2">
               <Clock className="w-4 h-4 text-[#185FA5]" />
-              <span>Kijan Sèvis la Fonksyone ?</span>
+              <span>Comment fonctionne le service ?</span>
             </h4>
 
             <div className="space-y-3.5 text-xs text-slate-600">
@@ -539,8 +581,8 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   1
                 </span>
                 <div>
-                  <strong className="text-slate-800">Ou voye detay pwodui a</strong>
-                  <p>Mete non l, koulè l, gwosè l ak lyen sit kote l ye a.</p>
+                  <strong className="text-slate-800">Transmettez vos articles</strong>
+                  <p>Indiquez le nom, la couleur, la taille et le lien de l'article souhaité.</p>
                 </div>
               </div>
 
@@ -549,8 +591,8 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   2
                 </span>
                 <div>
-                  <strong className="text-slate-800">Nou ba w pri total la</strong>
-                  <p>Ekip Polyverse la konfime pri a an goud oswa an dola.</p>
+                  <strong className="text-slate-800">Nous calculons le montant net</strong>
+                  <p>L'équipe Polyverse confirme le coût en Gourdes ou en Dollars en direct.</p>
                 </div>
               </div>
 
@@ -559,8 +601,8 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   3
                 </span>
                 <div>
-                  <strong className="text-slate-800">Pèman fasil an Ayiti</strong>
-                  <p>Peye pa MonCash, Natcash, virement oswa lajan kach.</p>
+                  <strong className="text-slate-800">Paiement local simplifié</strong>
+                  <p>Réglez par MonCash, Natcash, virement bancaire ou en espèces.</p>
                 </div>
               </div>
 
@@ -569,8 +611,8 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   4
                 </span>
                 <div>
-                  <strong className="text-slate-800">Acha & Livrezon an sekirite</strong>
-                  <p>Nou achte l imedyatman, swiv koli a epi livre l nan men w !</p>
+                  <strong className="text-slate-800">Achat & Expédition sécurisés</strong>
+                  <p>Commande passée sans délai, suivi colis en temps réel et livraison en Haïti !</p>
                 </div>
               </div>
             </div>
@@ -579,9 +621,9 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
               <button
                 type="button"
                 onClick={onOpenQuoteModal}
-                className="w-full py-2.5 text-center text-xs font-bold text-[#185FA5] hover:text-[#0A2A4D] hover:bg-slate-50 rounded-xl transition"
+                className="w-full py-2.5 text-center text-xs font-bold text-[#185FA5] hover:text-[#0A2A4D] hover:bg-slate-50 rounded-xl transition cursor-pointer"
               >
-                Mande yon kalkil rapid / Devis jeneral →
+                Demander un devis personnalisé complet →
               </button>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { PortfolioItem, ServiceCategory } from '../types';
 import { PORTFOLIO_ITEMS } from '../data/polyverseData';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import { ScrollReveal } from './ScrollReveal';
 import {
   Palette,
   Code,
@@ -38,79 +40,86 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
       {/* Portfolio Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
-          Galerie de Réalisations
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A2A4D]">
-          Notre Portfolio Polyverse
-        </h1>
-        <p className="text-base text-slate-600 leading-relaxed">
-          Découvrez nos réalisations classées par domaine : design visuel & sérigraphie textile, développement web & campagnes marketing, et solutions financières & logistiques.
-        </p>
+      <ScrollReveal>
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
+            Galerie de Réalisations
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A2A4D]">
+            Notre Portfolio Polyverse
+          </h1>
+          <p className="text-base text-slate-600 leading-relaxed">
+            Découvrez nos réalisations classées par domaine : design visuel & sérigraphie textile, développement web & campagnes marketing, et solutions financières & logistiques.
+          </p>
 
-        {/* Notice for organized photos insertion */}
-        <div className="bg-[#FAF9F6] border border-[#E8E5DC] p-3 rounded-xl max-w-xl mx-auto text-xs text-slate-700 flex items-center justify-center space-x-2">
-          <Tag className="w-4 h-4 text-[#185FA5] shrink-0" />
-          <span>Galerie prête à recevoir vos photos réelles classées une par une par catégorie.</span>
+          {/* Notice for organized photos insertion */}
+          <div className="bg-[#FAF9F6] border border-[#E8E5DC] p-3 rounded-xl max-w-xl mx-auto text-xs text-slate-700 flex items-center justify-center space-x-2">
+            <Tag className="w-4 h-4 text-[#185FA5] shrink-0" />
+            <span>Galerie prête à recevoir vos photos réelles classées une par une par catégorie.</span>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
+
+      <SectionDarkDivider label="Filtres & Projets Réalisés" />
 
       {/* Category Filter Tabs */}
-      <div className="flex justify-center">
-        <div className="bg-[#F1EFE8] p-1.5 rounded-xl border border-slate-200 flex flex-wrap gap-1">
-          <button
-            onClick={() => setActiveFilter('all')}
-            className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition ${
-              activeFilter === 'all'
-                ? 'bg-[#0A2A4D] text-white shadow-xs'
-                : 'text-slate-700 hover:text-[#0A2A4D]'
-            }`}
-          >
-            <Layers className="w-3.5 h-3.5" />
-            <span>Tous ({PORTFOLIO_ITEMS.length})</span>
-          </button>
+      <ScrollReveal delay={0.1}>
+        <div className="flex justify-center">
+          <div className="bg-[#F1EFE8] p-1.5 rounded-xl border border-slate-200 flex flex-wrap gap-1">
+            <button
+              onClick={() => setActiveFilter('all')}
+              className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                activeFilter === 'all'
+                  ? 'bg-[#0A2A4D] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-[#0A2A4D]'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Tous ({PORTFOLIO_ITEMS.length})</span>
+            </button>
 
-          <button
-            onClick={() => setActiveFilter('design')}
-            className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition ${
-              activeFilter === 'design'
-                ? 'bg-[#185FA5] text-white shadow-xs'
-                : 'text-slate-700 hover:text-[#185FA5]'
-            }`}
-          >
-            <Palette className="w-3.5 h-3.5" />
-            <span>Design & Sérigraphie</span>
-          </button>
+            <button
+              onClick={() => setActiveFilter('design')}
+              className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                activeFilter === 'design'
+                  ? 'bg-[#185FA5] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-[#185FA5]'
+              }`}
+            >
+              <Palette className="w-3.5 h-3.5" />
+              <span>Design & Sérigraphie</span>
+            </button>
 
-          <button
-            onClick={() => setActiveFilter('tech')}
-            className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition ${
-              activeFilter === 'tech'
-                ? 'bg-[#0A2A4D] text-white shadow-xs'
-                : 'text-slate-700 hover:text-[#0A2A4D]'
-            }`}
-          >
-            <Code className="w-3.5 h-3.5" />
-            <span>Tech & Marketing</span>
-          </button>
+            <button
+              onClick={() => setActiveFilter('tech')}
+              className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                activeFilter === 'tech'
+                  ? 'bg-[#0A2A4D] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-[#0A2A4D]'
+              }`}
+            >
+              <Code className="w-3.5 h-3.5" />
+              <span>Tech & Marketing</span>
+            </button>
 
-          <button
-            onClick={() => setActiveFilter('finance')}
-            className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition ${
-              activeFilter === 'finance'
-                ? 'bg-[#D85A30] text-white shadow-xs'
-                : 'text-slate-700 hover:text-[#D85A30]'
-            }`}
-          >
-            <CreditCard className="w-3.5 h-3.5" />
-            <span>Finance & Investissement</span>
-          </button>
+            <button
+              onClick={() => setActiveFilter('finance')}
+              className={`flex items-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                activeFilter === 'finance'
+                  ? 'bg-[#D85A30] text-white shadow-xs'
+                  : 'text-slate-700 hover:text-[#D85A30]'
+              }`}
+            >
+              <CreditCard className="w-3.5 h-3.5" />
+              <span>Finance & Investissement</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Grid of Portfolio Items */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <ScrollReveal delay={0.15}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredItems.map((item) => (
           <div
             key={item.id}
@@ -177,6 +186,7 @@ export const PortfolioSection: React.FC<PortfolioSectionProps> = ({
           </div>
         ))}
       </div>
+      </ScrollReveal>
 
       {/* Project Detail Modal */}
       {selectedProject && (

@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ShopProduct, CartItem, AffiliateCode } from '../types';
 import { SHOP_PRODUCTS, AFFILIATE_CODES_SAMPLE, POLYVERSE_INFO } from '../data/polyverseData';
 import { ScrollReveal } from './ScrollReveal';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import boutiqueMerchBg from '../assets/images/boutique_merch_bg_1789429576842.jpg';
 import {
   ShoppingBag,
   ShoppingCart,
@@ -128,7 +130,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     setPromoError('');
     const clean = promoCodeInput.trim().toUpperCase();
     if (!clean) {
-      setPromoError('Tanpri antre yon kòd');
+      setPromoError('Veuillez entrer un code promo.');
       return;
     }
 
@@ -137,7 +139,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
       setAppliedPromo(matched);
       setPromoError('');
     } else {
-      setPromoError('Kòd sa pa valid oswa li ekspire.');
+      setPromoError('Ce code promo est invalide ou a expiré.');
       setAppliedPromo(null);
     }
   };
@@ -151,7 +153,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
       influencerName: influencerName,
       discountPercentage: 10,
       commissionPercentage: 12,
-      platform: influencerSocial || 'Social Media',
+      platform: influencerSocial || 'Réseaux Sociaux',
     };
 
     setActiveAffiliateCodes((prev) => [newAffiliate, ...prev]);
@@ -162,28 +164,28 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
   // Generate WhatsApp message for checkout
   const handleGenerateOrderWhatsApp = () => {
-    let msg = `*NOUVO KÒMAND BOUTIK POLYVERSE*\n`;
+    let msg = `*NOUVELLE COMMANDE BOUTIQUE POLYVERSE*\n`;
     msg += `----------------------------------------\n`;
     cart.forEach((item, idx) => {
       msg += `${idx + 1}. *${item.product.name}*\n`;
-      msg += `   • Kantite: ${item.quantity}\n`;
-      if (item.selectedSize) msg += `   • Size: ${item.selectedSize}\n`;
-      if (item.selectedColor) msg += `   • Koulè: ${item.selectedColor}\n`;
-      msg += `   • Pri inite: $${item.product.priceUSD} USD\n`;
+      msg += `   • Quantité: ${item.quantity}\n`;
+      if (item.selectedSize) msg += `   • Taille: ${item.selectedSize}\n`;
+      if (item.selectedColor) msg += `   • Couleur: ${item.selectedColor}\n`;
+      msg += `   • Prix unitaire: $${item.product.priceUSD} USD\n`;
     });
     msg += `----------------------------------------\n`;
     msg += `💵 *Sous-total:* $${subtotalUSD.toFixed(2)} USD\n`;
     if (appliedPromo) {
-      msg += `🎁 *Kòd Pwomo Aplike:* ${appliedPromo.code} (-${appliedPromo.discountPercentage}%)\n`;
-      msg += `👤 *Enfliyansè Referan:* ${appliedPromo.influencerName}\n`;
-      msg += `✂️ *Rabè:* -$${discountAmountUSD.toFixed(2)} USD\n`;
+      msg += `🎁 *Code Promo Appliqué:* ${appliedPromo.code} (-${appliedPromo.discountPercentage}%)\n`;
+      msg += `👤 *Ambassadeur Référent:* ${appliedPromo.influencerName}\n`;
+      msg += `✂️ *Remise Immédiate:* -$${discountAmountUSD.toFixed(2)} USD\n`;
     }
     msg += `💰 *TOTAL FINAL:* $${finalTotalUSD.toFixed(2)} USD (≈ ${finalTotalHTG.toLocaleString()} HTG)\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Achtè:* ${buyerName || 'Kliyan Polyverse'}\n`;
-    msg += `📱 *Telefòn:* ${buyerPhone || 'Non presize'}\n`;
-    msg += `📍 *Adrès livrezon:* ${buyerAddress || 'A konfime'}\n`;
-    msg += `💳 *Mòd Pèman:* ${buyerPaymentMethod}\n`;
+    msg += `👤 *Client:* ${buyerName || 'Client Polyverse'}\n`;
+    msg += `📱 *Téléphone / WhatsApp:* ${buyerPhone || 'Non précisé'}\n`;
+    msg += `📍 *Adresse de livraison:* ${buyerAddress || 'À confirmer'}\n`;
+    msg += `💳 *Mode de Paiement:* ${buyerPaymentMethod}\n`;
 
     return `https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${encodeURIComponent(msg)}`;
   };
@@ -201,67 +203,82 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
       <ScrollReveal>
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
-            Boutik & Espace Merchandising
+            Boutique & Merchandising Officiel
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2A4D] tracking-tight">
             La Boutique Polyverse
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Achte t-shirts sérigraphiés, hoodies, casquettes, cartes virtuelles et packs entreprise. Pwofite kòd pwomo enfliyansè yo pou jwenn 10% rabè !
+            Commandez t-shirts sérigraphiés, hoodies premium, casquettes, cartes virtuelles et packs entreprise. Profitez des codes promo ambassadeurs pour obtenir 10% de réduction immédiate !
           </p>
         </div>
       </ScrollReveal>
 
-      {/* Top Banner: Influenceurs / Affiliation CTA & Cart Floating Trigger */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-[#0A2A4D] via-[#185FA5] to-[#0A2A4D] text-white p-4 sm:p-5 rounded-2xl shadow-md">
-        <div className="flex items-center space-x-3 text-left">
-          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-[#D85A30]" />
-          </div>
-          <div>
-            <h3 className="font-bold text-sm sm:text-base flex items-center gap-2">
-              <span>Ou se yon kreyatè kontni oswa enfliyansè ?</span>
-              <span className="text-[10px] bg-[#D85A30] text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                10-15% Komisyon
-              </span>
-            </h3>
-            <p className="text-xs text-slate-200">
-              Jwenn kòd pwomo pèsonalize w la pou kominote w jwenn rabè epi ou menm touche komisyon sou chak vant !
-            </p>
-          </div>
+      {/* Top Banner: Influenceurs / Affiliation CTA with Boutique Merch Background */}
+      <div className="relative overflow-hidden bg-[#0A2A4D] text-white p-6 sm:p-7 rounded-3xl shadow-xl border border-slate-700/80">
+        {/* High-visibility background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={boutiqueMerchBg}
+            alt="Boutique Merchandising Polyverse"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
         </div>
 
-        <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-          <button
-            type="button"
-            onClick={() => setIsAffiliateModalOpen(true)}
-            className="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2.5 bg-[#D85A30] hover:bg-[#c04b24] text-white text-xs font-bold rounded-xl shadow-xs transition duration-150"
-          >
-            <Users className="w-4 h-4" />
-            <span>Fenet Afilyasyon</span>
-          </button>
+        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center space-x-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 text-[#D85A30]" />
+            </div>
+            <div>
+              <h3 className="font-bold text-sm sm:text-base flex items-center gap-2">
+                <span>Vous êtes créateur de contenu ou influenceur ?</span>
+                <span className="text-[10px] bg-[#D85A30] text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  10-15% Commission
+                </span>
+              </h3>
+              <p className="text-xs text-slate-200">
+                Générez votre code promo personnalisé pour offrir des réductions à votre communauté et toucher des commissions directes sur chaque vente !
+              </p>
+            </div>
+          </div>
 
-          <button
-            type="button"
-            onClick={() => setIsCartOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 bg-white text-[#0A2A4D] hover:bg-slate-100 text-xs font-bold rounded-xl shadow-xs transition duration-150 relative"
-          >
-            <ShoppingCart className="w-4 h-4 text-[#185FA5]" />
-            <span>Panye</span>
-            {totalItemCount > 0 && (
-              <span className="w-5 h-5 rounded-full bg-[#D85A30] text-white text-[10px] font-bold flex items-center justify-center">
-                {totalItemCount}
-              </span>
-            )}
-          </button>
+          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+            <button
+              type="button"
+              onClick={() => setIsAffiliateModalOpen(true)}
+              className="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2.5 bg-[#D85A30] hover:bg-[#c04b24] text-white text-xs font-bold rounded-xl shadow-xs transition duration-150 cursor-pointer"
+            >
+              <Users className="w-4 h-4" />
+              <span>Espace Ambassadeurs</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(true)}
+              className="flex items-center space-x-2 px-4 py-2.5 bg-white text-[#0A2A4D] hover:bg-slate-100 text-xs font-bold rounded-xl shadow-xs transition duration-150 relative cursor-pointer"
+            >
+              <ShoppingCart className="w-4 h-4 text-[#185FA5]" />
+              <span>Panier</span>
+              {totalItemCount > 0 && (
+                <span className="w-5 h-5 rounded-full bg-[#D85A30] text-white text-[10px] font-bold flex items-center justify-center">
+                  {totalItemCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
+
+      <SectionDarkDivider label="Catalogue & Articles Polyverse" />
 
       {/* Category Tabs */}
       <div className="flex justify-center">
         <div className="bg-[#F1EFE8] p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1.5 max-w-2xl w-full justify-center shadow-xs">
           {[
-            { id: 'all', label: 'Tout Pwodui yo' },
+            { id: 'all', label: 'Tous les Produits' },
             { id: 'textile', label: 'Textile & Sérigraphie' },
             { id: 'goodies', label: 'Goodies & Casquettes' },
             { id: 'tech-finance', label: 'Tech & Cartes' },
@@ -270,7 +287,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
                 selectedCategory === cat.id
                   ? 'bg-[#185FA5] text-white shadow-xs'
                   : 'text-slate-700 hover:text-[#0A2A4D] hover:bg-white/60'
@@ -448,13 +465,13 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                   {cart.length === 0 ? (
                     <div className="py-16 text-center space-y-3">
                       <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto" />
-                      <p className="text-sm font-semibold text-slate-600">Panye w lan vid pou kounye a.</p>
+                      <p className="text-sm font-semibold text-slate-600">Votre panier est actuellement vide.</p>
                       <button
                         type="button"
                         onClick={() => setIsCartOpen(false)}
-                        className="text-xs font-bold text-[#185FA5] hover:underline"
+                        className="text-xs font-bold text-[#185FA5] hover:underline cursor-pointer"
                       >
-                        Chwazi pwodui nan boutik la →
+                        Découvrir les articles de la boutique →
                       </button>
                     </div>
                   ) : (
@@ -562,7 +579,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       {/* Client info in checkout */}
                       <div className="space-y-3 pt-2 border-t border-slate-200">
                         <h4 className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
-                          Enfòmasyon Pou Livrezon
+                          Informations de Livraison
                         </h4>
 
                         <input
@@ -570,7 +587,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           required
                           value={buyerName}
                           onChange={(e) => setBuyerName(e.target.value)}
-                          placeholder="Non ak Prenon Ou *"
+                          placeholder="Nom et Prénom *"
                           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
                         />
 
@@ -579,7 +596,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           required
                           value={buyerPhone}
                           onChange={(e) => setBuyerPhone(e.target.value)}
-                          placeholder="Nimewo WhatsApp Ou *"
+                          placeholder="Numéro WhatsApp / Téléphone *"
                           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
                         />
 
@@ -588,23 +605,23 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           required
                           value={buyerAddress}
                           onChange={(e) => setBuyerAddress(e.target.value)}
-                          placeholder="Adrès livrezon (Vil, Lari) *"
+                          placeholder="Adresse de livraison (Ville, Quartier, Rue) *"
                           className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
                         />
 
                         <div>
                           <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
-                            Mòd Pèman Prefere
+                            Mode de Paiement Préféré
                           </label>
                           <select
                             value={buyerPaymentMethod}
                             onChange={(e) => setBuyerPaymentMethod(e.target.value)}
                             className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 font-semibold text-[#0A2A4D] bg-white outline-none"
                           >
-                            <option value="MonCash">MonCash (Pèman an Goud)</option>
-                            <option value="Natcash">Natcash (Pèman an Goud)</option>
+                            <option value="MonCash">MonCash (Paiement en Gourdes)</option>
+                            <option value="Natcash">Natcash (Paiement en Gourdes)</option>
                             <option value="Carte Bancaire">Carte Visa / Mastercard</option>
-                            <option value="Cash à la livraison">Lajan Kach lè koli a rive</option>
+                            <option value="Cash à la livraison">Espèces à la livraison</option>
                           </select>
                         </div>
                       </div>
@@ -622,7 +639,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       </div>
                       {appliedPromo && (
                         <div className="flex justify-between text-emerald-600 font-bold">
-                          <span>Rabè Enfliyansè ({appliedPromo.discountPercentage}%) :</span>
+                          <span>Remise Ambassadeur ({appliedPromo.discountPercentage}%) :</span>
                           <span>-${discountAmountUSD.toFixed(2)} USD</span>
                         </div>
                       )}
@@ -641,10 +658,10 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       href={handleGenerateOrderWhatsApp()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md transition"
+                      className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md transition cursor-pointer"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      <span>Konfime Kòmand sou WhatsApp</span>
+                      <span>Confirmer la commande sur WhatsApp</span>
                     </a>
                   </div>
                 )}
@@ -679,10 +696,10 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                   </div>
                   <div>
                     <h3 className="font-extrabold text-[#0A2A4D] text-lg">
-                      Fenet Afilyasyon & Enfliyansè
+                      Espace Ambassadeurs & Influenceurs
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Kreye kòd pwomo pèsonalize w la pou touche komisyon
+                      Créez votre code promo personnalisé pour toucher des commissions
                     </p>
                   </div>
                 </div>
@@ -690,7 +707,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                 <button
                   type="button"
                   onClick={() => setIsAffiliateModalOpen(false)}
-                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition"
+                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -701,20 +718,20 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                 <div className="p-3 bg-blue-50/70 border border-blue-100 rounded-xl">
                   <div className="flex items-center space-x-1.5 text-[#185FA5] font-bold text-xs mb-1">
                     <Percent className="w-3.5 h-3.5" />
-                    <span>Pou Kliyan W Yo</span>
+                    <span>Pour Vos Abonnés</span>
                   </div>
                   <p className="text-xs text-slate-700">
-                    Yo jwenn <strong>10% rabè imedya</strong> sou nenpòt kòmand nan boutik la.
+                    Ils bénéficient de <strong>10% de réduction immédiate</strong> sur tout le catalogue.
                   </p>
                 </div>
 
                 <div className="p-3 bg-orange-50/70 border border-orange-100 rounded-xl">
                   <div className="flex items-center space-x-1.5 text-[#D85A30] font-bold text-xs mb-1">
                     <Gift className="w-3.5 h-3.5" />
-                    <span>Pou Ou Menm</span>
+                    <span>Pour Vous</span>
                   </div>
                   <p className="text-xs text-slate-700">
-                    Ou touche <strong>10% a 15% komisyon</strong> an kach oswa MonCash sou chak vant !
+                    Vous touchez <strong>10% à 15% de commission</strong> en espèces ou par MonCash sur chaque vente !
                   </p>
                 </div>
               </div>
@@ -723,14 +740,14 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
               <form onSubmit={handleCreateAffiliateCode} className="space-y-4 text-left">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Non Ou oswa Non Paj Ou *
+                    Votre Nom ou Nom de Page *
                   </label>
                   <input
                     type="text"
                     required
                     value={influencerName}
                     onChange={(e) => setInfluencerName(e.target.value)}
-                    placeholder="Eg: Vanessa Lifestyle, Alex Kreyatè..."
+                    placeholder="Ex: Vanessa Lifestyle, Alex Créateur..."
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-medium outline-none"
                   />
                 </div>
@@ -738,27 +755,27 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Platfòm Ou (Instagram, TikTok...)
+                      Votre Réseau (Instagram, TikTok, YouTube...)
                     </label>
                     <input
                       type="text"
                       value={influencerSocial}
                       onChange={(e) => setInfluencerSocial(e.target.value)}
-                      placeholder="@non_ou sou TikTok / IG"
+                      placeholder="@votre_compte sur TikTok / IG"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-medium outline-none"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Kòd Pwomo Ou Swete Genyen *
+                      Code Promo Souhaité *
                     </label>
                     <input
                       type="text"
                       required
                       value={influencerDesiredCode}
                       onChange={(e) => setInfluencerDesiredCode(e.target.value.toUpperCase())}
-                      placeholder="Eg: ALEX509, POLYVIP..."
+                      placeholder="Ex: ALEX509, POLYVIP..."
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-bold uppercase outline-none"
                     />
                   </div>
@@ -766,7 +783,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Nimewo WhatsApp Ou Pou Resevwa Komisyon *
+                    Numéro WhatsApp pour Percevoir vos Commissions *
                   </label>
                   <input
                     type="tel"
@@ -780,16 +797,16 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold rounded-xl shadow-md transition"
+                  className="w-full py-3 bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold rounded-xl shadow-md transition cursor-pointer"
                 >
-                  Jenere & Aktive Kòd Pwomo M Kounye a
+                  Générer & Activer Mon Code Promo Immédiatement
                 </button>
               </form>
 
               {/* Sample Active Codes List for immediate testing */}
               <div className="pt-2 border-t border-slate-100 space-y-2 text-left">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                  Kòd Pwomo Disponib Pou Eseye Kounye a :
+                  Codes Promo Actifs Disponibles Pour Essai :
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {activeAffiliateCodes.map((item) => (

@@ -4,6 +4,7 @@ import { NavigationTab, ServiceCategory } from '../types';
 import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO } from '../data/polyverseData';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ScrollReveal } from './ScrollReveal';
+import { SectionDarkDivider } from './SectionDarkDivider';
 import polyverseServicesBanner from '../assets/images/polyverse_hero_banner_1789375953738.jpg';
 import officialLogoImg from '../assets/images/polyverse_official_logo_1789375972137.jpg';
 import {
@@ -120,24 +121,24 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
   const FAQS = [
     {
-      q: 'Èske m bezwen yon kat de kredi pou achte sou Amazon oswa Shein ?',
-      a: 'Non ! Gras ak sèvis Achat Sans Carte Polyverse la, ou sèlman bezwen voye lyen atik ou vle a ban nou. Nou kalkile pri a an Goud, ou peye fasil pa MonCash oswa Natcash, epi nou achte atik la pou ou san w pa bezwen okenn kat labank.',
+      q: 'Ai-je besoin d’une carte de crédit pour commander sur Amazon ou Shein ?',
+      a: 'Non ! Grâce à notre service exclusif d’Achat Sans Carte, il vous suffit de nous transmettre les liens ou photos des articles souhaités. Nous calculons le montant en Gourdes (HTG) ou en Dollars (USD), vous effectuez votre paiement facilement par MonCash, Natcash ou virement bancaire, et notre équipe effectue la commande immédiatement.',
     },
     {
-      q: 'Kijan livrezon koli yo fèt ant Etazini ak Ayiti ?',
-      a: 'Nou gen adrès depo nou nan vil Miami (Florid). Lè atik ou a rive nan depo a, nou prepare l pou anbake pa vwa ayeryen oswa maritim. Koli a rive an Ayiti nan 5 a 7 jou ouvrab, epi ou ka vin pran l oswa nou livre l dirèkteman lakay ou.',
+      q: 'Comment s’effectue la livraison des colis entre les États-Unis et Haïti ?',
+      a: 'Nous disposons de notre propre adresse de transit sécurisée en Floride (Miami). Dès réception de votre marchandise, celle-ci est préparée pour l’expédition aérienne ou maritime. Vos colis arrivent en Haïti en 5 à 7 jours ouvrés, disponibles en retrait ou livrés directement à votre porte.',
     },
     {
-      q: 'Ki delè pou enpresyon sérigraphie oswa kreyasyon yon sit wèb ?',
-      a: 'Pou sérigraphie (t-shirts, inifòm, casquettes), delè a varye ant 3 a 5 jou selon kantite a. Pou sit wèb vitrine oswa e-commerce, nou delivre premye vèsyon fonksyonèl la nan 7 a 14 jou avèk tout optimizasyon SEO ak sekirite enkli.',
+      q: 'Quels sont les délais pour la sérigraphie textile ou la création d’un site web ?',
+      a: 'Pour la sérigraphie (t-shirts personnalisés, uniformes, casquettes), le délai moyen est de 3 à 5 jours selon le volume. Pour un site web vitrine ou e-commerce, nous livrons une première version fonctionnelle en 7 à 14 jours, incluant design responsive, SEO et sécurité renforcée.',
     },
     {
-      q: 'Kijan mwen ka touche komisyon sou Boutik Polyverse la ?',
-      a: 'Nenpòt kreyatè kontni, etidyan oswa enfliyansè ka antre nan Pwogram Afilyasyon nou an gratis. Ou jwenn yon kòd promo pèsonalize (pa egzanp IVENSON10). Lè moun itilize kòd ou pou achte nan boutik la, yo gen 10% rabè epi ou menm ou touche ant 10% a 15% komisyon dirèk pa MonCash.',
+      q: 'Comment puis-je générer des revenus avec la Boutique et le Programme d’Affiliation ?',
+      a: 'Tout créateur de contenu, étudiant ou entrepreneur peut rejoindre gratuitement notre programme d’ambassadeurs. Vous obtenez un code promo personnalisé (ex: POLYVIP). Lorsque votre communauté utilise votre code, elle bénéficie de 10% de réduction immédiate et vous touchez entre 10% et 15% de commission versée directement par MonCash ou virement.',
     },
     {
-      q: 'Èske devis la gratis epi san angajman ?',
-      a: 'Wi, 100% gratis ! Ou ka itilize kalkilatris devis sou sit la oswa klike sou bouton WhatsApp la pou pale dirèkteman ak de (2) asosye fondatè Polyverse yo.',
+      q: 'Le devis et l’étude de faisabilité sont-ils gratuits et sans engagement ?',
+      a: 'Oui, 100% gratuits et sans aucun engagement ! Utilisez notre calculateur de devis interactif en ligne ou contactez-nous directement sur WhatsApp pour échanger en direct avec les co-fondateurs de Polyverse.',
     },
   ];
 
@@ -769,6 +770,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </div>
       </section>
 
+      {/* Dark Separator 1 */}
+      <SectionDarkDivider label="Écosystème & Partenariats Intégrés" />
+
       {/* ─────────────────────────────────────────────────────────────
           SECTION 2: LOGOS & SOCIAL PROOF STRIP (WEBNODE PURE WHITE BG #FFFFFF)
          ───────────────────────────────────────────────────────────── */}
@@ -789,6 +793,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           </div>
         </div>
       </section>
+
+      {/* Dark Separator 2 */}
+      <SectionDarkDivider label="Modèles & Réalisations Prêtes" />
 
       {/* ─────────────────────────────────────────────────────────────
           SECTION 3: TEMPLATES & SERVICES SHOWCASE (WEBNODE PALE BG #F4F6F9)
@@ -927,6 +934,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </div>
       </section>
 
+      {/* Dark Separator 3 */}
+      <SectionDarkDivider label="Méthodologie & Déploiement en 3 Étapes" />
+
       {/* ─────────────────────────────────────────────────────────────
           SECTION 4: 3 ÉTAPES FACILES (WEBNODE PURE WHITE BG #FFFFFF)
          ───────────────────────────────────────────────────────────── */}
@@ -1006,6 +1016,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           </div>
         </div>
       </section>
+
+      {/* Dark Separator 4 */}
+      <SectionDarkDivider label="Pôles d'Excellence & Métiers Polyverse" />
 
       {/* ─────────────────────────────────────────────────────────────
           SECTION 5: ALTERNATING 2-COLUMN FEATURES (WEBNODE SIGNATURE)
@@ -1099,6 +1112,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           </div>
         </section>
 
+        {/* Dark Separator between Features Block 1 and 2 */}
+        <SectionDarkDivider label="Ingénierie Web & Accélération Digitale" />
+
         {/* Block 2: Tech & Marketing (Pale Background #F4F6F9) */}
         <section className="bg-[#F4F6F9] py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
           <div className="max-w-7xl mx-auto">
@@ -1187,6 +1203,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           </div>
         </section>
 
+        {/* Dark Separator between Features Block 2 and 3 */}
+        <SectionDarkDivider label="Logistique Internationale & Achats USA" />
+
         {/* Block 3: Achat Sans Carte (White Background) */}
         <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
           <div className="max-w-7xl mx-auto">
@@ -1272,6 +1291,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </section>
       </div>
 
+      {/* Dark Separator 5 */}
+      <SectionDarkDivider label="Profils & Secteurs Accompagnés" />
+
       {/* ─────────────────────────────────────────────────────────────
           SECTION 6: POUR QUI TRAVAILLONS-NOUS (WEBNODE PALE BG #F4F6F9)
          ───────────────────────────────────────────────────────────── */}
@@ -1319,6 +1341,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </div>
       </section>
 
+      {/* Dark Separator 6 */}
+      <SectionDarkDivider label="Avis Vérifiés & Témoignages Clients" />
+
       {/* ─────────────────────────────────────────────────────────────
           SECTION 7: TÉMOIGNAGES & AVIS CLIENTS (WEBNODE PURE WHITE BG #FFFFFF)
          ───────────────────────────────────────────────────────────── */}
@@ -1327,6 +1352,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           <TestimonialsSection onOpenQuoteModal={onOpenQuoteModal} />
         </ScrollReveal>
       </section>
+
+      {/* Dark Separator 7 */}
+      <SectionDarkDivider label="Transparence & Questions Fréquentes" />
 
       {/* ─────────────────────────────────────────────────────────────
           SECTION 8: FOIRE AUX QUESTIONS / FAQ (WEBNODE PALE BG #F4F6F9)
@@ -1388,21 +1416,25 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </div>
       </section>
 
+      {/* Dark Separator 8 */}
+      <SectionDarkDivider label="Lancement de Projet & Devis en Direct" />
+
       {/* ─────────────────────────────────────────────────────────────
           SECTION 9: PRE-FOOTER FINAL CTA BANNER (WEBNODE SIGNATURE NAVY #0A2A4D)
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <section className="bg-slate-900 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <div className="relative rounded-3xl overflow-hidden bg-[#0A2A4D] p-8 sm:p-14 text-white shadow-2xl">
-              {/* Background ambient image overlay */}
-              <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="relative rounded-3xl overflow-hidden bg-[#0A2A4D] p-8 sm:p-14 text-white shadow-2xl border border-slate-700/80">
+              {/* High-visibility background image with dark gradient */}
+              <div className="absolute inset-0 z-0">
                 <img
                   src={polyverseServicesBanner}
-                  alt="Polyverse Services"
+                  alt="Polyverse Services Banner"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center filter brightness-110 contrast-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/95" />
               </div>
 
               <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">

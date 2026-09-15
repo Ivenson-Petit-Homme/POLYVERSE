@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { POLYVERSE_INFO, FAQS } from '../data/polyverseData';
 import { ServiceCategory } from '../types';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import { ScrollReveal } from './ScrollReveal';
+import contactSupportHubImg from '../assets/images/contact_support_hub_1789429548006.jpg';
 import {
   Mail,
   Phone,
@@ -39,23 +42,40 @@ export const ContactSection: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
       {/* Contact Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
-          Entrons en Contact
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A2A4D]">
-          Discutez de Votre Projet avec l’Équipe
-        </h1>
-        <p className="text-base text-slate-600 leading-relaxed">
-          Demande de devis, question technique, besoin de sérigraphie ou conseil en investissement : notre équipe d'associés vous répond directement.
-        </p>
-      </div>
+      <ScrollReveal>
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
+            Entrons en Contact
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A2A4D]">
+            Discutez de Votre Projet avec l’Équipe
+          </h1>
+          <p className="text-base text-slate-600 leading-relaxed">
+            Demande de devis, question technique, besoin de sérigraphie ou conseil en investissement : notre équipe d'associés vous répond directement.
+          </p>
+        </div>
+      </ScrollReveal>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <SectionDarkDivider label="Canaux Directs & Formulaire de Contact" />
+
+      <ScrollReveal delay={0.1}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Column: Direct Contact Info & Instant Channels */}
         <div className="lg:col-span-5 space-y-8">
-          <div className="bg-[#0A2A4D] text-white rounded-2xl p-8 shadow-xl space-y-6">
-            <h2 className="text-xl font-bold border-b border-slate-700 pb-4">
+          <div className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-2xl p-8 shadow-xl space-y-6 border border-slate-700/80">
+            {/* Background image overlay */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={contactSupportHubImg}
+                alt="Contact Support Hub"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#06152B]/95 via-[#0A2A4D]/90 to-[#06152B]/95" />
+            </div>
+
+            <div className="relative z-10 space-y-6">
+            <h2 className="text-xl font-bold border-b border-slate-700/80 pb-4">
               Coordonnées Directes
             </h2>
 
@@ -137,6 +157,7 @@ export const ContactSection: React.FC = () => {
                   <span>Messenger</span>
                 </a>
               </div>
+            </div>
             </div>
           </div>
 
@@ -281,7 +302,7 @@ export const ContactSection: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-3.5 px-6 rounded-lg bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-2 active:scale-98"
+                className="w-full py-3.5 px-6 rounded-lg bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-2 active:scale-98 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>Envoyer le Message à Polyverse</span>
@@ -290,51 +311,56 @@ export const ContactSection: React.FC = () => {
           )}
         </div>
       </div>
+      </ScrollReveal>
+
+      <SectionDarkDivider label="Foire Aux Questions & Réponses" />
 
       {/* FAQ Section */}
-      <div className="bg-[#F1EFE8] rounded-2xl p-8 border border-slate-200 space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5]">
-            Foire Aux Questions
-          </span>
-          <h2 className="text-2xl font-extrabold text-[#0A2A4D]">
-            Questions Fréquemment Posées
-          </h2>
-          <p className="text-xs text-slate-600">
-            Retrouvez les réponses aux questions les plus courantes sur nos services et délais.
-          </p>
-        </div>
+      <ScrollReveal delay={0.15}>
+        <div className="bg-[#F1EFE8] rounded-2xl p-8 border border-slate-200 space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5]">
+              Foire Aux Questions
+            </span>
+            <h2 className="text-2xl font-extrabold text-[#0A2A4D]">
+              Questions Fréquemment Posées
+            </h2>
+            <p className="text-xs text-slate-600">
+              Retrouvez les réponses aux questions les plus courantes sur nos services et délais.
+            </p>
+          </div>
 
-        <div className="max-w-3xl mx-auto space-y-3">
-          {FAQS.map((faq, idx) => {
-            const isOpen = openFaqIndex === idx;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs transition"
-              >
-                <button
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full text-left p-4 font-bold text-xs sm:text-sm text-[#0A2A4D] flex justify-between items-center hover:bg-slate-50 transition"
+          <div className="max-w-3xl mx-auto space-y-3">
+            {FAQS.map((faq, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs transition"
                 >
-                  <span className="pr-4">{faq.question}</span>
-                  {isOpen ? (
-                    <ChevronUp className="w-4 h-4 text-[#D85A30] shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
-                  )}
-                </button>
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full text-left p-4 font-bold text-xs sm:text-sm text-[#0A2A4D] flex justify-between items-center hover:bg-slate-50 transition cursor-pointer"
+                  >
+                    <span className="pr-4">{faq.question}</span>
+                    {isOpen ? (
+                      <ChevronUp className="w-4 h-4 text-[#D85A30] shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                    )}
+                  </button>
 
-                {isOpen && (
-                  <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3 bg-slate-50/50">
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+                  {isOpen && (
+                    <div className="px-4 pb-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3 bg-slate-50/50">
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
     </div>
   );
 };

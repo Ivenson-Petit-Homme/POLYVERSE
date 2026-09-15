@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { POLYVERSE_INFO } from '../data/polyverseData';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import donationImpactBg from '../assets/images/donation_impact_bg_1789429587193.jpg';
 import {
   Heart,
   DollarSign,
@@ -69,7 +71,7 @@ const INITIAL_DONORS: RecentDonor[] = [
     name: 'Anonyme',
     amount: 25,
     currency: 'USD',
-    message: 'Ansanm an n fè Polyverse grandri !',
+    message: 'Ensemble, faisons grandir l’impact de Polyverse !',
     date: 'Il y a 5 jours',
     anonymous: true,
   },
@@ -143,9 +145,18 @@ export const DonateSection: React.FC<DonateSectionProps> = ({ onOpenQuoteModal }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-      {/* Hero Banner Header */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A2A4D] via-[#103E6D] to-[#185FA5] text-white rounded-3xl p-8 sm:p-12 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
+      {/* Hero Banner Header with Donation & Education Impact Background */}
+      <section className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-slate-700/80">
+        {/* High-visibility background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={donationImpactBg}
+            alt="Donation and Impact Polyverse"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
+        </div>
 
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs font-semibold text-blue-100 shadow-xs">
@@ -211,6 +222,8 @@ export const DonateSection: React.FC<DonateSectionProps> = ({ onOpenQuoteModal }
         </div>
       </section>
 
+      <SectionDarkDivider label="Contribution & Projets Soutenus" />
+
       {/* Main Form & Payment Options Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Side: Interactive Donation Form */}
@@ -227,7 +240,7 @@ export const DonateSection: React.FC<DonateSectionProps> = ({ onOpenQuoteModal }
                   Don Confirmé
                 </span>
                 <h2 className="text-2xl font-extrabold text-[#0A2A4D]">
-                  Mèsi anpil ! Merci infiniment pour votre soutien.
+                  Merci infiniment pour votre précieux soutien !
                 </h2>
                 <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
                   Votre contribution de{' '}
@@ -715,6 +728,8 @@ export const DonateSection: React.FC<DonateSectionProps> = ({ onOpenQuoteModal }
           </div>
         </div>
       </div>
+
+      <SectionDarkDivider label="Questions & Réponses Fréquentes" />
 
       {/* FAQ Donations */}
       <section className="bg-white rounded-3xl p-8 border border-slate-200 space-y-6">

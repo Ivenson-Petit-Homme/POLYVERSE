@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { POLYVERSE_INFO } from '../data/polyverseData';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import { ScrollReveal } from './ScrollReveal';
+import partnershipDealBg from '../assets/images/partnership_deal_bg_1789429565629.jpg';
 import {
   Handshake,
   Building,
@@ -77,113 +80,129 @@ export const PartnershipSection: React.FC<PartnershipSectionProps> = ({ onOpenQu
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-      {/* Hero Banner Header */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A2A4D] via-[#103E6D] to-[#185FA5] text-white rounded-3xl p-8 sm:p-12 shadow-2xl">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs font-semibold text-blue-100 shadow-xs">
-            <Handshake className="w-4 h-4 text-[#D85A30]" />
-            <span>Développer votre Entreprise avec Polyverse</span>
+      {/* Hero Banner Header with Partnership Agreement Background */}
+      <ScrollReveal>
+        <section className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-slate-700/80">
+          {/* High-visibility background image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={partnershipDealBg}
+              alt="Strategic Partnership Polyverse"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-            Devenez Partenaire Stratégique de Polyverse
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
-            Nous bâtissons des alliances gagnant-gagnant avec des entreprises, agences, institutions et créateurs pour accélérer l’innovation en Design, Tech et Finance.
-          </p>
-
-          <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-blue-100">
-            <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span>Croissance Partagée</span>
+          <div className="relative z-10 max-w-3xl space-y-4">
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs font-semibold text-blue-100 shadow-xs">
+              <Handshake className="w-4 h-4 text-[#D85A30]" />
+              <span>Développer votre Entreprise avec Polyverse</span>
             </div>
-            <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
-              <Globe className="w-4 h-4 text-amber-300" />
-              <span>Réseau International</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
-              <ShieldCheck className="w-4 h-4 text-orange-400" />
-              <span>Engagement Qualité</span>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              Devenez Partenaire Stratégique de Polyverse
+            </h1>
+
+            <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
+              Nous bâtissons des alliances gagnant-gagnant avec des entreprises, agences, institutions et créateurs pour accélérer l’innovation en Design, Tech et Finance.
+            </p>
+
+            <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-blue-100">
+              <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
+                <TrendingUp className="w-4 h-4 text-emerald-400" />
+                <span>Croissance Partagée</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
+                <Globe className="w-4 h-4 text-amber-300" />
+                <span>Réseau International</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/15">
+                <ShieldCheck className="w-4 h-4 text-orange-400" />
+                <span>Engagement Qualité</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
+
+      <SectionDarkDivider label="Formules & Candidature Partenaire" />
 
       {/* 4 Partnership Types Cards */}
-      <section className="space-y-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl font-extrabold text-[#0A2A4D]">Nos Formules de Partenariat</h2>
-          <p className="text-xs text-slate-600">
-            Sélectionnez le type d'alliance qui correspond le mieux aux objectifs de votre organisation.
-          </p>
-        </div>
+      <ScrollReveal delay={0.1}>
+        <section className="space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h2 className="text-2xl font-extrabold text-[#0A2A4D]">Nos Formules de Partenariat</h2>
+            <p className="text-xs text-slate-600">
+              Sélectionnez le type d'alliance qui correspond le mieux aux objectifs de votre organisation.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PARTNERSHIP_TYPES.map((type) => {
-            const IconComponent = type.icon;
-            const isSelected = partnerType === type.id;
-            return (
-              <div
-                key={type.id}
-                onClick={() => setPartnerType(type.id as any)}
-                className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${
-                  isSelected
-                    ? 'bg-white border-[#185FA5] shadow-xl ring-2 ring-[#185FA5]/20 -translate-y-1'
-                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-md'
-                }`}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-xs"
-                      style={{ backgroundColor: type.color }}
-                    >
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    {isSelected && (
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#185FA5]">
-                        Sélectionné
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="font-extrabold text-base text-[#0A2A4D]">{type.title}</h3>
-                    <p className="text-xs text-slate-600 mt-2 leading-relaxed">{type.desc}</p>
-                  </div>
-
-                  <div className="pt-2 space-y-1.5 border-t border-slate-100">
-                    <p className="text-[10px] font-extrabold text-slate-400 uppercase">Avantages :</p>
-                    {type.benefits.map((benefit, i) => (
-                      <div key={i} className="flex items-center space-x-1.5 text-[11px] text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span>{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  className={`mt-6 w-full py-2.5 rounded-xl font-bold text-xs transition ${
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {PARTNERSHIP_TYPES.map((type) => {
+              const IconComponent = type.icon;
+              const isSelected = partnerType === type.id;
+              return (
+                <div
+                  key={type.id}
+                  onClick={() => setPartnerType(type.id as any)}
+                  className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-[#185FA5] text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-white border-[#185FA5] shadow-xl ring-2 ring-[#185FA5]/20 -translate-y-1'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-md'
                   }`}
                 >
-                  Proposer une alliance
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div
+                        className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-xs"
+                        style={{ backgroundColor: type.color }}
+                      >
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      {isSelected && (
+                        <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#185FA5]">
+                          Sélectionné
+                        </span>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="font-extrabold text-base text-[#0A2A4D]">{type.title}</h3>
+                      <p className="text-xs text-slate-600 mt-2 leading-relaxed">{type.desc}</p>
+                    </div>
+
+                    <div className="pt-2 space-y-1.5 border-t border-slate-100">
+                      <p className="text-[10px] font-extrabold text-slate-400 uppercase">Avantages :</p>
+                      {type.benefits.map((benefit, i) => (
+                        <div key={i} className="flex items-center space-x-1.5 text-[11px] text-slate-700">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <span>{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`mt-6 w-full py-2.5 rounded-xl font-bold text-xs transition cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#185FA5] text-white'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    Proposer une alliance
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* Main Form & Partnership Benefits Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <ScrollReveal delay={0.15}>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Form */}
         <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg space-y-6">
           <div className="space-y-2">
@@ -336,7 +355,18 @@ export const PartnershipSection: React.FC<PartnershipSectionProps> = ({ onOpenQu
         {/* Right Info & Direct Booking */}
         <div className="lg:col-span-5 space-y-6">
           {/* Why partner with Polyverse */}
-          <div className="bg-[#0A2A4D] text-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl relative overflow-hidden">
+          <div className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl border border-slate-700/80">
+            <div className="absolute inset-0 z-0 opacity-30">
+              <img
+                src={partnershipDealBg}
+                alt="Partnership Background"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover filter brightness-90"
+              />
+              <div className="absolute inset-0 bg-[#0A2A4D]/80" />
+            </div>
+
+            <div className="relative z-10 space-y-6">
             <div className="space-y-2">
               <span className="text-xs font-bold text-[#D85A30] uppercase tracking-wider">
                 Pourquoi Polyverse ?
@@ -381,6 +411,7 @@ export const PartnershipSection: React.FC<PartnershipSectionProps> = ({ onOpenQu
                 </div>
               </div>
             </div>
+            </div>
           </div>
 
           {/* Fast Contact Card */}
@@ -414,6 +445,7 @@ export const PartnershipSection: React.FC<PartnershipSectionProps> = ({ onOpenQu
           </div>
         </div>
       </div>
+      </ScrollReveal>
     </div>
   );
 };

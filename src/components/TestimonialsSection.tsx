@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TESTIMONIALS } from '../data/polyverseData';
 import { Testimonial, ServiceCategory } from '../types';
+import { SectionDarkDivider } from './SectionDarkDivider';
+import { ScrollReveal } from './ScrollReveal';
+import testimonialsClientsBg from '../assets/images/testimonials_clients_bg_1789429555798.jpg';
 import {
   Star,
   Quote,
@@ -139,147 +142,163 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
   return (
     <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ${className}`}>
-      {/* Header & Social Proof Stats */}
-      <div className="bg-gradient-to-br from-[#0A2A4D] via-[#103E6D] to-[#185FA5] text-white rounded-3xl p-8 sm:p-10 shadow-xl mb-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-semibold text-blue-100 border border-white/20">
-              <Sparkles className="w-3.5 h-3.5 text-[#D85A30]" />
-              <span>Avis & Retours Expérience Clients</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
-              Ce que disent nos clients de Polyverse
-            </h2>
-            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed">
-              Découvrez les retours authentiques d’étudiants, entrepreneurs et chefs d’entreprise ayant fait confiance à notre équipe en Design, Tech et Finance.
-            </p>
+      {/* Header & Social Proof Stats with Client Background */}
+      <ScrollReveal>
+        <div className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-3xl p-8 sm:p-10 shadow-2xl mb-10 border border-slate-700/80">
+          {/* High-visibility background image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={testimonialsClientsBg}
+              alt="Clients Satisfaction Polyverse"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
           </div>
 
-          {/* Social Proof Stats Badges */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 shrink-0 border-t lg:border-t-0 lg:border-l border-white/15 pt-6 lg:pt-0 lg:pl-8">
-            <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start space-x-1 text-amber-400 font-extrabold text-2xl">
-                <span>5.0</span>
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-semibold text-blue-100 border border-white/20">
+                <Sparkles className="w-3.5 h-3.5 text-[#D85A30]" />
+                <span>Avis & Retours Expérience Clients</span>
               </div>
-              <p className="text-[11px] text-slate-300 font-medium mt-1">Note Moyenne</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+                Ce que disent nos clients de Polyverse
+              </h2>
+              <p className="text-slate-200 text-xs sm:text-sm leading-relaxed">
+                Découvrez les retours authentiques d’étudiants, entrepreneurs et chefs d’entreprise ayant fait confiance à notre équipe en Design, Tech et Finance.
+              </p>
             </div>
 
-            <div className="text-center lg:text-left">
-              <p className="text-2xl font-extrabold text-white">100%</p>
-              <p className="text-[11px] text-slate-300 font-medium mt-1">Satisfaction Client</p>
-            </div>
+            {/* Social Proof Stats Badges */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 shrink-0 border-t lg:border-t-0 lg:border-l border-white/15 pt-6 lg:pt-0 lg:pl-8">
+              <div className="text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start space-x-1 text-amber-400 font-extrabold text-2xl">
+                  <span>5.0</span>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-[11px] text-slate-300 font-medium mt-1">Note Moyenne</p>
+              </div>
 
-            <div className="text-center lg:text-left col-span-2 sm:col-span-1">
-              <p className="text-2xl font-extrabold text-emerald-400">50+</p>
-              <p className="text-[11px] text-slate-300 font-medium mt-1">Projets Livrés</p>
+              <div className="text-center lg:text-left">
+                <p className="text-2xl font-extrabold text-white">100%</p>
+                <p className="text-[11px] text-slate-300 font-medium mt-1">Satisfaction Client</p>
+              </div>
+
+              <div className="text-center lg:text-left col-span-2 sm:col-span-1">
+                <p className="text-2xl font-extrabold text-emerald-400">50+</p>
+                <p className="text-[11px] text-slate-300 font-medium mt-1">Projets Livrés</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
+
+      <SectionDarkDivider label="Retours d'Expériences par Domaine" />
 
       {/* Controls Bar: Filters & Navigation Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-        {/* Pillar Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition ${
-              selectedCategory === 'all'
-                ? 'bg-[#0A2A4D] text-white shadow-xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Tous ({testimonialsList.length})
-          </button>
-          <button
-            onClick={() => setSelectedCategory('design')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition ${
-              selectedCategory === 'design'
-                ? 'bg-[#185FA5] text-white shadow-xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Design & Sérigraphie
-          </button>
-          <button
-            onClick={() => setSelectedCategory('tech')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition ${
-              selectedCategory === 'tech'
-                ? 'bg-[#0A2A4D] text-white shadow-xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Tech & Marketing
-          </button>
-          <button
-            onClick={() => setSelectedCategory('finance')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition ${
-              selectedCategory === 'finance'
-                ? 'bg-[#D85A30] text-white shadow-xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Finance & Investissement
-          </button>
-        </div>
-
-        {/* Carousel Auto-scroll Controls & Action */}
-        <div className="flex items-center space-x-3 shrink-0">
-          <div className="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+      <ScrollReveal delay={0.1}>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          {/* Pillar Filter Tabs */}
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => setIsAutoplay(!isAutoplay)}
-              className="p-1.5 rounded-lg text-slate-600 hover:bg-white transition flex items-center space-x-1"
-              title={isAutoplay ? 'Mettre en pause le défilement automatique' : 'Démarrer le défilement automatique'}
+              onClick={() => setSelectedCategory('all')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                selectedCategory === 'all'
+                  ? 'bg-[#0A2A4D] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
             >
-              {isAutoplay ? (
-                <>
-                  <Pause className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Pause</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3.5 h-3.5 text-slate-700" />
-                  <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Auto</span>
-                </>
-              )}
-            </button>
-
-            <div className="h-4 w-px bg-slate-300"></div>
-
-            <button
-              onClick={handleScrollLeft}
-              className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition"
-              aria-label="Faire défiler vers la gauche"
-            >
-              <ChevronLeft className="w-4 h-4" />
+              Tous ({testimonialsList.length})
             </button>
             <button
-              onClick={handleScrollRight}
-              className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition"
-              aria-label="Faire défiler vers la droite"
+              onClick={() => setSelectedCategory('design')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                selectedCategory === 'design'
+                  ? 'bg-[#185FA5] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
             >
-              <ChevronRight className="w-4 h-4" />
+              Design & Sérigraphie
+            </button>
+            <button
+              onClick={() => setSelectedCategory('tech')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                selectedCategory === 'tech'
+                  ? 'bg-[#0A2A4D] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              Tech & Marketing
+            </button>
+            <button
+              onClick={() => setSelectedCategory('finance')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                selectedCategory === 'finance'
+                  ? 'bg-[#D85A30] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              Finance & Investissement
             </button>
           </div>
 
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5 active:scale-95"
-          >
-            <MessageSquarePlus className="w-4 h-4" />
-            <span>Donner mon avis</span>
-          </button>
+          {/* Carousel Auto-scroll Controls & Action */}
+          <div className="flex items-center space-x-3 shrink-0">
+            <div className="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+              <button
+                onClick={() => setIsAutoplay(!isAutoplay)}
+                className="p-1.5 rounded-lg text-slate-600 hover:bg-white transition flex items-center space-x-1 cursor-pointer"
+                title={isAutoplay ? 'Mettre en pause le défilement automatique' : 'Démarrer le défilement automatique'}
+              >
+                {isAutoplay ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Pause</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 text-slate-700" />
+                    <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Auto</span>
+                  </>
+                )}
+              </button>
+
+              <div className="h-4 w-px bg-slate-300"></div>
+
+              <button
+                onClick={handleScrollLeft}
+                className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition cursor-pointer"
+                aria-label="Faire défiler vers la gauche"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleScrollRight}
+                className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition cursor-pointer"
+                aria-label="Faire défiler vers la droite"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5 active:scale-95 cursor-pointer"
+            >
+              <MessageSquarePlus className="w-4 h-4" />
+              <span>Donner mon avis</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* HORIZONTAL AUTO-SCROLLING CAROUSEL TRACK */}
+      <ScrollReveal delay={0.15}>
       {filteredTestimonials.length === 0 ? (
         <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
           <Quote className="w-10 h-10 text-slate-300 mx-auto" />
@@ -291,7 +310,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           </p>
           <button
             onClick={() => setSelectedCategory('all')}
-            className="mt-2 text-xs font-bold text-[#185FA5] underline"
+            className="mt-2 text-xs font-bold text-[#185FA5] underline cursor-pointer"
           >
             Afficher tous les témoignages
           </button>
@@ -367,6 +386,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
           </div>
         </div>
       )}
+      </ScrollReveal>
 
       {/* SUBMIT TESTIMONIAL MODAL */}
       {isModalOpen && (
