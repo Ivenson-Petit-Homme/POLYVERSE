@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NavigationTab, ServiceCategory } from '../types';
-import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO } from '../data/polyverseData';
+import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO, PILLARS } from '../data/polyverseData';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ScrollReveal } from './ScrollReveal';
 import { SectionDarkDivider } from './SectionDarkDivider';
 import polyverseServicesBanner from '../assets/images/polyverse_hero_banner_1789375953738.jpg';
 import officialLogoImg from '../assets/images/polyverse_official_logo_1789375972137.jpg';
+import serigraphieAtelierImg from '../assets/images/serigraphie_atelier_1791841814507.jpg';
+import webTechStudioImg from '../assets/images/web_tech_studio_1791841815443.jpg';
+import shippingColisImg from '../assets/images/shipping_colis_haiti_1791841814328.jpg';
 import {
   Palette,
   Code,
@@ -253,7 +256,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D85A30] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D85A30]"></span>
               </span>
-              <span>Polyverse • Idée | Stratégie | Finance</span>
+              <span>Polyverse • FINANCE ET INVESTISSEMENT</span>
               <span className="text-slate-600">|</span>
               <AnimatePresence mode="wait">
                 <motion.span
@@ -514,8 +517,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                       <div className="relative">
                         <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
                           <img
-                            src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
-                            alt="Impression textile"
+                            src={serigraphieAtelierImg}
+                            alt="Atelier Sérigraphie Polyverse"
                             referrerPolicy="no-referrer"
                             className="w-full h-64 object-cover"
                           />
@@ -589,8 +592,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                       <div className="relative">
                         <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
                           <img
-                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-                            alt="Tech et Web"
+                            src={webTechStudioImg}
+                            alt="Studio Tech et Développement Web Polyverse"
                             referrerPolicy="no-referrer"
                             className="w-full h-64 object-cover"
                           />
@@ -665,8 +668,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                       <div className="relative">
                         <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
                           <img
-                            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
-                            alt="Logistique et Colis"
+                            src={shippingColisImg}
+                            alt="Logistique Achat Sans Carte & Colis Polyverse"
                             referrerPolicy="no-referrer"
                             className="w-full h-64 object-cover"
                           />
@@ -743,8 +746,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                       <div className="relative">
                         <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
                           <img
-                            src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
-                            alt="Boutique et merchandising"
+                            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"
+                            alt="Boutique et merchandising Polyverse"
                             referrerPolicy="no-referrer"
                             className="w-full h-64 object-cover"
                           />
@@ -790,6 +793,118 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             <span className="font-extrabold text-slate-800 tracking-tight text-xl">AliExpress</span>
             <span className="font-extrabold text-[#0A2A4D] tracking-tight text-xl">Meta Ads</span>
             <span className="font-extrabold text-amber-600 tracking-tight text-xl">DHL</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Dark Separator 1.5 */}
+      <SectionDarkDivider label="Nos 3 Piliers d'Expertise Majeurs" />
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION: LES 3 PILIERS MAJEURS (DOKIMAN POLVERSE)
+         ───────────────────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
+                Piliers Stratégiques & Pratiques
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0A2A4D] tracking-tight">
+                Tous les Services Polyverse réunis sous un même toit
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                Conformément à notre vision, nous combinons la création visuelle concrète, les technologies web & marketing digital, et les facilités financières & logistiques internationales.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+            {PILLARS.map((pillar, idx) => {
+              const isDesign = pillar.id === 'design';
+              const isTech = pillar.id === 'tech';
+              const isFinance = pillar.id === 'finance';
+
+              const headerBg = isDesign
+                ? 'from-[#185FA5] to-blue-700'
+                : isTech
+                ? 'from-[#0A2A4D] to-slate-900'
+                : 'from-[#D85A30] to-orange-600';
+
+              const badgeColor = isDesign
+                ? 'text-[#185FA5] bg-blue-50 border-blue-200'
+                : isTech
+                ? 'text-cyan-700 bg-cyan-50 border-cyan-200'
+                : 'text-[#D85A30] bg-orange-50 border-orange-200';
+
+              return (
+                <ScrollReveal key={pillar.id} delay={idx * 0.1}>
+                  <div className="bg-[#FAF9F6] rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full overflow-hidden group">
+                    <div>
+                      {/* Card Top Banner */}
+                      <div className={`p-6 bg-gradient-to-r ${headerBg} text-white flex items-center justify-between`}>
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center font-bold text-white border border-white/20">
+                            {isDesign && <Palette className="w-6 h-6 text-white" />}
+                            {isTech && <Code className="w-6 h-6 text-white" />}
+                            {isFinance && <CreditCard className="w-6 h-6 text-white" />}
+                          </div>
+                          <div>
+                            <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 block">
+                              Pilier 0{idx + 1}
+                            </span>
+                            <h3 className="text-xl font-extrabold text-white leading-tight">
+                              {pillar.title}
+                            </h3>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="p-6 sm:p-7 space-y-5">
+                        <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold border ${badgeColor}`}>
+                          {pillar.subtitle}
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                          {pillar.shortDesc}
+                        </p>
+
+                        <div className="pt-2 border-t border-slate-200/60 space-y-2.5">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 block">
+                            Services & Prestations Clés :
+                          </span>
+                          {pillar.features.slice(0, 4).map((feat, fIdx) => (
+                            <div key={fIdx} className="flex items-start space-x-2 text-xs text-slate-700">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <span className="font-medium leading-snug">{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Action Footer */}
+                    <div className="p-6 pt-0 border-t border-slate-100 flex items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => handlePillarClick(pillar.id as ServiceCategory)}
+                        className={`w-full py-3 px-4 rounded-xl font-bold text-xs transition flex items-center justify-center space-x-2 text-white shadow-xs ${
+                          isDesign
+                            ? 'bg-[#185FA5] hover:bg-[#0A2A4D]'
+                            : isTech
+                            ? 'bg-[#0A2A4D] hover:bg-[#185FA5]'
+                            : 'bg-[#D85A30] hover:bg-[#c24e27]'
+                        }`}
+                      >
+                        <span>Gade tout sèvis yo</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1089,8 +1204,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="relative">
                   <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                     <img
-                      src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=80"
-                      alt="Sérigraphie Polyverse"
+                      src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1000&q=80"
+                      alt="Atelier Textile et Sérigraphie Polyverse"
                       referrerPolicy="no-referrer"
                       className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
                     />
@@ -1123,8 +1238,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="relative order-2 lg:order-1">
                   <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                     <img
-                      src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80"
-                      alt="Tech et Web"
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"
+                      alt="Développement Web et Solutions Digitales Polyverse"
                       referrerPolicy="no-referrer"
                       className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
                     />
@@ -1267,8 +1382,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="relative">
                   <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                     <img
-                      src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80"
-                      alt="Logistique Achat sans carte"
+                      src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1000&q=80"
+                      alt="Achat Sans Carte et Livraison de Colis Polyverse"
                       referrerPolicy="no-referrer"
                       className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
                     />

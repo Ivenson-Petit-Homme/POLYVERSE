@@ -21,7 +21,9 @@ import {
   FileText,
   Copy,
   Check,
+  Lock,
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface OrderServiceSectionProps {
   onOpenQuoteModal: () => void;
@@ -40,10 +42,21 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
   const [size, setSize] = useState('');
   const [estimatedPriceUSD, setEstimatedPriceUSD] = useState('');
   const [description, setDescription] = useState('');
-  const [clientName, setClientName] = useState('');
-  const [clientPhone, setClientPhone] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const { currentUser, requireAuth, placeOrder, setIsAccountModalOpen } = useAuth();
+
+  const [clientName, setClientName] = useState(currentUser?.name || '');
+  const [clientPhone, setClientPhone] = useState(currentUser?.phone || '');
+  const [clientEmail, setClientEmail] = useState(currentUser?.email || '');
+  const [deliveryAddress, setDeliveryAddress] = useState(currentUser?.address || '');
+
+  React.useEffect(() => {
+    if (currentUser) {
+      if (!clientName && currentUser.name) setClientName(currentUser.name);
+      if (!clientPhone && currentUser.phone) setClientPhone(currentUser.phone);
+      if (!clientEmail && currentUser.email) setClientEmail(currentUser.email);
+      if (!deliveryAddress && currentUser.address) setDeliveryAddress(currentUser.address);
+    }
+  }, [currentUser]);
 
   // UI state
   const [submitted, setSubmitted] = useState(false);
@@ -71,8 +84,9 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
 
   const totals = handleCalculateTotal();
 
-  const handleGenerateWhatsAppLink = () => {
+  const handleGenerateWhatsAppLink = (customRef?: string) => {
     const serviceName = getServiceTitle(selectedService);
+    const refToUse = customRef || orderRef;
     let msg = `*NOUVELLE DEMANDE DE SERVICE POLYVERSE*\n`;
     msg += `----------------------------------------\n`;
     msg += `📌 *Service:* ${serviceName}\n`;
@@ -84,19 +98,48 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
     if (estimatedPriceUSD) msg += `💵 *Prix estimatif:* $${estimatedPriceUSD} USD\n`;
     if (description) msg += `📝 *Description / Détails:* ${description}\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Client:* ${clientName || 'Client Polyverse'}\n`;
-    msg += `📱 *Téléphone / WhatsApp:* ${clientPhone || 'À préciser en direct'}\n`;
-    if (clientEmail) msg += `📧 *E-mail:* ${clientEmail}\n`;
-    if (deliveryAddress) msg += `📍 *Adresse de livraison:* ${deliveryAddress}\n`;
-    if (orderRef) msg += `🔖 *Code Référence:* ${orderRef}\n`;
+    msg += `👤 *Client:* ${clientName || currentUser?.name || 'Client Polyverse'}\n`;
+    msg += `📱 *Téléphone / WhatsApp:* ${clientPhone || currentUser?.phone || 'À préciser'}\n`;
+    if (clientEmail || currentUser?.email) msg += `📧 *E-mail:* ${clientEmail || currentUser?.email}\n`;
+    if (deliveryAddress || currentUser?.address) msg += `📍 *Adresse de livraison:* ${deliveryAddress || currentUser?.address}\n`;
+    if (refToUse) msg += `🔖 *Code Référence:* ${refToUse}\n`;
 
     return `https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${encodeURIComponent(msg)}`;
   };
 
-  const handleSubmitForm = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newRef = `PLY-${Math.floor(100000 + Math.random() * 900000)}`;
-    setOrderRef(newRef);
+  const handleSubmitForm = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    // 1. Mandatory account check for ordering services
+    if (!requireAuth(() => handleSubmitForm())) {
+      return;
+    }
+
+    if (!clientName.trim() || !clientPhone.trim() || !deliveryAddress.trim()) {
+      alert('Tanpri ranpli tout chan obligatwa yo (Non, Nimewo Telefòn, ak Adrès).');
+      return;
+    }
+
+    const calculatedTotals = handleCalculateTotal();
+    const finalUSD = calculatedTotals ? calculatedTotals.totalUSD : (parseFloat(estimatedPriceUSD) || 0);
+    const finalHTG = calculatedTotals ? calculatedTotals.totalHTG : Math.round(finalUSD * 150);
+
+    // 2. Place order in database
+    const savedOrder = placeOrder({
+      userId: currentUser?.id || 'client',
+      userEmail: clientEmail.trim() || currentUser?.email || '',
+      userName: clientName.trim(),
+      userPhone: clientPhone.trim(),
+      userAddress: deliveryAddress.trim(),
+      orderType: selectedService,
+      totalUSD: finalUSD,
+      totalHTG: finalHTG,
+      paymentMethod: 'À convenir (MonCash / Natcash / Espèces)',
+      productUrl: productUrl.trim() || undefined,
+      notes: `${productName ? `Produit: ${productName} - ` : ''}${description || ''} ${size ? `[Taille: ${size}]` : ''} ${color ? `[Couleur: ${color}]` : ''}`,
+    });
+
+    setOrderRef(savedOrder.id);
     setSubmitted(true);
     window.scrollTo({ top: 300, behavior: 'smooth' });
   };
@@ -238,6 +281,14 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                   <MessageCircle className="w-5 h-5" />
                   <span>Confirmer sur WhatsApp maintenant</span>
                 </a>
+
+                <button
+                  type="button"
+                  onClick={() => setIsAccountModalOpen(true)}
+                  className="px-5 py-3.5 bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold rounded-xl transition cursor-pointer"
+                >
+                  Gade nan Istorik Kòmand
+                </button>
 
                 <button
                   type="button"
@@ -469,25 +520,56 @@ export const OrderServiceSection: React.FC<OrderServiceSectionProps> = ({ onOpen
                 </div>
               </div>
 
+              {/* Account Requirement Notice */}
+              {!currentUser ? (
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs text-amber-900">
+                  <div className="flex items-center space-x-2.5">
+                    <Lock className="w-5 h-5 text-amber-600 shrink-0" />
+                    <div>
+                      <span className="font-bold text-sm text-amber-950">Yon kont nesesè pou kòmande</span>
+                      <p className="text-[11px] text-amber-800">
+                        Pou sekirite tranzaksyon an ak swivi livrezon w, ou dwe gen yon kont Polyverse.
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => requireAuth()}
+                    className="px-3.5 py-2 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold text-xs rounded-xl transition cursor-pointer shrink-0 ml-3 shadow-xs"
+                  >
+                    Konekte / Enskri
+                  </button>
+                </div>
+              ) : (
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between text-xs text-[#0A2A4D]">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Konekte kòm: <strong>{currentUser.name}</strong> ({currentUser.email})</span>
+                  </div>
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                    Kont Valide
+                  </span>
+                </div>
+              )}
+
               {/* Submit Buttons */}
-              <div className="pt-4 flex flex-col sm:flex-row gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <button
                   type="submit"
                   className="flex-1 flex items-center justify-center space-x-2 px-6 py-4 bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold rounded-xl shadow-md transition duration-200 cursor-pointer"
                 >
                   <FileText className="w-5 h-5" />
-                  <span>Valider la commande en ligne</span>
+                  <span>{currentUser ? 'Valider la commande en ligne' : 'Konekte & Valide kòmand lan'}</span>
                 </button>
 
-                <a
-                  href={handleGenerateWhatsAppLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => handleSubmitForm()}
                   className="flex items-center justify-center space-x-2 px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition duration-200 cursor-pointer"
                 >
                   <MessageCircle className="w-5 h-5" />
                   <span>Envoyer directement sur WhatsApp</span>
-                </a>
+                </button>
               </div>
             </form>
           )}

@@ -141,3 +141,42 @@ export interface Testimonial {
   verified?: boolean;
 }
 
+export type UserRole = 'customer' | 'admin';
+
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  role: UserRole;
+  createdAt: string;
+}
+
+export interface OrderItemDetail {
+  productName: string;
+  quantity: number;
+  priceUSD: number;
+  color?: string;
+  size?: string;
+}
+
+export interface UserOrder {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  userPhone: string;
+  userAddress: string;
+  orderType: 'boutique' | 'achat-sans-carte' | 'shipping' | 'planification-evenement';
+  items?: OrderItemDetail[];
+  totalUSD: number;
+  totalHTG: number;
+  paymentMethod: string;
+  promoCode?: string;
+  notes?: string;
+  productUrl?: string;
+  status: 'pending' | 'confirmed' | 'processing' | 'delivered' | 'cancelled';
+  createdAt: string;
+}
+

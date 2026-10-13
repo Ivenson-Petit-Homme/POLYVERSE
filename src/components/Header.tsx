@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { PolyverseLogo } from './PolyverseLogo';
 import { NavigationTab } from '../types';
 import { POLYVERSE_INFO } from '../data/polyverseData';
-import { Menu, X, PhoneCall, Calculator, MessageCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { Menu, X, PhoneCall, Calculator, MessageCircle, User, ShieldCheck, ShoppingBag } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: NavigationTab;
@@ -16,6 +17,14 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenQuoteModal,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const {
+    currentUser,
+    isAdmin,
+    setIsAuthModalOpen,
+    setAuthModalMode,
+    setIsAdminModalOpen,
+    setIsAccountModalOpen,
+  } = useAuth();
 
   const navItems: { id: NavigationTab; label: string; badge?: string }[] = [
     { id: 'home', label: 'Accueil' },
@@ -43,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-6">
             <span className="flex items-center space-x-1.5 text-gray-200">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="font-medium">Polyverse — Connecter vos idées à des résultats concrets</span>
+              <span className="font-medium">Polyverse — FINANCE ET INVESTISSEMENT • Pont vers la Réalisation</span>
             </span>
             <a
               href={`mailto:${POLYVERSE_INFO.contactEmail}`}
@@ -138,10 +147,44 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden md:flex items-center space-x-2.5">
+            {/* User Account / Admin Status Button */}
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={() => setIsAdminModalOpen(true)}
+                className="flex items-center space-x-1.5 px-3.5 py-2 rounded-full bg-[#0A2A4D] hover:bg-[#185FA5] text-amber-300 border border-amber-400/30 text-xs font-black shadow-xs transition cursor-pointer"
+                title="Ouvrir le panneau d'administration"
+              >
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span>Admin Panel</span>
+              </button>
+            ) : currentUser ? (
+              <button
+                type="button"
+                onClick={() => setIsAccountModalOpen(true)}
+                className="flex items-center space-x-1.5 px-3.5 py-2 rounded-full bg-blue-50 hover:bg-blue-100 text-[#185FA5] border border-blue-200 text-xs font-bold transition cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>{currentUser.name.split(' ')[0]} (Kont Mwen)</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('login');
+                  setIsAuthModalOpen(true);
+                }}
+                className="flex items-center space-x-1 px-3.5 py-2 rounded-full border border-slate-300 hover:border-[#185FA5] text-slate-700 hover:text-[#185FA5] text-xs font-bold transition cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Koneksyon</span>
+              </button>
+            )}
+
             <button
               onClick={onOpenQuoteModal}
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-full bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-2 rounded-full bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span>Devis Gratuit</span>
@@ -149,10 +192,43 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center space-x-2 md:hidden">
+          <div className="flex items-center space-x-1.5 md:hidden">
+            {/* Mobile Auth Button */}
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={() => setIsAdminModalOpen(true)}
+                className="p-2 rounded-full bg-[#0A2A4D] text-amber-300 border border-amber-400/40 text-xs font-bold min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
+                title="Panneau Admin"
+              >
+                <ShieldCheck className="w-4 h-4" />
+              </button>
+            ) : currentUser ? (
+              <button
+                type="button"
+                onClick={() => setIsAccountModalOpen(true)}
+                className="p-2 rounded-full bg-blue-50 text-[#185FA5] border border-blue-200 text-xs font-bold min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
+                title="Mon Compte"
+              >
+                <User className="w-4 h-4" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('login');
+                  setIsAuthModalOpen(true);
+                }}
+                className="px-2.5 py-1.5 rounded-full border border-slate-300 text-slate-700 text-[11px] font-bold min-h-[40px] flex items-center space-x-1 cursor-pointer"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Konekte</span>
+              </button>
+            )}
+
             <button
               onClick={onOpenQuoteModal}
-              className="px-3.5 py-2 rounded-full bg-[#0A2A4D] text-white text-xs font-bold flex items-center space-x-1 min-h-[44px] cursor-pointer active:scale-95"
+              className="px-3 py-2 rounded-full bg-[#0A2A4D] text-white text-xs font-bold flex items-center space-x-1 min-h-[44px] cursor-pointer active:scale-95"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span>Devis</span>
@@ -202,6 +278,45 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="pt-4 border-t border-gray-100 flex flex-col space-y-2">
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsAdminModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg bg-[#0A2A4D] text-amber-300 font-bold text-sm"
+              >
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span>Panèl Administrasyon Polyverse</span>
+              </button>
+            ) : currentUser ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsAccountModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg bg-blue-50 text-[#185FA5] font-bold text-sm border border-blue-200"
+              >
+                <User className="w-4 h-4" />
+                <span>{currentUser.name} (Kont Mwen & Istorik Kòmand)</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setAuthModalMode('login');
+                  setIsAuthModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg bg-[#185FA5] text-white font-bold text-sm"
+              >
+                <User className="w-4 h-4" />
+                <span>Konekte oswa Kreye Kont Kliyan</span>
+              </button>
+            )}
+
             <a
               href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=Bonjour%20Polyverse%2C%20je%20souhaite%20un%20devis`}
               target="_blank"

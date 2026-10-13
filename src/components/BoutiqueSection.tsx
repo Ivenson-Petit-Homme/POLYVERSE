@@ -5,6 +5,7 @@ import { SHOP_PRODUCTS, AFFILIATE_CODES_SAMPLE, POLYVERSE_INFO } from '../data/p
 import { ScrollReveal } from './ScrollReveal';
 import { SectionDarkDivider } from './SectionDarkDivider';
 import boutiqueMerchBg from '../assets/images/boutique_merch_bg_1789429576842.jpg';
+import { useAuth } from '../context/AuthContext';
 import {
   ShoppingBag,
   ShoppingCart,
@@ -24,6 +25,7 @@ import {
   Percent,
   Search,
   Filter,
+  Lock,
 } from 'lucide-react';
 
 interface BoutiqueSectionProps {
@@ -50,13 +52,24 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
   const [influencerDesiredCode, setInfluencerDesiredCode] = useState('');
   const [affiliateSuccess, setAffiliateSuccess] = useState(false);
 
+  const { currentUser, requireAuth, placeOrder, setIsAccountModalOpen } = useAuth();
+
   // Checkout Client Info
-  const [buyerName, setBuyerName] = useState('');
-  const [buyerPhone, setBuyerPhone] = useState('');
-  const [buyerAddress, setBuyerAddress] = useState('');
+  const [buyerName, setBuyerName] = useState(currentUser?.name || '');
+  const [buyerPhone, setBuyerPhone] = useState(currentUser?.phone || '');
+  const [buyerAddress, setBuyerAddress] = useState(currentUser?.address || '');
   const [buyerPaymentMethod, setBuyerPaymentMethod] = useState('MonCash');
   const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const [confirmedOrderId, setConfirmedOrderId] = useState<string>('');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (currentUser) {
+      if (!buyerName && currentUser.name) setBuyerName(currentUser.name);
+      if (!buyerPhone && currentUser.phone) setBuyerPhone(currentUser.phone);
+      if (!buyerAddress && currentUser.address) setBuyerAddress(currentUser.address);
+    }
+  }, [currentUser]);
 
   // Per-product selection state (Color & Size)
   const [selectedProductSizes, setSelectedProductSizes] = useState<Record<string, string>>({
@@ -163,8 +176,11 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
   };
 
   // Generate WhatsApp message for checkout
-  const handleGenerateOrderWhatsApp = () => {
+  const handleGenerateOrderWhatsApp = (orderRefCode?: string) => {
     let msg = `*NOUVELLE COMMANDE BOUTIQUE POLYVERSE*\n`;
+    if (orderRefCode) {
+      msg += `🔖 *Code Référence Kòmand:* ${orderRefCode}\n`;
+    }
     msg += `----------------------------------------\n`;
     cart.forEach((item, idx) => {
       msg += `${idx + 1}. *${item.product.name}*\n`;
@@ -182,12 +198,62 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     }
     msg += `💰 *TOTAL FINAL:* $${finalTotalUSD.toFixed(2)} USD (≈ ${finalTotalHTG.toLocaleString()} HTG)\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Client:* ${buyerName || 'Client Polyverse'}\n`;
-    msg += `📱 *Téléphone / WhatsApp:* ${buyerPhone || 'Non précisé'}\n`;
-    msg += `📍 *Adresse de livraison:* ${buyerAddress || 'À confirmer'}\n`;
+    msg += `👤 *Client:* ${buyerName || currentUser?.name || 'Client Polyverse'}\n`;
+    msg += `📱 *Téléphone / WhatsApp:* ${buyerPhone || currentUser?.phone || 'Non précisé'}\n`;
+    msg += `📍 *Adresse de livraison:* ${buyerAddress || currentUser?.address || 'À confirmer'}\n`;
     msg += `💳 *Mode de Paiement:* ${buyerPaymentMethod}\n`;
 
     return `https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${encodeURIComponent(msg)}`;
+  };
+
+  // Finalize order with mandatory account requirement
+  const handleFinalizeOrder = () => {
+    // 1. User must have an account to buy
+    if (!requireAuth(() => handleFinalizeOrder())) {
+      return;
+    }
+
+    if (!buyerName.trim()) {
+      alert('Tanpri mete non ak prenon ou pou livrezon an.');
+      return;
+    }
+    if (!buyerPhone.trim()) {
+      alert('Tanpri mete nimewo telefòn oswa WhatsApp ou.');
+      return;
+    }
+    if (!buyerAddress.trim()) {
+      alert('Tanpri mete adrès livrezon an (Vil, Quartier).');
+      return;
+    }
+
+    // 2. Save order in the database for client history and admin dashboard
+    const saved = placeOrder({
+      userId: currentUser?.id || 'client',
+      userEmail: currentUser?.email || '',
+      userName: buyerName.trim(),
+      userPhone: buyerPhone.trim(),
+      userAddress: buyerAddress.trim(),
+      orderType: 'boutique',
+      items: cart.map((c) => ({
+        productName: c.product.name,
+        quantity: c.quantity,
+        priceUSD: c.product.priceUSD,
+        color: c.selectedColor,
+        size: c.selectedSize,
+      })),
+      totalUSD: finalTotalUSD,
+      totalHTG: finalTotalHTG,
+      paymentMethod: buyerPaymentMethod,
+      promoCode: appliedPromo?.code,
+      notes: appliedPromo ? `Enfliyansè: ${appliedPromo.influencerName}` : undefined,
+    });
+
+    setConfirmedOrderId(saved.id);
+    setOrderConfirmed(true);
+
+    // 3. Open WhatsApp confirmation
+    const waUrl = handleGenerateOrderWhatsApp(saved.id);
+    window.open(waUrl, '_blank');
   };
 
   const copyPromoToClipboard = (code: string) => {
@@ -462,7 +528,43 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
                 {/* Cart Body */}
                 <div className="p-5 overflow-y-auto flex-1 space-y-6">
-                  {cart.length === 0 ? (
+                  {orderConfirmed ? (
+                    <div className="py-12 text-center space-y-4">
+                      <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                        <CheckCircle2 className="w-8 h-8" />
+                      </div>
+                      <h4 className="font-extrabold text-lg text-[#0A2A4D]">Kòmand ou anrejistre avèk siksè!</h4>
+                      <p className="text-xs text-slate-600">
+                        Referans kòmand: <strong className="font-mono text-[#185FA5]">{confirmedOrderId}</strong>
+                      </p>
+                      <p className="text-xs text-slate-500 max-w-xs mx-auto">
+                        Kòmand lan anrejistre nan kont ou epi mesaj WhatsApp la pare pou voye ba ekip Polyverse.
+                      </p>
+                      <div className="pt-2 flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsCartOpen(false);
+                            setOrderConfirmed(false);
+                            setIsAccountModalOpen(true);
+                          }}
+                          className="w-full py-2.5 bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold rounded-xl transition cursor-pointer"
+                        >
+                          Gade nan Istorik Kòmand Mwen Yo
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOrderConfirmed(false);
+                            setIsCartOpen(false);
+                          }}
+                          className="w-full py-2 text-slate-500 hover:text-slate-800 text-xs font-semibold cursor-pointer"
+                        >
+                          Kontinye vizite boutik la
+                        </button>
+                      </div>
+                    </div>
+                  ) : cart.length === 0 ? (
                     <div className="py-16 text-center space-y-3">
                       <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto" />
                       <p className="text-sm font-semibold text-slate-600">Votre panier est actuellement vide.</p>
@@ -578,9 +680,52 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
                       {/* Client info in checkout */}
                       <div className="space-y-3 pt-2 border-t border-slate-200">
-                        <h4 className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
-                          Informations de Livraison
-                        </h4>
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
+                            Enfòmasyon Livrezon
+                          </h4>
+                          {currentUser && (
+                            <span className="text-[10px] text-emerald-600 font-bold flex items-center space-x-1">
+                              <CheckCircle2 className="w-3 h-3" />
+                              <span>Kont konekte</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Account Requirement Warning / Status */}
+                        {!currentUser ? (
+                          <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs text-amber-900">
+                            <div className="flex items-center space-x-2">
+                              <Lock className="w-4 h-4 text-amber-600 shrink-0" />
+                              <div>
+                                <span className="font-bold">Yon kont nesesè pou valide acha w la</span>
+                                <p className="text-[10px] text-amber-700">Konekte oswa kreye kont ou anvan ou finalize kòmand lan.</p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => requireAuth()}
+                              className="px-2.5 py-1.5 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold text-[11px] rounded-lg transition cursor-pointer shrink-0 ml-2"
+                            >
+                              Konekte
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between text-xs text-[#0A2A4D]">
+                            <div className="flex items-center space-x-2 truncate">
+                              <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                                {currentUser.name.charAt(0).toUpperCase()}
+                              </div>
+                              <div className="truncate">
+                                <span className="font-bold text-xs truncate block">{currentUser.name}</span>
+                                <span className="text-[10px] text-slate-500 truncate block">{currentUser.email}</span>
+                              </div>
+                            </div>
+                            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full shrink-0">
+                              Valide
+                            </span>
+                          </div>
+                        )}
 
                         <input
                           type="text"
@@ -630,7 +775,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                 </div>
 
                 {/* Cart Footer / Totals & Final Checkout */}
-                {cart.length > 0 && (
+                {cart.length > 0 && !orderConfirmed && (
                   <div className="p-5 border-t border-slate-200 bg-[#FAF9F6] space-y-3">
                     <div className="space-y-1.5 text-xs">
                       <div className="flex justify-between text-slate-600">
@@ -654,15 +799,14 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       </div>
                     </div>
 
-                    <a
-                      href={handleGenerateOrderWhatsApp()}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handleFinalizeOrder}
                       className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md transition cursor-pointer"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      <span>Confirmer la commande sur WhatsApp</span>
-                    </a>
+                      <span>{currentUser ? 'Konfime Kòmand sou WhatsApp' : 'Konekte pou Valide Kòmand lan'}</span>
+                    </button>
                   </div>
                 )}
               </div>

@@ -14,6 +14,10 @@ import { OrderServiceSection } from './components/OrderServiceSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { QuoteModal } from './components/QuoteModal';
+import { AuthProvider } from './context/AuthContext';
+import { AuthModal } from './components/AuthModal';
+import { AdminDashboardModal } from './components/AdminDashboardModal';
+import { UserAccountModal } from './components/UserAccountModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>('home');
@@ -36,86 +40,97 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#0A2A4D] selection:bg-[#D85A30] selection:text-white relative">
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#D85A30] via-[#185FA5] to-emerald-500 z-50 origin-left shadow-xs"
-        style={{ scaleX }}
-      />
+    <AuthProvider>
+      <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#0A2A4D] selection:bg-[#D85A30] selection:text-white relative">
+        {/* Scroll Progress Bar */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#D85A30] via-[#185FA5] to-emerald-500 z-50 origin-left shadow-xs"
+          style={{ scaleX }}
+        />
 
-      {/* Top Header Navigation */}
-      <Header
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onOpenQuoteModal={() => setQuoteModalOpen(true)}
-      />
+        {/* Top Header Navigation */}
+        <Header
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onOpenQuoteModal={() => setQuoteModalOpen(true)}
+        />
 
-      {/* Main Page View Switcher */}
-      <main className="grow">
-        {activeTab === 'home' && (
-          <HomeSection
-            setActiveTab={setActiveTab}
-            setSelectedCategory={setSelectedCategory}
-            onOpenQuoteModal={() => setQuoteModalOpen(true)}
-            onSelectPortfolioProject={handleSelectPortfolioProject}
-          />
-        )}
+        {/* Main Page View Switcher */}
+        <main className="grow">
+          {activeTab === 'home' && (
+            <HomeSection
+              setActiveTab={setActiveTab}
+              setSelectedCategory={setSelectedCategory}
+              onOpenQuoteModal={() => setQuoteModalOpen(true)}
+              onSelectPortfolioProject={handleSelectPortfolioProject}
+            />
+          )}
 
-        {activeTab === 'about' && (
-          <AboutSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
+          {activeTab === 'about' && (
+            <AboutSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
 
-        {activeTab === 'services' && (
-          <ServicesSection
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            onOpenQuoteModal={() => setQuoteModalOpen(true)}
-          />
-        )}
+          {activeTab === 'services' && (
+            <ServicesSection
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              onOpenQuoteModal={() => setQuoteModalOpen(true)}
+            />
+          )}
 
-        {activeTab === 'portfolio' && (
-          <PortfolioSection
-            initialProjectId={selectedPortfolioProjectId}
-            onOpenQuoteModal={() => setQuoteModalOpen(true)}
-          />
-        )}
+          {activeTab === 'portfolio' && (
+            <PortfolioSection
+              initialProjectId={selectedPortfolioProjectId}
+              onOpenQuoteModal={() => setQuoteModalOpen(true)}
+            />
+          )}
 
-        {activeTab === 'order-service' && (
-          <OrderServiceSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
+          {activeTab === 'order-service' && (
+            <OrderServiceSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
 
-        {activeTab === 'shop' && (
-          <BoutiqueSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
+          {activeTab === 'shop' && (
+            <BoutiqueSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
 
-        {activeTab === 'donate' && (
-          <DonateSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
+          {activeTab === 'donate' && (
+            <DonateSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
 
-        {activeTab === 'partnership' && (
-          <PartnershipSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
+          {activeTab === 'partnership' && (
+            <PartnershipSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
 
-        {activeTab === 'contact' && <ContactSection />}
+          {activeTab === 'contact' && <ContactSection />}
 
-        {/* Global Horizontal Auto-scrolling Testimonials Section */}
-        {activeTab !== 'home' && (
-          <TestimonialsSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
-        )}
-      </main>
+          {/* Global Horizontal Auto-scrolling Testimonials Section */}
+          {activeTab !== 'home' && (
+            <TestimonialsSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          )}
+        </main>
 
-      {/* Footer */}
-      <Footer
-        setActiveTab={setActiveTab}
-        onOpenQuoteModal={() => setQuoteModalOpen(true)}
-      />
+        {/* Footer */}
+        <Footer
+          setActiveTab={setActiveTab}
+          onOpenQuoteModal={() => setQuoteModalOpen(true)}
+        />
 
-      {/* Global Quick Quote Modal */}
-      <QuoteModal
-        isOpen={quoteModalOpen}
-        onClose={() => setQuoteModalOpen(false)}
-      />
-    </div>
+        {/* Global Quick Quote Modal */}
+        <QuoteModal
+          isOpen={quoteModalOpen}
+          onClose={() => setQuoteModalOpen(false)}
+        />
+
+        {/* Customer & Admin Authentication Modal */}
+        <AuthModal />
+
+        {/* Admin Management Dashboard */}
+        <AdminDashboardModal />
+
+        {/* Customer Profile & Orders History Modal */}
+        <UserAccountModal />
+      </div>
+    </AuthProvider>
   );
 }
 
