@@ -16,12 +16,12 @@ export const PolyverseLogo: React.FC<PolyverseLogoProps> = ({
   className = '',
   showTagline = true,
 }) => {
-  // Dimensions
+  // Dimensions - enlarged for maximum visibility and brand prominence
   const sizeConfig = {
-    sm: { symbol: 'h-8 w-8', textTitle: 'text-base', textSub: 'text-[9px]', textSlogan: 'text-[8px]', badge: 'h-9 w-9' },
-    md: { symbol: 'h-10 w-10', textTitle: 'text-lg', textSub: 'text-[10px]', textSlogan: 'text-[9px]', badge: 'h-11 w-11' },
-    lg: { symbol: 'h-14 w-14', textTitle: 'text-2xl', textSub: 'text-xs', textSlogan: 'text-[11px]', badge: 'h-16 w-16' },
-    xl: { symbol: 'h-20 w-20', textTitle: 'text-3xl', textSub: 'text-sm', textSlogan: 'text-xs', badge: 'h-24 w-24' },
+    sm: { symbol: 'h-10 w-10', textTitle: 'text-lg', textSub: 'text-[10px]', textSlogan: 'text-[9px]', badge: 'h-11 w-11' },
+    md: { symbol: 'h-15 w-15', textTitle: 'text-2xl sm:text-[26px]', textSub: 'text-xs sm:text-[13px]', textSlogan: 'text-[11px]', badge: 'h-15 w-15 sm:h-16 sm:w-16' },
+    lg: { symbol: 'h-22 w-22', textTitle: 'text-3xl sm:text-4xl', textSub: 'text-sm sm:text-base', textSlogan: 'text-xs sm:text-sm', badge: 'h-22 w-22 sm:h-26 sm:w-26' },
+    xl: { symbol: 'h-32 w-32', textTitle: 'text-4xl sm:text-5xl', textSub: 'text-base sm:text-lg', textSlogan: 'text-sm sm:text-base', badge: 'h-32 w-32 sm:h-36 sm:w-36' },
   };
 
   const currentSize = sizeConfig[size];
@@ -34,10 +34,10 @@ export const PolyverseLogo: React.FC<PolyverseLogoProps> = ({
   const sloganColor = theme === 'dark' ? '#CBD5E1' : '#64748B';
 
   return (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+    <div className={`inline-flex items-center gap-3.5 select-none ${className}`}>
       {/* Real Official Emblem uploaded by user */}
       <div
-        className={`${currentSize.badge} rounded-xl overflow-hidden shadow-sm border border-slate-200/90 bg-[#06152B] shrink-0 transition-transform group-hover:scale-105`}
+        className={`${currentSize.badge} rounded-2xl overflow-hidden shadow-md border-2 border-amber-400/40 bg-[#06152B] shrink-0 transition-transform group-hover:scale-105`}
       >
         <img
           src={officialLogoImg}

@@ -17,6 +17,8 @@ import {
   ShieldCheck,
   Send,
   HelpCircle,
+  PlayCircle,
+  CalendarDays,
 } from 'lucide-react';
 
 interface ServicesSectionProps {
@@ -88,6 +90,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {pillar.id === 'design' && <Palette className="w-4 h-4" />}
                   {pillar.id === 'tech' && <Code className="w-4 h-4" />}
                   {pillar.id === 'finance' && <CreditCard className="w-4 h-4" />}
+                  {pillar.id === 'streaming' && <PlayCircle className="w-4 h-4 text-red-500" />}
+                  {pillar.id === 'events' && <CalendarDays className="w-4 h-4 text-purple-500" />}
                   <span>{pillar.title}</span>
                 </button>
               );
@@ -108,6 +112,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   {activePillar.id === 'design' && <Palette className="w-8 h-8 text-[#185FA5]" />}
                   {activePillar.id === 'tech' && <Code className="w-8 h-8 text-[#0A2A4D]" />}
                   {activePillar.id === 'finance' && <CreditCard className="w-8 h-8 text-[#D85A30]" />}
+                  {activePillar.id === 'streaming' && <PlayCircle className="w-8 h-8 text-red-600" />}
+                  {activePillar.id === 'events' && <CalendarDays className="w-8 h-8 text-purple-600" />}
                 </div>
                 <div>
                   <span className="text-xs font-bold text-[#D85A30] uppercase tracking-wider">

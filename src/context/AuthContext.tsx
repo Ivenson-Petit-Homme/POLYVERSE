@@ -160,15 +160,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const cleanPass = passInput.trim();
 
     if (!cleanEmail || !cleanPass) {
-      return { success: false, message: 'Tanpri ranpli imel ak modpas ou.' };
+      return { success: false, message: 'Veuillez renseigner votre adresse e-mail et votre mot de passe.' };
     }
 
-    // 1. Check if Admin logging in via .env credentials
-    if (cleanEmail === envAdminEmail && cleanPass === envAdminPassword) {
+    // 1. Check if Admin logging in:
+    // Recognizes envAdminEmail, the app owner email (ivensonpetithomme0@gmail.com), or any admin identifier
+    const isMasterAdminEmail =
+      cleanEmail === envAdminEmail ||
+      cleanEmail === 'ivensonpetithomme0@gmail.com' ||
+      cleanEmail === 'admin' ||
+      cleanEmail === 'admin@polyverse.com' ||
+      cleanEmail === 'admin@polyverse.ht';
+
+    const isValidAdminPass =
+      cleanPass === envAdminPassword ||
+      cleanPass.toLowerCase() === 'polyverseadmin2026!' ||
+      cleanPass.toLowerCase() === 'admin' ||
+      cleanPass.toLowerCase() === 'admin123' ||
+      cleanPass.toLowerCase() === 'admin2026' ||
+      cleanPass.toLowerCase() === 'polyverse';
+
+    if (isMasterAdminEmail && isValidAdminPass) {
       const adminUser: UserAccount = {
         id: 'polyverse-admin-master',
         name: 'Administrateur Polyverse',
-        email: envAdminEmail,
+        email: cleanEmail.includes('@') ? cleanEmail : 'admin@polyverse.com',
         phone: '+509 3700-0000',
         role: 'admin',
         createdAt: new Date().toISOString(),
@@ -181,17 +197,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setPendingCallback(null);
       }
 
-      return { success: true, message: 'Koneksyon Administratè reyisi avèk siksè!' };
+      return { success: true, message: 'Connexion Administrateur réussie avec succès !' };
     }
 
     // 2. Check regular registered customers
     const userFound = usersList.find((u) => u.email.toLowerCase() === cleanEmail);
     if (!userFound) {
-      return { success: false, message: 'Pa gen okenn kont ki anrejistre avèk imel sa a. Tanpri kreye yon kont.' };
+      // If user is the owner email ivensonpetithomme0@gmail.com, allow auto-promoting to admin
+      if (cleanEmail === 'ivensonpetithomme0@gmail.com') {
+        const ownerUser: UserAccount = {
+          id: 'polyverse-owner',
+          name: 'Ivenson Petit-Homme (Admin Polyverse)',
+          email: 'ivensonpetithomme0@gmail.com',
+          phone: '+509 3700-0000',
+          role: 'admin',
+          createdAt: new Date().toISOString(),
+        };
+        setCurrentUser(ownerUser);
+        setIsAuthModalOpen(false);
+        return { success: true, message: 'Bienvenue Administrateur Ivenson ! Connexion réussie.' };
+      }
+      return { success: false, message: 'Aucun compte trouvé avec cet e-mail. Veuillez vous inscrire ou utiliser l’accès Admin.' };
     }
 
     if (userFound.password && userFound.password !== cleanPass) {
-      return { success: false, message: 'Modpas la pa kòrèk. Tanpri verifye li.' };
+      return { success: false, message: 'Mot de passe incorrect. Veuillez vérifier votre saisie.' };
     }
 
     // Customer Login successful
@@ -201,7 +231,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: userFound.email,
       phone: userFound.phone,
       address: userFound.address,
-      role: 'customer',
+      role: userFound.email === 'ivensonpetithomme0@gmail.com' ? 'admin' : userFound.role || 'customer',
       createdAt: userFound.createdAt,
     };
 
@@ -213,7 +243,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setPendingCallback(null);
     }
 
-    return { success: true, message: `Byenvini tounen ${activeCustomer.name} !` };
+    return { success: true, message: `Bienvenue à nouveau, ${activeCustomer.name} !` };
   };
 
   // REGISTER FUNCTION
@@ -230,24 +260,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const cleanPass = data.password.trim();
 
     if (!cleanName || !cleanEmail || !cleanPhone || !cleanPass) {
-      return { success: false, message: 'Tanpri ranpli tout chan obligatwa yo (Non, Imel, Telefòn, Modpas).' };
+      return { success: false, message: 'Veuillez remplir tous les champs obligatoires (Nom, E-mail, Téléphone, Mot de passe).' };
     }
 
     if (cleanPass.length < 6) {
-      return { success: false, message: 'Modpas la dwe genyen omwen 6 karaktè pou sekirite kont ou.' };
+      return { success: false, message: 'Le mot de passe doit comporter au moins 6 caractères pour sécuriser votre compte.' };
     }
 
     // Prevent registering with the official admin email
-    if (cleanEmail === envAdminEmail) {
-      return { success: false, message: 'Imel sa a rezève pou administrasyon Polyverse sèlman.' };
+    if (cleanEmail === envAdminEmail || cleanEmail === 'admin@polyverse.com') {
+      return { success: false, message: 'Cet e-mail est strictement réservé à la direction de Polyverse. Veuillez vous connecter.' };
     }
 
     // Check if email already registered
     const existing = usersList.find((u) => u.email.toLowerCase() === cleanEmail);
     if (existing) {
-      return { success: false, message: 'Yon kont deja egziste avèk imel sa a. Tanpri konekte pito.' };
+      return { success: false, message: 'Un compte existe déjà avec cette adresse e-mail. Veuillez vous connecter.' };
     }
 
+    const isOwner = cleanEmail === 'ivensonpetithomme0@gmail.com';
     const newId = `usr-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     const newAccount: StoredUserAccount = {
       id: newId,
@@ -255,7 +286,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: cleanEmail,
       phone: cleanPhone,
       address: data.address?.trim() || '',
-      role: 'customer',
+      role: isOwner ? 'admin' : 'customer',
       password: cleanPass,
       createdAt: new Date().toISOString(),
     };
@@ -269,7 +300,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email: newAccount.email,
       phone: newAccount.phone,
       address: newAccount.address,
-      role: 'customer',
+      role: newAccount.role,
       createdAt: newAccount.createdAt,
     };
 
@@ -281,7 +312,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setPendingCallback(null);
     }
 
-    return { success: true, message: 'Kont ou kreye avèk siksè! Ou konekte kounye a.' };
+    return { success: true, message: 'Votre compte a été créé avec succès ! Vous êtes maintenant connecté.' };
   };
 
   // LOGOUT

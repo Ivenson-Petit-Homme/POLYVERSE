@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NavigationTab, ServiceCategory } from '../types';
-import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO, PILLARS } from '../data/polyverseData';
+import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO, PILLARS, PARTNER_ENTERPRISES } from '../data/polyverseData';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ScrollReveal } from './ScrollReveal';
 import { SectionDarkDivider } from './SectionDarkDivider';
@@ -35,6 +35,8 @@ import {
   ThumbsUp,
   Shield,
   HelpCircle,
+  PlayCircle,
+  CalendarDays,
 } from 'lucide-react';
 
 interface HomeSectionProps {
@@ -242,9 +244,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-[#06152B]/85 border border-slate-700/80 shadow-lg text-xs font-semibold text-slate-200 backdrop-blur-md"
+              className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-[#06152B]/90 border border-amber-400/30 shadow-lg text-xs font-semibold text-slate-200 backdrop-blur-md"
             >
-              <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 border border-amber-400/90 shadow-2xs bg-[#06152B]">
+              <div className="w-8 h-8 rounded-xl overflow-hidden shrink-0 border-2 border-amber-400 shadow-xs bg-[#06152B]">
                 <img
                   src={officialLogoImg}
                   alt="Polyverse Logo Officiel"
@@ -458,7 +460,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="absolute inset-0 opacity-15 pointer-events-none">
                   <img
                     src={polyverseServicesBanner}
-                    alt="Polyverse Sèvis"
+                    alt="Services Polyverse"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                   />
@@ -774,68 +776,101 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       </section>
 
       {/* Dark Separator 1 */}
-      <SectionDarkDivider label="Écosystème & Partenariats Intégrés" />
+      <SectionDarkDivider label="Nos Entreprises Partenaires" />
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: LOGOS & SOCIAL PROOF STRIP (WEBNODE PURE WHITE BG #FFFFFF)
+          SECTION 2: ENTREPRISES PARTENAIRES OFFICIELLES
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-10 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-center text-xs font-bold uppercase tracking-widest text-[#4B5874] mb-6">
-            Plateformes & Partenaires intégrés à nos opérations quotidiennes
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
-            <span className="font-extrabold text-slate-800 tracking-tight text-xl">amazon</span>
-            <span className="font-extrabold text-slate-800 tracking-tight text-xl">SHEIN</span>
-            <span className="font-extrabold text-[#D85A30] tracking-tight text-xl">MonCash</span>
-            <span className="font-extrabold text-[#185FA5] tracking-tight text-xl">Natcash</span>
-            <span className="font-extrabold text-slate-800 tracking-tight text-xl">ebay</span>
-            <span className="font-extrabold text-slate-800 tracking-tight text-xl">AliExpress</span>
-            <span className="font-extrabold text-[#0A2A4D] tracking-tight text-xl">Meta Ads</span>
-            <span className="font-extrabold text-amber-600 tracking-tight text-xl">DHL</span>
+      <section className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-xs font-black uppercase tracking-widest text-[#185FA5] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200 inline-block mb-2">
+              Partenariats Stratégiques
+            </span>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0A2A4D] tracking-tight">
+              Nos Entreprises Partenaires Officielles
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Collaborations de confiance dans la production, le conseil institutionnel, la mode et l’innovation technologique
+            </p>
+          </div>
+
+          {/* Official Partner Enterprises from Document Modification 2 (TRANSPRODUS, MAS&ALLIES, JOSTREET, HVING4) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-4">
+            {PARTNER_ENTERPRISES.map((p, pIdx) => (
+              <div
+                key={pIdx}
+                className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:border-[#185FA5] hover:bg-white transition-all duration-300 shadow-2xs hover:shadow-lg text-center group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#185FA5] font-black text-sm flex items-center justify-center mx-auto mb-2 group-hover:scale-105 transition-transform">
+                    0{pIdx + 1}
+                  </div>
+                  <span className="font-black text-lg sm:text-xl text-[#0A2A4D] tracking-tight group-hover:text-[#185FA5] transition-colors block">
+                    {p.name}
+                  </span>
+                  <span className="text-[10px] uppercase font-bold text-[#D85A30] tracking-wider block mt-1">
+                    {p.tag}
+                  </span>
+                </div>
+                <span className="text-[11px] text-slate-500 block mt-3 font-medium border-t border-slate-100 pt-2">
+                  {p.desc}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Dark Separator 1.5 */}
-      <SectionDarkDivider label="Nos 3 Piliers d'Expertise Majeurs" />
+      <SectionDarkDivider label="Nos 5 Piliers d'Expertise Majeurs" />
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION: LES 3 PILIERS MAJEURS (DOKIMAN POLVERSE)
+          SECTION: LES 5 PILIERS MAJEURS (DOKIMAN POLVERSE)
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
+      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto space-y-12">
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto space-y-3">
               <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
-                Piliers Stratégiques & Pratiques
+                Catalogue Officiel des Services
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0A2A4D] tracking-tight">
                 Tous les Services Polyverse réunis sous un même toit
               </h2>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                Conformément à notre vision, nous combinons la création visuelle concrète, les technologies web & marketing digital, et les facilités financières & logistiques internationales.
+                Découvrez nos 5 départements spécialisés : Design & Impression, Technologie & Médias, Finance & Logistique, Streaming & Divertissement, et Event Planning & Matériel.
               </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {PILLARS.map((pillar, idx) => {
               const isDesign = pillar.id === 'design';
               const isTech = pillar.id === 'tech';
               const isFinance = pillar.id === 'finance';
+              const isStreaming = pillar.id === 'streaming';
+              const isEvents = pillar.id === 'events';
 
               const headerBg = isDesign
                 ? 'from-[#185FA5] to-blue-700'
                 : isTech
                 ? 'from-[#0A2A4D] to-slate-900'
-                : 'from-[#D85A30] to-orange-600';
+                : isFinance
+                ? 'from-[#D85A30] to-orange-600'
+                : isStreaming
+                ? 'from-red-600 to-rose-800'
+                : 'from-purple-700 to-indigo-900';
 
               const badgeColor = isDesign
                 ? 'text-[#185FA5] bg-blue-50 border-blue-200'
                 : isTech
                 ? 'text-cyan-700 bg-cyan-50 border-cyan-200'
-                : 'text-[#D85A30] bg-orange-50 border-orange-200';
+                : isFinance
+                ? 'text-[#D85A30] bg-orange-50 border-orange-200'
+                : isStreaming
+                ? 'text-red-700 bg-red-50 border-red-200'
+                : 'text-purple-700 bg-purple-50 border-purple-200';
 
               return (
                 <ScrollReveal key={pillar.id} delay={idx * 0.1}>
@@ -848,10 +883,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                             {isDesign && <Palette className="w-6 h-6 text-white" />}
                             {isTech && <Code className="w-6 h-6 text-white" />}
                             {isFinance && <CreditCard className="w-6 h-6 text-white" />}
+                            {isStreaming && <PlayCircle className="w-6 h-6 text-white" />}
+                            {isEvents && <CalendarDays className="w-6 h-6 text-white" />}
                           </div>
                           <div>
                             <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 block">
-                              Pilier 0{idx + 1}
+                              Service 0{idx + 1}
                             </span>
                             <h3 className="text-xl font-extrabold text-white leading-tight">
                               {pillar.title}
@@ -874,7 +911,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                           <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 block">
                             Services & Prestations Clés :
                           </span>
-                          {pillar.features.slice(0, 4).map((feat, fIdx) => (
+                          {pillar.features.map((feat, fIdx) => (
                             <div key={fIdx} className="flex items-start space-x-2 text-xs text-slate-700">
                               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                               <span className="font-medium leading-snug">{feat}</span>
@@ -888,16 +925,26 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                     <div className="p-6 pt-0 border-t border-slate-100 flex items-center justify-between gap-3">
                       <button
                         type="button"
-                        onClick={() => handlePillarClick(pillar.id as ServiceCategory)}
-                        className={`w-full py-3 px-4 rounded-xl font-bold text-xs transition flex items-center justify-center space-x-2 text-white shadow-xs ${
+                        onClick={() => {
+                          if (isFinance || isStreaming || isEvents) {
+                            setActiveTab('order-service');
+                          } else {
+                            handlePillarClick(pillar.id as ServiceCategory);
+                          }
+                        }}
+                        className={`w-full py-3 px-4 rounded-xl font-bold text-xs transition flex items-center justify-center space-x-2 text-white shadow-xs cursor-pointer ${
                           isDesign
                             ? 'bg-[#185FA5] hover:bg-[#0A2A4D]'
                             : isTech
                             ? 'bg-[#0A2A4D] hover:bg-[#185FA5]'
-                            : 'bg-[#D85A30] hover:bg-[#c24e27]'
+                            : isFinance
+                            ? 'bg-[#D85A30] hover:bg-[#c24e27]'
+                            : isStreaming
+                            ? 'bg-red-600 hover:bg-red-700'
+                            : 'bg-purple-700 hover:bg-purple-800'
                         }`}
                       >
-                        <span>Gade tout sèvis yo</span>
+                        <span>Commander ce service</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>

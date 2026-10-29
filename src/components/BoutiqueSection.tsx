@@ -179,7 +179,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
   const handleGenerateOrderWhatsApp = (orderRefCode?: string) => {
     let msg = `*NOUVELLE COMMANDE BOUTIQUE POLYVERSE*\n`;
     if (orderRefCode) {
-      msg += `🔖 *Code Référence Kòmand:* ${orderRefCode}\n`;
+      msg += `🔖 *Code Référence Commande:* ${orderRefCode}\n`;
     }
     msg += `----------------------------------------\n`;
     cart.forEach((item, idx) => {
@@ -214,15 +214,15 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     }
 
     if (!buyerName.trim()) {
-      alert('Tanpri mete non ak prenon ou pou livrezon an.');
+      alert('Veuillez renseigner votre nom et prénom pour la livraison.');
       return;
     }
     if (!buyerPhone.trim()) {
-      alert('Tanpri mete nimewo telefòn oswa WhatsApp ou.');
+      alert('Veuillez renseigner votre numéro de téléphone ou WhatsApp.');
       return;
     }
     if (!buyerAddress.trim()) {
-      alert('Tanpri mete adrès livrezon an (Vil, Quartier).');
+      alert('Veuillez renseigner votre adresse de livraison complète (Ville, Quartier).');
       return;
     }
 
@@ -512,7 +512,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                 <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-[#FAF9F6]">
                   <div className="flex items-center space-x-2">
                     <ShoppingCart className="w-5 h-5 text-[#185FA5]" />
-                    <h3 className="font-bold text-lg text-[#0A2A4D]">Panye Kòmand Ou</h3>
+                    <h3 className="font-bold text-lg text-[#0A2A4D]">Votre Panier de Commande</h3>
                     <span className="text-xs bg-blue-100 text-[#185FA5] px-2 py-0.5 rounded-full font-bold">
                       {totalItemCount}
                     </span>
@@ -533,12 +533,12 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
-                      <h4 className="font-extrabold text-lg text-[#0A2A4D]">Kòmand ou anrejistre avèk siksè!</h4>
+                      <h4 className="font-extrabold text-lg text-[#0A2A4D]">Commande enregistrée avec succès !</h4>
                       <p className="text-xs text-slate-600">
-                        Referans kòmand: <strong className="font-mono text-[#185FA5]">{confirmedOrderId}</strong>
+                        Référence de commande : <strong className="font-mono text-[#185FA5]">{confirmedOrderId}</strong>
                       </p>
                       <p className="text-xs text-slate-500 max-w-xs mx-auto">
-                        Kòmand lan anrejistre nan kont ou epi mesaj WhatsApp la pare pou voye ba ekip Polyverse.
+                        Votre commande est enregistrée dans votre compte et le récapitulatif WhatsApp est prêt pour l'équipe Polyverse.
                       </p>
                       <div className="pt-2 flex flex-col gap-2">
                         <button
@@ -550,7 +550,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           }}
                           className="w-full py-2.5 bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold rounded-xl transition cursor-pointer"
                         >
-                          Gade nan Istorik Kòmand Mwen Yo
+                          Consulter l'Historique de Mes Commandes
                         </button>
                         <button
                           type="button"
@@ -560,7 +560,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           }}
                           className="w-full py-2 text-slate-500 hover:text-slate-800 text-xs font-semibold cursor-pointer"
                         >
-                          Kontinye vizite boutik la
+                          Continuer mes achats dans la boutique
                         </button>
                       </div>
                     </div>
@@ -626,12 +626,12 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                         ))}
                       </div>
 
-                      {/* --- KOTE POU ACHTÈ A METE KÒD LA (Promo / Affiliation Code Field) --- */}
+                      {/* --- CODE PROMO / AFFILIATION --- */}
                       <div className="p-4 rounded-xl bg-orange-50/70 border border-orange-200 space-y-2.5">
                         <div className="flex items-center space-x-1.5">
                           <Tag className="w-4 h-4 text-[#D85A30]" />
                           <label className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
-                            Kòd Pwomo oswa Enfliyansè
+                            Code Promo ou Code Affilié
                           </label>
                         </div>
 
@@ -640,7 +640,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             type="text"
                             value={promoCodeInput}
                             onChange={(e) => setPromoCodeInput(e.target.value)}
-                            placeholder="Eg: POLYVIP, ALEX509..."
+                            placeholder="Ex: POLYVIP, ALEX509..."
                             className="flex-1 px-3 py-2 text-xs font-bold uppercase rounded-lg border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
                           />
                           <button
@@ -648,7 +648,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             onClick={handleApplyPromo}
                             className="px-4 py-2 bg-[#D85A30] hover:bg-[#bf4821] text-white text-xs font-bold rounded-lg transition"
                           >
-                            Aplike
+                            Appliquer
                           </button>
                         </div>
 
@@ -659,9 +659,9 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                         {appliedPromo && (
                           <div className="bg-emerald-50 border border-emerald-200 p-2 rounded-lg text-emerald-800 text-xs flex items-center justify-between">
                             <div>
-                              <span className="font-bold">🎉 Kòd {appliedPromo.code} valide !</span>
+                              <span className="font-bold">🎉 Code {appliedPromo.code} validé !</span>
                               <p className="text-[10px] text-emerald-700">
-                                Referans pa : {appliedPromo.influencerName} (-{appliedPromo.discountPercentage}% rabè)
+                                Recommandé par : {appliedPromo.influencerName} (-{appliedPromo.discountPercentage}% de remise)
                               </p>
                             </div>
                             <button
@@ -682,12 +682,12 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       <div className="space-y-3 pt-2 border-t border-slate-200">
                         <div className="flex items-center justify-between">
                           <h4 className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
-                            Enfòmasyon Livrezon
+                            Informations de Livraison
                           </h4>
                           {currentUser && (
                             <span className="text-[10px] text-emerald-600 font-bold flex items-center space-x-1">
                               <CheckCircle2 className="w-3 h-3" />
-                              <span>Kont konekte</span>
+                              <span>Compte connecté</span>
                             </span>
                           )}
                         </div>
@@ -698,8 +698,8 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             <div className="flex items-center space-x-2">
                               <Lock className="w-4 h-4 text-amber-600 shrink-0" />
                               <div>
-                                <span className="font-bold">Yon kont nesesè pou valide acha w la</span>
-                                <p className="text-[10px] text-amber-700">Konekte oswa kreye kont ou anvan ou finalize kòmand lan.</p>
+                                <span className="font-bold">Un compte est requis pour finaliser l'achat</span>
+                                <p className="text-[10px] text-amber-700">Connectez-vous ou créez votre compte avant de finaliser votre commande.</p>
                               </div>
                             </div>
                             <button
@@ -707,7 +707,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                               onClick={() => requireAuth()}
                               className="px-2.5 py-1.5 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold text-[11px] rounded-lg transition cursor-pointer shrink-0 ml-2"
                             >
-                              Konekte
+                              Connexion
                             </button>
                           </div>
                         ) : (
@@ -805,7 +805,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                       className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md transition cursor-pointer"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      <span>{currentUser ? 'Konfime Kòmand sou WhatsApp' : 'Konekte pou Valide Kòmand lan'}</span>
+                      <span>{currentUser ? 'Confirmer la Commande sur WhatsApp' : 'Se Connecter pour Valider la Commande'}</span>
                     </button>
                   </div>
                 )}
@@ -815,7 +815,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
         )}
       </AnimatePresence>
 
-      {/* --- TI FENÈT AFILYASYON POU ENFLIYANSÈ YO (Affiliate Window / Modal) --- */}
+      {/* --- MODALE D'AFFILIATION & AMBASSADEURS --- */}
       <AnimatePresence>
         {isAffiliateModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

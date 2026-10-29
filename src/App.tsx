@@ -9,7 +9,7 @@ import { ServicesSection } from './components/ServicesSection';
 import { PortfolioSection } from './components/PortfolioSection';
 import { ContactSection } from './components/ContactSection';
 import { DonateSection } from './components/DonateSection';
-import { PartnershipSection } from './components/PartnershipSection';
+import { AffiliationSection } from './components/AffiliationSection';
 import { OrderServiceSection } from './components/OrderServiceSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
@@ -97,8 +97,8 @@ export default function App() {
             <DonateSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
           )}
 
-          {activeTab === 'partnership' && (
-            <PartnershipSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+          {(activeTab === 'affiliation' || activeTab === 'partnership') && (
+            <AffiliationSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
           )}
 
           {activeTab === 'contact' && <ContactSection />}

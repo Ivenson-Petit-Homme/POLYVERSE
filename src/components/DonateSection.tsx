@@ -339,7 +339,7 @@ export const DonateSection: React.FC<DonateSectionProps> = ({ onOpenQuoteModal }
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  HTG (Goud)
+                  HTG (Gourdes)
                 </button>
               </div>
 

@@ -114,8 +114,8 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('partnership')} className="hover:text-white transition">
-                  Devenir Partenaire
+                <button onClick={() => handleNav('affiliation')} className="hover:text-amber-300 text-amber-400 font-bold transition">
+                  Affiliation (Gagner avec Polyverse)
                 </button>
               </li>
               <li>
@@ -129,27 +129,35 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
           {/* Column 3: Expertise Areas */}
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-[#185FA5] mb-4">
-              Nos Piliers
+              Nos 5 Départements
             </h3>
-            <ul className="space-y-2.5 text-sm text-slate-300">
+            <ul className="space-y-2 text-xs text-slate-300">
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#185FA5]"></span>
-                <span>Design & Sérigraphie</span>
+                <span>1. Design & Impression (T-shirts, objets, logos)</span>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0A2A4D] border border-blue-400"></span>
-                <span>Tech & Marketing digital</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                <span>2. Tech, Web & Caméras (Wi-Fi, boost, réseaux)</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#D85A30]"></span>
-                <span>Finance & Investissement</span>
+                <span>3. Finance, Zelle & Shipping Miami (Taux 140)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                <span>4. Streaming (Netflix, Prime, HBO Max)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                <span>5. Event Planning & Location Sono / Matériel</span>
               </li>
               <li className="pt-2">
                 <button
                   onClick={onOpenQuoteModal}
-                  className="text-xs text-[#D85A30] hover:underline font-semibold flex items-center space-x-1"
+                  className="text-xs text-amber-300 hover:underline font-bold flex items-center space-x-1"
                 >
-                  <span>Demander un devis sur mesure</span>
+                  <span>Demander un devis sans engagement</span>
                   <ExternalLink className="w-3 h-3" />
                 </button>
               </li>

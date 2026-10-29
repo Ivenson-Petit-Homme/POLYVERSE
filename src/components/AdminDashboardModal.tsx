@@ -70,28 +70,28 @@ export const AdminDashboardModal: React.FC = () => {
         return (
           <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800">
             <CheckCircle className="w-3 h-3" />
-            <span>Konfime</span>
+            <span>Confirmée</span>
           </span>
         );
       case 'processing':
         return (
           <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-800">
             <Truck className="w-3 h-3" />
-            <span>An tretman / shipping</span>
+            <span>En traitement / Expédition</span>
           </span>
         );
       case 'delivered':
         return (
           <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">
             <CheckCircle className="w-3 h-3" />
-            <span>Livre</span>
+            <span>Livrée</span>
           </span>
         );
       case 'cancelled':
         return (
           <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-100 text-red-800">
             <XCircle className="w-3 h-3" />
-            <span>Anile</span>
+            <span>Annulée</span>
           </span>
         );
     }
@@ -131,13 +131,13 @@ export const AdminDashboardModal: React.FC = () => {
               </div>
               <div>
                 <div className="flex items-center space-x-2">
-                  <h2 className="text-lg font-black tracking-tight">Panèl Administrasyon Polyverse</h2>
+                  <h2 className="text-lg font-black tracking-tight">Panneau d'Administration Polyverse</h2>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                    Sistèm Sekirize (.env)
+                    Accès Privilégié
                   </span>
                 </div>
                 <p className="text-xs text-blue-200">
-                  Konekte kòm: <span className="font-semibold text-white">{currentUser?.email}</span>
+                  Connecté en tant que : <span className="font-semibold text-white">{currentUser?.email}</span>
                 </p>
               </div>
             </div>
@@ -152,12 +152,13 @@ export const AdminDashboardModal: React.FC = () => {
                 className="flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-red-600/80 hover:bg-red-600 text-white text-xs font-bold transition cursor-pointer"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                <span>Dekonekte</span>
+                <span>Se Déconnecter</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsAdminModalOpen(false)}
                 className="p-1.5 text-slate-300 hover:text-white rounded-lg transition cursor-pointer"
+                aria-label="Fermer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -167,23 +168,23 @@ export const AdminDashboardModal: React.FC = () => {
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-4 bg-slate-50 border-b border-slate-200 text-xs">
             <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-              <span className="text-slate-500 text-[11px] block">Total Kòmand</span>
+              <span className="text-slate-500 text-[11px] block font-medium">Total Commandes</span>
               <span className="text-lg font-black text-[#0A2A4D]">{totalOrdersCount}</span>
             </div>
 
             <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-              <span className="text-slate-500 text-[11px] block">Kòmand En Attente</span>
+              <span className="text-slate-500 text-[11px] block font-medium">Commandes En Attente</span>
               <span className="text-lg font-black text-amber-600">{pendingOrdersCount}</span>
             </div>
 
             <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-              <span className="text-slate-500 text-[11px] block">Chiffre d'affaires estimatif</span>
+              <span className="text-slate-500 text-[11px] block font-medium">Chiffre d'Affaires</span>
               <span className="text-lg font-black text-[#185FA5]">${totalRevenueUSD.toFixed(2)} USD</span>
               <span className="text-[10px] text-slate-400 block font-semibold">≈ {totalRevenueHTG.toLocaleString()} HTG</span>
             </div>
 
             <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
-              <span className="text-slate-500 text-[11px] block">Kliyan Enskri</span>
+              <span className="text-slate-500 text-[11px] block font-medium">Clients Inscrits</span>
               <span className="text-lg font-black text-emerald-600">{allUsers.length}</span>
             </div>
           </div>
@@ -192,26 +193,26 @@ export const AdminDashboardModal: React.FC = () => {
           <div className="flex border-b border-slate-200 px-6 pt-3 bg-white space-x-4">
             <button
               onClick={() => setActiveTab('orders')}
-              className={`pb-3 text-xs font-bold flex items-center space-x-1.5 border-b-2 transition ${
+              className={`pb-3 text-xs font-bold flex items-center space-x-1.5 border-b-2 transition cursor-pointer ${
                 activeTab === 'orders'
                   ? 'border-[#185FA5] text-[#185FA5]'
                   : 'border-transparent text-slate-600 hover:text-slate-900'
               }`}
             >
               <Package className="w-4 h-4" />
-              <span>Jesyon Kòmand ({orders.length})</span>
+              <span>Gestion des Commandes ({orders.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab('users')}
-              className={`pb-3 text-xs font-bold flex items-center space-x-1.5 border-b-2 transition ${
+              className={`pb-3 text-xs font-bold flex items-center space-x-1.5 border-b-2 transition cursor-pointer ${
                 activeTab === 'users'
                   ? 'border-[#185FA5] text-[#185FA5]'
                   : 'border-transparent text-slate-600 hover:text-slate-900'
               }`}
             >
               <Users className="w-4 h-4" />
-              <span>Kliyan Enskri ({allUsers.length})</span>
+              <span>Clients Inscrits ({allUsers.length})</span>
             </button>
           </div>
 
@@ -228,7 +229,7 @@ export const AdminDashboardModal: React.FC = () => {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Chèche pa ID, non, nimewo..."
+                      placeholder="Rechercher par ID, nom, téléphone..."
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-[#185FA5]"
                     />
                   </div>
@@ -240,12 +241,12 @@ export const AdminDashboardModal: React.FC = () => {
                       onChange={(e) => setStatusFilter(e.target.value)}
                       className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700"
                     >
-                      <option value="all">Tout estati yo</option>
-                      <option value="pending">En attente sèlman</option>
-                      <option value="confirmed">Konfime</option>
-                      <option value="processing">An tretman</option>
-                      <option value="delivered">Livre</option>
-                      <option value="cancelled">Anile</option>
+                      <option value="all">Tous les statuts</option>
+                      <option value="pending">En attente seulement</option>
+                      <option value="confirmed">Confirmée</option>
+                      <option value="processing">En traitement / Expédition</option>
+                      <option value="delivered">Livrée</option>
+                      <option value="cancelled">Annulée</option>
                     </select>
                   </div>
                 </div>
@@ -253,7 +254,7 @@ export const AdminDashboardModal: React.FC = () => {
                 {filteredOrders.length === 0 ? (
                   <div className="p-12 text-center text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                     <Package className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                    <p className="text-sm font-semibold">Pa gen kòmand ki koresponn.</p>
+                    <p className="text-sm font-semibold">Aucune commande correspondante.</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -272,7 +273,7 @@ export const AdminDashboardModal: React.FC = () => {
                             </span>
                             {ord.promoCode && (
                               <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-orange-100 text-[#D85A30]">
-                                Kòd: {ord.promoCode}
+                                Code : {ord.promoCode}
                               </span>
                             )}
                           </div>
@@ -303,18 +304,18 @@ export const AdminDashboardModal: React.FC = () => {
                           {/* Items / Content */}
                           <div className="bg-slate-50/70 p-2.5 rounded-lg space-y-1">
                             <span className="font-bold text-slate-600 text-[11px] uppercase block">
-                              Detay Kòmand :
+                              Détails de la Commande :
                             </span>
                             {ord.items && ord.items.length > 0 ? (
                               ord.items.map((it, i) => (
                                 <p key={i} className="text-slate-700">
-                                  • {it.quantity}x {it.productName}{' '}
+                                 • {it.quantity}x {it.productName}{' '}
                                   {it.size && `(${it.size})`} {it.color && `[${it.color}]`}
                                 </p>
                               ))
                             ) : (
                               <p className="text-slate-700">
-                                Demann sèvis: {ord.orderType}
+                                Demande de service : {ord.orderType}
                                 {ord.productUrl && (
                                   <a
                                     href={ord.productUrl}
@@ -329,7 +330,7 @@ export const AdminDashboardModal: React.FC = () => {
                             )}
                             {ord.notes && (
                               <p className="text-slate-500 text-[11px] italic mt-1">
-                                Nòt: {ord.notes}
+                                Note : {ord.notes}
                               </p>
                             )}
                           </div>
@@ -338,7 +339,7 @@ export const AdminDashboardModal: React.FC = () => {
                           <div className="bg-slate-50/70 p-2.5 rounded-lg flex flex-col justify-between">
                             <div>
                               <div className="flex justify-between items-center">
-                                <span className="text-slate-500">Peman :</span>
+                                <span className="text-slate-500">Paiement :</span>
                                 <span className="font-bold text-slate-700">{ord.paymentMethod}</span>
                               </div>
                               <div className="flex justify-between items-center text-sm font-black text-[#0A2A4D] mt-1">
@@ -356,10 +357,10 @@ export const AdminDashboardModal: React.FC = () => {
                                 href={generateAdminClientWhatsApp(ord)}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex-1 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-center font-bold text-[11px] flex items-center justify-center space-x-1 transition"
+                                className="flex-1 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-center font-bold text-[11px] flex items-center justify-center space-x-1 transition cursor-pointer"
                               >
                                 <MessageCircle className="w-3.5 h-3.5" />
-                                <span>WhatsApp Kliyan</span>
+                                <span>Contacter sur WhatsApp</span>
                               </a>
                             </div>
                           </div>
@@ -368,7 +369,7 @@ export const AdminDashboardModal: React.FC = () => {
                         {/* Status Change Control */}
                         <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
                           <span className="text-slate-500 font-semibold text-[11px]">
-                            Chanje estati kòmand lan :
+                            Mettre à jour le statut de la commande :
                           </span>
                           <div className="flex flex-wrap gap-1">
                             {(['pending', 'confirmed', 'processing', 'delivered', 'cancelled'] as const).map(
@@ -386,12 +387,12 @@ export const AdminDashboardModal: React.FC = () => {
                                   {st === 'pending'
                                     ? 'En attente'
                                     : st === 'confirmed'
-                                    ? 'Konfime'
+                                    ? 'Confirmée'
                                     : st === 'processing'
-                                    ? 'An tretman'
+                                    ? 'En cours'
                                     : st === 'delivered'
-                                    ? 'Livre'
-                                    : 'Anile'}
+                                    ? 'Livrée'
+                                    : 'Annulée'}
                                 </button>
                               )
                             )}
@@ -408,12 +409,12 @@ export const AdminDashboardModal: React.FC = () => {
             {activeTab === 'users' && (
               <div className="space-y-3">
                 <h3 className="font-bold text-sm text-[#0A2A4D]">
-                  Lis Kliyan ki kreye kont sou sit la ({allUsers.length})
+                  Liste des clients inscrits sur la plateforme ({allUsers.length})
                 </h3>
 
                 {allUsers.length === 0 ? (
                   <div className="p-8 text-center text-slate-500 bg-slate-50 rounded-xl">
-                    Pa gen nouvo kliyan enskri pou moman an.
+                    Aucun client enregistré pour le moment.
                   </div>
                 ) : (
                   <div className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white">
@@ -423,7 +424,7 @@ export const AdminDashboardModal: React.FC = () => {
                           <div className="flex items-center space-x-2">
                             <span className="font-bold text-sm text-[#0A2A4D]">{u.name}</span>
                             <span className="text-[10px] bg-blue-50 text-[#185FA5] px-2 py-0.5 rounded-full font-bold">
-                              Kliyan
+                              {u.role === 'admin' ? 'Administrateur' : 'Client'}
                             </span>
                           </div>
                           <p className="text-xs text-slate-500 mt-0.5">{u.email} • {u.phone}</p>
@@ -438,7 +439,7 @@ export const AdminDashboardModal: React.FC = () => {
                             target="_blank"
                             rel="noreferrer"
                             className="p-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition"
-                            title="Ekri sou WhatsApp"
+                            title="Écrire sur WhatsApp"
                           >
                             <MessageCircle className="w-4 h-4" />
                           </a>

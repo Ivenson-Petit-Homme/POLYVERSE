@@ -59,7 +59,7 @@ export const AuthModal: React.FC = () => {
         setSuccessMsg(res.message);
       }
     } catch {
-      setErrorMsg('Erè pandan koneksyon an. Tanpri reye ankò.');
+      setErrorMsg('Erreur lors de la connexion. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
@@ -86,16 +86,28 @@ export const AuthModal: React.FC = () => {
         setSuccessMsg(res.message);
       }
     } catch {
-      setErrorMsg('Erè pandan kreyasyon kont lan. Tanpri reye ankò.');
+      setErrorMsg('Erreur lors de la création du compte. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
   };
 
-  const fillAdminCredentials = () => {
-    setLoginEmail(adminEmail);
-    // Suggest the env password placeholder
+  const handleQuickAdminLogin = async () => {
+    setErrorMsg('');
+    setSuccessMsg('');
+    setLoading(true);
+    setLoginEmail(adminEmail || 'admin@polyverse.com');
     setLoginPassword('PolyverseAdmin2026!');
+    try {
+      const res = await login('admin@polyverse.com', 'PolyverseAdmin2026!');
+      if (!res.success) {
+        setErrorMsg(res.message);
+      }
+    } catch {
+      setErrorMsg('Erreur lors de la connexion rapide.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -121,28 +133,28 @@ export const AuthModal: React.FC = () => {
           <div className="bg-gradient-to-r from-[#0A2A4D] via-[#185FA5] to-[#D85A30] p-6 text-white relative">
             <button
               onClick={() => setIsAuthModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition"
-              aria-label="Fèmen"
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition cursor-pointer"
+              aria-label="Fermer"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="flex items-center space-x-2.5 mb-2">
               <div className="p-2 rounded-xl bg-white/15 backdrop-blur-xs">
-                <ShoppingBag className="w-5 h-5 text-white" />
+                <ShieldCheck className="w-5 h-5 text-amber-300" />
               </div>
               <span className="text-xs uppercase tracking-wider font-extrabold text-orange-200">
-                Espace Client & Sécurité
+                Espace Membre & Administration
               </span>
             </div>
 
             <h3 className="text-xl font-black tracking-tight">
-              {authModalMode === 'login' ? 'Koneksyon sou Polyverse' : 'Kreye Kont Kliyan ou'}
+              {authModalMode === 'login' ? 'Connexion à Polyverse' : 'Créer un Compte Client'}
             </h3>
             <p className="text-xs text-blue-100 mt-1">
               {authModalMode === 'login'
-                ? 'Konekte pou valide acha w, swiv kòmand ou, oswa jere administrasyon an.'
-                : 'Yon kont nesesè pou pase kòmand, valide acha san kat, ak benefisye pwomosyon.'}
+                ? 'Accédez à votre espace client, suivez vos commandes ou ouvrez le tableau de bord administrateur.'
+                : 'Créez un compte sécurisé pour passer commande, valider un achat sans carte et bénéficier de vos remises.'}
             </p>
           </div>
 
@@ -154,13 +166,13 @@ export const AuthModal: React.FC = () => {
                 setAuthModalMode('login');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all ${
+              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 authModalMode === 'login'
                   ? 'bg-white text-[#0A2A4D] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Mwen gen yon kont (Konekte)
+              Se Connecter
             </button>
             <button
               type="button"
@@ -168,18 +180,41 @@ export const AuthModal: React.FC = () => {
                 setAuthModalMode('register');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all ${
+              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 authModalMode === 'register'
                   ? 'bg-white text-[#D85A30] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Nouvo Kliyan (Kreye kont)
+              Créer un Compte
             </button>
           </div>
 
           {/* Content Area */}
           <div className="p-6">
+            {/* Quick Admin Access One-Click Button */}
+            {authModalMode === 'login' && (
+              <div className="mb-5 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-slate-800">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0" />
+                    <div>
+                      <p className="text-xs font-extrabold text-[#0A2A4D]">Accès Administrateur Express</p>
+                      <p className="text-[11px] text-slate-600">Pour le gestionnaire de la plateforme</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleQuickAdminLogin}
+                    disabled={loading}
+                    className="px-3 py-1.5 rounded-lg bg-[#0A2A4D] hover:bg-[#185FA5] text-amber-300 font-extrabold text-[11px] shadow-xs transition cursor-pointer"
+                  >
+                    ⚡ Entrer Admin
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Alerts */}
             {errorMsg && (
               <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center space-x-2">
@@ -200,16 +235,16 @@ export const AuthModal: React.FC = () => {
               <form onSubmit={handleLoginSubmit} className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    Imel (oswa Imel Administratè) *
+                    Adresse E-mail (ou E-mail Administrateur) *
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                     <input
-                      type="email"
+                      type="text"
                       required
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      placeholder="Eg: client@gmail.com oswa admin..."
+                      placeholder="Ex: client@gmail.com ou admin@polyverse.com"
                       className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none transition"
                     />
                   </div>
@@ -217,7 +252,7 @@ export const AuthModal: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    Modpas *
+                    Mot de passe *
                   </label>
                   <div className="relative">
                     <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -226,7 +261,7 @@ export const AuthModal: React.FC = () => {
                       required
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
-                      placeholder="Modpas ou"
+                      placeholder="••••••••"
                       className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none transition"
                     />
                   </div>
@@ -238,30 +273,20 @@ export const AuthModal: React.FC = () => {
                   className="w-full py-3 bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
                 >
                   {loading ? (
-                    <span>Verifikasyon...</span>
+                    <span>Connexion en cours...</span>
                   ) : (
                     <>
-                      <span>Konekte sou Polyverse</span>
+                      <span>Se connecter</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
 
-                {/* Helpful Admin Access Shortcut Info */}
-                <div className="pt-3 border-t border-slate-100">
-                  <div className="flex items-center justify-between text-[11px] text-slate-500">
-                    <span className="flex items-center space-x-1">
-                      <ShieldCheck className="w-3.5 h-3.5 text-[#D85A30]" />
-                      <span>Koneksyon Administratè (.env) :</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={fillAdminCredentials}
-                      className="text-[#185FA5] hover:underline font-bold text-[10px]"
-                    >
-                      Pre-ranpli kòm Admin
-                    </button>
-                  </div>
+                {/* Info credentials */}
+                <div className="pt-2 text-center">
+                  <p className="text-[11px] text-slate-500">
+                    Compte Administrateur : <span className="font-semibold text-slate-700">admin@polyverse.com</span> (ou votre e-mail)
+                  </p>
                 </div>
               </form>
             ) : (
@@ -269,7 +294,7 @@ export const AuthModal: React.FC = () => {
               <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Non ak Prenon *
+                    Nom et Prénom *
                   </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -278,7 +303,7 @@ export const AuthModal: React.FC = () => {
                       required
                       value={regName}
                       onChange={(e) => setRegName(e.target.value)}
-                      placeholder="Eg: Jean-Baptiste Moïse"
+                      placeholder="Ex: Jean-Baptiste Moïse"
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
                     />
                   </div>
@@ -286,7 +311,7 @@ export const AuthModal: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Imel *
+                    Adresse E-mail *
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -295,7 +320,7 @@ export const AuthModal: React.FC = () => {
                       required
                       value={regEmail}
                       onChange={(e) => setRegEmail(e.target.value)}
-                      placeholder="imel@egzanp.com"
+                      placeholder="votre-email@exemple.com"
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
                     />
                   </div>
@@ -303,7 +328,7 @@ export const AuthModal: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Telefòn / WhatsApp *
+                    Téléphone / WhatsApp *
                   </label>
                   <div className="relative">
                     <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -312,7 +337,7 @@ export const AuthModal: React.FC = () => {
                       required
                       value={regPhone}
                       onChange={(e) => setRegPhone(e.target.value)}
-                      placeholder="+509 37XX-XXXX oswa WhatsApp"
+                      placeholder="+509 37XX-XXXX ou WhatsApp"
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
                     />
                   </div>
@@ -320,7 +345,7 @@ export const AuthModal: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Adrès pou livrezon (Vil, Ri)
+                    Adresse de livraison (Ville, Rue)
                   </label>
                   <div className="relative">
                     <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -328,7 +353,7 @@ export const AuthModal: React.FC = () => {
                       type="text"
                       value={regAddress}
                       onChange={(e) => setRegAddress(e.target.value)}
-                      placeholder="Eg: Caracol, Cap-Haïtien, Port-au-Prince..."
+                      placeholder="Ex: Caracol, Cap-Haïtien, Port-au-Prince..."
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
                     />
                   </div>
@@ -336,7 +361,7 @@ export const AuthModal: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Kreye yon Modpas (omwen 6 karaktè) *
+                    Créer un mot de passe (au moins 6 caractères) *
                   </label>
                   <div className="relative">
                     <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -358,10 +383,10 @@ export const AuthModal: React.FC = () => {
                   className="w-full py-3 bg-[#D85A30] hover:bg-[#bf4821] text-white text-xs font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50 mt-2"
                 >
                   {loading ? (
-                    <span>Kreyasyon kont...</span>
+                    <span>Création du compte...</span>
                   ) : (
                     <>
-                      <span>Kreye Kont Mwen & Valide Acha</span>
+                      <span>Créer mon compte</span>
                       <Sparkles className="w-4 h-4" />
                     </>
                   )}

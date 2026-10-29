@@ -6,10 +6,11 @@ export type NavigationTab =
   | 'shop'
   | 'portfolio'
   | 'donate'
+  | 'affiliation'
   | 'partnership'
   | 'contact';
 
-export type ServiceCategory = 'design' | 'tech' | 'finance';
+export type ServiceCategory = 'design' | 'tech' | 'finance' | 'streaming' | 'events';
 
 export interface ShopProduct {
   id: string;
@@ -44,13 +45,23 @@ export interface AffiliateCode {
 
 export interface SpecialServiceRequest {
   id: string;
-  serviceType: 'achat-sans-carte' | 'shipping' | 'planification-evenement';
+  serviceType:
+    | 'achat-sans-carte'
+    | 'shipping'
+    | 'streaming'
+    | 'planification-evenement'
+    | 'zelle-moncash'
+    | 'carte-virtuelle';
   productName: string;
   productUrl?: string;
+  cartUrl?: string;
   quantity: number;
   color?: string;
   size?: string;
   estimatedPrice?: string;
+  weightLbs?: number;
+  localDeliveryCity?: string;
+  streamingPlan?: 'netflix' | 'prime' | 'hbo';
   description: string;
   clientName: string;
   clientPhone: string;

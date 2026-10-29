@@ -123,15 +123,16 @@ export const UserAccountModal: React.FC = () => {
                   logout();
                   setIsAccountModalOpen(false);
                 }}
-                className="flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition"
+                className="flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition cursor-pointer"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                <span>Dekonekte</span>
+                <span>Se Déconnecter</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsAccountModalOpen(false)}
-                className="p-1.5 text-white/80 hover:text-white rounded-lg transition"
+                className="p-1.5 text-white/80 hover:text-white rounded-lg transition cursor-pointer"
+                aria-label="Fermer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -144,21 +145,21 @@ export const UserAccountModal: React.FC = () => {
             <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60">
               <div className="flex justify-between items-center mb-3">
                 <span className="text-xs font-black text-[#0A2A4D] uppercase tracking-wide">
-                  Enfòmasyon sou Kont Mwen
+                  Informations de Mon Compte
                 </span>
                 <button
                   type="button"
                   onClick={() => setIsEditing(!isEditing)}
-                  className="text-xs font-bold text-[#185FA5] hover:underline"
+                  className="text-xs font-bold text-[#185FA5] hover:underline cursor-pointer"
                 >
-                  {isEditing ? 'Anile' : 'Modifye enfòmasyon'}
+                  {isEditing ? 'Annuler' : 'Modifier mes informations'}
                 </button>
               </div>
 
               {isEditing ? (
                 <form onSubmit={handleSaveProfile} className="space-y-3 text-xs">
                   <div>
-                    <label className="block text-slate-600 mb-1 font-semibold">Non konplè</label>
+                    <label className="block text-slate-600 mb-1 font-semibold">Nom complet</label>
                     <input
                       type="text"
                       value={editName}
@@ -167,7 +168,7 @@ export const UserAccountModal: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-600 mb-1 font-semibold">Telefòn / WhatsApp</label>
+                    <label className="block text-slate-600 mb-1 font-semibold">Téléphone / WhatsApp</label>
                     <input
                       type="tel"
                       value={editPhone}
@@ -176,7 +177,7 @@ export const UserAccountModal: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-600 mb-1 font-semibold">Adrès livrezon</label>
+                    <label className="block text-slate-600 mb-1 font-semibold">Adresse de livraison</label>
                     <input
                       type="text"
                       value={editAddress}
@@ -186,9 +187,9 @@ export const UserAccountModal: React.FC = () => {
                   </div>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 bg-[#185FA5] text-white rounded-lg font-bold hover:bg-[#0A2A4D] transition"
+                    className="px-4 py-1.5 bg-[#185FA5] text-white rounded-lg font-bold hover:bg-[#0A2A4D] transition cursor-pointer"
                   >
-                    Anrejistre
+                    Enregistrer
                   </button>
                 </form>
               ) : (
@@ -214,15 +215,15 @@ export const UserAccountModal: React.FC = () => {
               <div className="flex items-center space-x-2 mb-3">
                 <ShoppingBag className="w-4 h-4 text-[#D85A30]" />
                 <h4 className="font-extrabold text-[#0A2A4D] text-sm">
-                  Istorik Kòmand Mwen Yo ({myOrders.length})
+                  Historique de Mes Commandes ({myOrders.length})
                 </h4>
               </div>
 
               {myOrders.length === 0 ? (
                 <div className="p-8 text-center bg-slate-50 border border-dashed border-slate-200 rounded-xl text-slate-500 text-xs">
                   <Package className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                  <p className="font-semibold">Ou poko pase okenn kòmand.</p>
-                  <p className="mt-1">Eksplore boutik nou an oswa sèvis Achat sans carte pou kòmanse!</p>
+                  <p className="font-semibold">Vous n'avez pas encore passé de commande.</p>
+                  <p className="mt-1">Explorez notre boutique officielle ou nos services Achat Sans Carte pour commencer !</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -253,7 +254,7 @@ export const UserAccountModal: React.FC = () => {
                             </p>
                           ))
                         ) : (
-                          <p>Demann sèvis: {ord.orderType}</p>
+                          <p>Demande de service : {ord.orderType}</p>
                         )}
                       </div>
 
@@ -262,7 +263,7 @@ export const UserAccountModal: React.FC = () => {
                           Total : ${ord.totalUSD} USD (≈ {ord.totalHTG.toLocaleString()} HTG)
                         </span>
                         <span className="text-[11px] text-slate-500 font-normal">
-                          Peman: {ord.paymentMethod}
+                          Paiement : {ord.paymentMethod}
                         </span>
                       </div>
                     </div>
