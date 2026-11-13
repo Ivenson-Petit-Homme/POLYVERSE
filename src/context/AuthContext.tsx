@@ -59,7 +59,7 @@ const INITIAL_SAMPLE_ORDERS: UserOrder[] = [
     orderType: 'boutique',
     items: [
       {
-        productName: 'T-Shirt Signature Polyverse "Kreyativite & Tech"',
+        productName: 'T-Shirt Signature Polyverse « Créativité & Tech »',
         quantity: 2,
         priceUSD: 18,
         color: 'Noir Onyx',
@@ -67,7 +67,7 @@ const INITIAL_SAMPLE_ORDERS: UserOrder[] = [
       },
     ],
     totalUSD: 36,
-    totalHTG: 5400,
+    totalHTG: 5040,
     paymentMethod: 'MonCash',
     promoCode: 'POLYVIP',
     notes: 'Livraison souhaitée avant vendredi après-midi.',
@@ -84,7 +84,7 @@ const INITIAL_SAMPLE_ORDERS: UserOrder[] = [
     orderType: 'achat-sans-carte',
     productUrl: 'https://amazon.com/dp/example-tablette',
     totalUSD: 120,
-    totalHTG: 18000,
+    totalHTG: 16800,
     paymentMethod: 'Natcash',
     notes: 'Tablette graphique avec stylet pour cours de design.',
     status: 'confirmed',

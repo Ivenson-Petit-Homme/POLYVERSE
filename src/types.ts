@@ -8,7 +8,10 @@ export type NavigationTab =
   | 'donate'
   | 'affiliation'
   | 'partnership'
-  | 'contact';
+  | 'contact'
+  | 'auth'
+  | 'account'
+  | 'admin';
 
 export type ServiceCategory = 'design' | 'tech' | 'finance' | 'streaming' | 'events';
 

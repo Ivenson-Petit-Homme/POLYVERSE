@@ -114,6 +114,11 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
                   Contact & Prise de RDV
                 </button>
               </li>
+              <li>
+                <button type="button" onClick={() => handleNav('auth')} className="text-sky-300 hover:text-white font-semibold transition cursor-pointer">
+                  Connexion & Espace Membre
+                </button>
+              </li>
             </ul>
           </div>
 

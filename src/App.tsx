@@ -12,6 +12,9 @@ import { DonateSection } from './components/DonateSection';
 import { AffiliationSection } from './components/AffiliationSection';
 import { OrderServiceSection } from './components/OrderServiceSection';
 import { BoutiqueSection } from './components/BoutiqueSection';
+import { AuthSection } from './components/AuthSection';
+import { UserAccountSection } from './components/UserAccountSection';
+import { AdminDashboardSection } from './components/AdminDashboardSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { QuoteModal } from './components/QuoteModal';
 import { AuthProvider } from './context/AuthContext';
@@ -38,6 +41,9 @@ export default function App() {
     setActiveTab('portfolio');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const hideGlobalTestimonials =
+    activeTab === 'home' || activeTab === 'auth' || activeTab === 'account' || activeTab === 'admin';
 
   return (
     <AuthProvider>
@@ -103,8 +109,14 @@ export default function App() {
 
           {activeTab === 'contact' && <ContactSection />}
 
+          {activeTab === 'auth' && <AuthSection setActiveTab={setActiveTab} />}
+
+          {activeTab === 'account' && <UserAccountSection setActiveTab={setActiveTab} />}
+
+          {activeTab === 'admin' && <AdminDashboardSection setActiveTab={setActiveTab} />}
+
           {/* Global Horizontal Auto-scrolling Testimonials Section */}
-          {activeTab !== 'home' && (
+          {!hideGlobalTestimonials && (
             <TestimonialsSection onOpenQuoteModal={() => setQuoteModalOpen(true)} />
           )}
         </main>

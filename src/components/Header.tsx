@@ -56,10 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
   const {
     currentUser,
     isAdmin,
-    setIsAuthModalOpen,
     setAuthModalMode,
-    setIsAdminModalOpen,
-    setIsAccountModalOpen,
   } = useAuth();
 
   const navGroups: NavGroup[] = [
@@ -293,8 +290,12 @@ export const Header: React.FC<HeaderProps> = ({
             {isAdmin ? (
               <button
                 type="button"
-                onClick={() => setIsAdminModalOpen(true)}
-                className="flex items-center space-x-1.5 px-3.5 py-2.5 border border-[#0A2A4D] bg-[#0A2A4D] text-amber-300 text-xs font-bold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer hover:bg-[#185FA5] transition-colors"
+                onClick={() => handleNavClick('admin')}
+                className={`flex items-center space-x-1.5 px-3.5 py-2.5 border text-xs font-bold uppercase tracking-wider whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
+                  activeTab === 'admin'
+                    ? 'border-[#D85A30] bg-[#D85A30] text-white'
+                    : 'border-[#0A2A4D] bg-[#0A2A4D] text-amber-300 hover:bg-[#185FA5]'
+                }`}
                 title="Ouvrir le panneau d'administration"
               >
                 <ShieldCheck className="w-4 h-4 text-amber-400" />
@@ -303,8 +304,12 @@ export const Header: React.FC<HeaderProps> = ({
             ) : currentUser ? (
               <button
                 type="button"
-                onClick={() => setIsAccountModalOpen(true)}
-                className="flex items-center space-x-1.5 px-3.5 py-2.5 border border-stone-300 text-stone-800 hover:border-[#0A2A4D] hover:text-[#0A2A4D] text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors"
+                onClick={() => handleNavClick('account')}
+                className={`flex items-center space-x-1.5 px-3.5 py-2.5 border text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
+                  activeTab === 'account'
+                    ? 'border-[#0A2A4D] bg-[#0A2A4D] text-white'
+                    : 'border-stone-300 text-stone-800 hover:border-[#0A2A4D] hover:text-[#0A2A4D]'
+                }`}
               >
                 <User className="w-3.5 h-3.5" />
                 <span>{currentUser.name.split(' ')[0]}</span>
@@ -314,9 +319,13 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 onClick={() => {
                   setAuthModalMode('login');
-                  setIsAuthModalOpen(true);
+                  handleNavClick('auth');
                 }}
-                className="flex items-center space-x-1.5 px-3.5 py-2.5 border border-stone-300 hover:border-[#0A2A4D] text-stone-800 hover:text-[#0A2A4D] text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors"
+                className={`flex items-center space-x-1.5 px-3.5 py-2.5 border text-xs font-bold whitespace-nowrap shrink-0 cursor-pointer transition-colors ${
+                  activeTab === 'auth'
+                    ? 'border-[#0A2A4D] bg-[#0A2A4D] text-white'
+                    : 'border-stone-300 hover:border-[#0A2A4D] text-stone-800 hover:text-[#0A2A4D]'
+                }`}
               >
                 <User className="w-3.5 h-3.5" />
                 <span>Connexion</span>
@@ -430,11 +439,8 @@ export const Header: React.FC<HeaderProps> = ({
             {isAdmin ? (
               <button
                 type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setIsAdminModalOpen(true);
-                }}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#0A2A4D] text-amber-300 font-bold text-xs uppercase tracking-wider"
+                onClick={() => handleNavClick('admin')}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#0A2A4D] text-amber-300 font-bold text-xs uppercase tracking-wider cursor-pointer"
               >
                 <ShieldCheck className="w-4 h-4 text-amber-400" />
                 <span>Panneau Administrateur Polyverse</span>
@@ -442,11 +448,8 @@ export const Header: React.FC<HeaderProps> = ({
             ) : currentUser ? (
               <button
                 type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setIsAccountModalOpen(true);
-                }}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#F4F3EF] text-[#0A2A4D] font-bold text-xs border border-stone-300"
+                onClick={() => handleNavClick('account')}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#F4F3EF] text-[#0A2A4D] font-bold text-xs border border-stone-300 cursor-pointer"
               >
                 <User className="w-4 h-4" />
                 <span>{currentUser.name} (Mon Compte)</span>
@@ -455,11 +458,10 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  setMobileMenuOpen(false);
                   setAuthModalMode('login');
-                  setIsAuthModalOpen(true);
+                  handleNavClick('auth');
                 }}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#0A2A4D] text-white font-bold text-xs uppercase tracking-wider"
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-[#0A2A4D] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
               >
                 <User className="w-4 h-4" />
                 <span>Connexion ou Créer un Compte</span>
