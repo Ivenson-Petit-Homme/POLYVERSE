@@ -52,8 +52,8 @@ export const PolyverseLogo: React.FC<PolyverseLogoProps> = ({
         <div className="flex flex-col justify-center text-left">
           {/* Brand Name */}
           <div
-            className={`flex items-center font-extrabold tracking-tight leading-none ${currentSize.textTitle}`}
-            style={{ fontFamily: "'Montserrat', sans-serif" }}
+            className={`flex items-center font-bold tracking-tight leading-none ${currentSize.textTitle}`}
+            style={{ fontFamily: "'Oswald', sans-serif" }}
           >
             <span style={{ color: polyBlue }}>POLY</span>
             <span className="mx-1 font-light" style={{ color: goldBar }}>|</span>
@@ -65,13 +65,13 @@ export const PolyverseLogo: React.FC<PolyverseLogoProps> = ({
             <>
               <span
                 className={`font-bold tracking-wider uppercase mt-1 leading-none ${currentSize.textSub}`}
-                style={{ color: subtextColor, fontFamily: "'Montserrat', sans-serif" }}
+                style={{ color: subtextColor, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 FINANCE ET INVESTISSEMENT
               </span>
               <span
                 className={`font-medium italic mt-0.5 leading-none ${currentSize.textSlogan}`}
-                style={{ color: sloganColor }}
+                style={{ color: sloganColor, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 Pont vers la Réalisation
               </span>

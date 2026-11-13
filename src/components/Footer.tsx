@@ -2,8 +2,7 @@ import React from 'react';
 import { PolyverseLogo } from './PolyverseLogo';
 import { NavigationTab } from '../types';
 import { POLYVERSE_INFO } from '../data/polyverseData';
-import polyverseFooterBg from '../assets/images/polyverse_hero_banner_1789375953738.jpg';
-import { Mail, Phone, MapPin, ArrowUp, MessageCircle, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUp, MessageCircle, ArrowRight } from 'lucide-react';
 
 interface FooterProps {
   setActiveTab: (tab: NavigationTab) => void;
@@ -21,50 +20,39 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
   };
 
   return (
-    <footer className="relative bg-[#06152B] text-white border-t-2 border-slate-800/80 pt-16 pb-12 overflow-hidden">
-      {/* Background Image with Dark Contrast Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={polyverseFooterBg}
-          alt="Polyverse Footer Backdrop"
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover object-center filter brightness-90 contrast-110 opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#040D1A]/95 via-[#0A2A4D]/85 to-[#06152B]/95" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+    <footer className="bg-[#111419] text-white border-t border-stone-800 pt-16 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-14 border-b border-stone-800">
           {/* Column 1: Brand & Slogan */}
-          <div className="space-y-4">
+          <div className="space-y-5">
             <PolyverseLogo variant="full" theme="dark" size="md" />
-            <p className="text-slate-300 text-sm leading-relaxed mt-3">
-              Polyverse connecte les idées à des résultats concrets en réunissant le design visuel, la haute technologie et les solutions financières internationales.
+            <p className="text-stone-300 text-sm leading-relaxed max-w-xs">
+              Polyverse connecte vos idées à des résultats concrets en réunissant design, technologie digitale et solutions financières internationales.
             </p>
-            <div className="pt-2 flex items-center space-x-3">
+            <div className="flex items-center space-x-3 pt-1">
               <a
                 href={POLYVERSE_INFO.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-800 hover:bg-[#185FA5] flex items-center justify-center transition text-slate-300 hover:text-white"
+                className="w-9 h-9 border border-stone-700 hover:border-white hover:bg-white hover:text-[#111419] flex items-center justify-center transition text-xs font-bold uppercase"
                 aria-label="Facebook Polyverse"
               >
-                <span className="text-xs font-bold">fb</span>
+                fb
               </a>
               <a
                 href={POLYVERSE_INFO.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-800 hover:bg-[#D85A30] flex items-center justify-center transition text-slate-300 hover:text-white"
+                className="w-9 h-9 border border-stone-700 hover:border-white hover:bg-white hover:text-[#111419] flex items-center justify-center transition text-xs font-bold uppercase"
                 aria-label="Instagram Polyverse"
               >
-                <span className="text-xs font-bold">ig</span>
+                ig
               </a>
               <a
                 href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-slate-800 hover:bg-emerald-600 flex items-center justify-center transition text-slate-300 hover:text-white"
+                className="w-9 h-9 border border-stone-700 hover:border-emerald-500 hover:bg-emerald-600 flex items-center justify-center transition text-stone-300 hover:text-white"
                 aria-label="WhatsApp Polyverse"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -74,52 +62,55 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
 
           {/* Column 2: Quick Navigation */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#D85A30] mb-4">
+            <h3
+              className="text-lg font-bold uppercase tracking-wide text-white mb-5"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
               Navigation
             </h3>
-            <ul className="space-y-2.5 text-sm text-slate-300">
+            <ul className="space-y-2.5 text-sm text-stone-300">
               <li>
-                <button onClick={() => handleNav('home')} className="hover:text-white transition">
+                <button type="button" onClick={() => handleNav('home')} className="hover:text-white transition cursor-pointer">
                   Accueil
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('about')} className="hover:text-white transition">
+                <button type="button" onClick={() => handleNav('about')} className="hover:text-white transition cursor-pointer">
                   À propos & Équipe
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('services')} className="hover:text-white transition">
-                  Nos Services
+                <button type="button" onClick={() => handleNav('services')} className="hover:text-white transition cursor-pointer">
+                  Nos 5 Piliers de Services
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('order-service')} className="hover:text-white transition text-[#D85A30] font-semibold">
+                <button type="button" onClick={() => handleNav('order-service')} className="text-[#E87048] hover:text-white font-semibold transition cursor-pointer">
                   Achat Sans Carte & Shipping
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('shop')} className="hover:text-white transition">
-                  Boutique & Merchandising
+                <button type="button" onClick={() => handleNav('shop')} className="hover:text-white transition cursor-pointer">
+                  Boutique Officielle
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('portfolio')} className="hover:text-white transition">
+                <button type="button" onClick={() => handleNav('portfolio')} className="hover:text-white transition cursor-pointer">
                   Portfolio & Réalisations
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('donate')} className="hover:text-white transition">
-                  Dons & Soutien
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNav('affiliation')} className="hover:text-amber-300 text-amber-400 font-bold transition">
+                <button type="button" onClick={() => handleNav('affiliation')} className="text-amber-400 hover:text-white font-semibold transition cursor-pointer">
                   Affiliation (Gagner avec Polyverse)
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('contact')} className="hover:text-white transition">
+                <button type="button" onClick={() => handleNav('donate')} className="hover:text-white transition cursor-pointer">
+                  Dons & Soutien
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => handleNav('contact')} className="hover:text-white transition cursor-pointer">
                   Contact & Prise de RDV
                 </button>
               </li>
@@ -128,37 +119,26 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
 
           {/* Column 3: Expertise Areas */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#185FA5] mb-4">
+            <h3
+              className="text-lg font-bold uppercase tracking-wide text-white mb-5"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
               Nos 5 Départements
             </h3>
-            <ul className="space-y-2 text-xs text-slate-300">
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#185FA5]"></span>
-                <span>1. Design & Impression (T-shirts, objets, logos)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                <span>2. Tech, Web & Caméras (Wi-Fi, boost, réseaux)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D85A30]"></span>
-                <span>3. Finance, Zelle & Shipping Miami (Taux 140)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                <span>4. Streaming (Netflix, Prime, HBO Max)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
-                <span>5. Event Planning & Location Sono / Matériel</span>
-              </li>
+            <ul className="space-y-3 text-sm text-stone-300">
+              <li>01. Design & Impression sur mesure</li>
+              <li>02. Tech, Sites Web & Caméras Wi-Fi</li>
+              <li>03. Finance, Zelle & Shipping Miami (140 HTG)</li>
+              <li>04. Streaming (Netflix, Prime Video, HBO)</li>
+              <li>05. Event Planning & Location Matériel</li>
               <li className="pt-2">
                 <button
+                  type="button"
                   onClick={onOpenQuoteModal}
-                  className="text-xs text-amber-300 hover:underline font-bold flex items-center space-x-1"
+                  className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-[#E87048] hover:text-white transition cursor-pointer"
                 >
-                  <span>Demander un devis sans engagement</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <span>Demander un devis gratuit</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </li>
             </ul>
@@ -166,35 +146,38 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
 
           {/* Column 4: Direct Contact */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">
+            <h3
+              className="text-lg font-bold uppercase tracking-wide text-white mb-5"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
               Contact Direct
             </h3>
-            <ul className="space-y-3 text-sm text-slate-300">
+            <ul className="space-y-3.5 text-sm text-stone-300">
               <li className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-[#D85A30] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#D85A30] shrink-0 mt-1" />
                 <span>{POLYVERSE_INFO.location}</span>
               </li>
               <li className="flex items-start space-x-3">
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <div className="flex flex-col space-y-0.5 text-xs">
+                <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-1" />
+                <div className="flex flex-col space-y-1 text-sm">
                   <a
                     href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-white text-emerald-300 font-medium transition"
+                    className="hover:text-white text-emerald-400 font-medium transition"
                   >
                     {POLYVERSE_INFO.whatsappDisplay} (WhatsApp)
                   </a>
                   <a
                     href={`tel:${POLYVERSE_INFO.secondaryPhone}`}
-                    className="hover:text-white text-slate-300 transition"
+                    className="hover:text-white text-stone-300 transition"
                   >
                     {POLYVERSE_INFO.secondaryPhoneDisplay}
                   </a>
                 </div>
               </li>
               <li className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-[#185FA5] shrink-0" />
+                <Mail className="w-4 h-4 text-sky-400 shrink-0" />
                 <a href={`mailto:${POLYVERSE_INFO.contactEmail}`} className="hover:text-white transition">
                   {POLYVERSE_INFO.contactEmail}
                 </a>
@@ -203,18 +186,17 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenQuoteModal }
           </div>
         </div>
 
-        {/* Bottom copyright */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
-          <p>© 2026 Polyverse. Tous droits réservés. Version site vitrine / portfolio.</p>
-          <div className="mt-4 md:mt-0 flex items-center space-x-6">
-            <button
-              onClick={scrollToTop}
-              className="flex items-center space-x-1 text-slate-300 hover:text-white transition bg-slate-800/80 px-3 py-1.5 rounded-lg"
-            >
-              <span>Haut de page</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
-          </div>
+        {/* Bottom copyright bar */}
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-stone-400 gap-4">
+          <p>© 2026 Polyverse — Finance et Investissement. Tous droits réservés.</p>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="flex items-center space-x-2 text-stone-300 hover:text-white transition border border-stone-700 hover:border-white px-4 py-2 uppercase font-bold tracking-wider cursor-pointer"
+          >
+            <span>Haut de page</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </footer>

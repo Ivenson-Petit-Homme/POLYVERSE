@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TESTIMONIALS } from '../data/polyverseData';
 import { Testimonial, ServiceCategory } from '../types';
-import { SectionDarkDivider } from './SectionDarkDivider';
 import { ScrollReveal } from './ScrollReveal';
 import testimonialsClientsBg from '../assets/images/testimonials_clients_bg_1789429555798.jpg';
 import {
@@ -141,39 +140,41 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
   };
 
   return (
-    <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ${className}`}>
+    <section className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ${className}`}>
       {/* Header & Social Proof Stats with Client Background */}
       <ScrollReveal>
-        <div className="relative overflow-hidden bg-[#0A2A4D] text-white rounded-3xl p-8 sm:p-10 shadow-2xl mb-10 border border-slate-700/80">
+        <div className="relative overflow-hidden bg-[#0A2A4D] text-white p-8 sm:p-10 mb-8 border border-stone-800">
           {/* High-visibility background image */}
           <div className="absolute inset-0 z-0">
             <img
               src={testimonialsClientsBg}
               alt="Clients Satisfaction Polyverse"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+              className="w-full h-full object-cover object-center opacity-50"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#08101C]/95 via-[#0A2A4D]/85 to-[#08101C]/90" />
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
             <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-semibold text-blue-100 border border-white/20">
-                <Sparkles className="w-3.5 h-3.5 text-[#D85A30]" />
-                <span>Avis & Retours Expérience Clients</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
-                Ce que disent nos clients de Polyverse
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#E87048] block">
+                Avis & Retours Expérience Clients
+              </span>
+              <h2
+                className="text-3xl sm:text-4xl font-bold uppercase tracking-tight"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Ce Que Disent Nos Clients de Polyverse
               </h2>
-              <p className="text-slate-200 text-xs sm:text-sm leading-relaxed">
+              <p className="text-stone-200 text-sm leading-relaxed">
                 Découvrez les retours authentiques d’étudiants, entrepreneurs et chefs d’entreprise ayant fait confiance à notre équipe en Design, Tech et Finance.
               </p>
             </div>
 
-            {/* Social Proof Stats Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 shrink-0 border-t lg:border-t-0 lg:border-l border-white/15 pt-6 lg:pt-0 lg:pl-8">
+            {/* Social Proof Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 shrink-0 border-t lg:border-t-0 lg:border-l border-white/20 pt-6 lg:pt-0 lg:pl-8">
               <div className="text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start space-x-1 text-amber-400 font-extrabold text-2xl">
+                <div className="flex items-center justify-center lg:justify-start space-x-1 text-amber-400 font-bold text-2xl font-tabular">
                   <span>5.0</span>
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
@@ -181,24 +182,22 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
                     ))}
                   </div>
                 </div>
-                <p className="text-[11px] text-slate-300 font-medium mt-1">Note Moyenne</p>
+                <p className="text-xs text-stone-300 font-medium mt-1">Note Moyenne</p>
               </div>
 
               <div className="text-center lg:text-left">
-                <p className="text-2xl font-extrabold text-white">100%</p>
-                <p className="text-[11px] text-slate-300 font-medium mt-1">Satisfaction Client</p>
+                <p className="text-2xl font-bold text-white font-tabular">100%</p>
+                <p className="text-xs text-stone-300 font-medium mt-1">Satisfaction Client</p>
               </div>
 
               <div className="text-center lg:text-left col-span-2 sm:col-span-1">
-                <p className="text-2xl font-extrabold text-emerald-400">50+</p>
-                <p className="text-[11px] text-slate-300 font-medium mt-1">Projets Livrés</p>
+                <p className="text-2xl font-bold text-emerald-400 font-tabular">50+</p>
+                <p className="text-xs text-stone-300 font-medium mt-1">Projets Livrés</p>
               </div>
             </div>
           </div>
         </div>
       </ScrollReveal>
-
-      <SectionDarkDivider label="Retours d'Expériences par Domaine" />
 
       {/* Controls Bar: Filters & Navigation Controls */}
       <ScrollReveal delay={0.1}>

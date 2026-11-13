@@ -4,6 +4,14 @@ import shippingColisImg from '../assets/images/shipping_colis_haiti_179184181432
 import evenementGalaImg from '../assets/images/evenement_gala_prestige_1791841816024.jpg';
 import serigraphieAtelierImg from '../assets/images/serigraphie_atelier_1791841814507.jpg';
 import webTechStudioImg from '../assets/images/web_tech_studio_1791841815443.jpg';
+import servicesTechStudioBg from '../assets/images/services_tech_studio_1789429519582.jpg';
+import shippingLogisticsBg from '../assets/images/shipping_logistics_bg_1789429529421.jpg';
+import partnershipDealBg from '../assets/images/partnership_deal_bg_1789429565629.jpg';
+import boutiqueMerchBg from '../assets/images/boutique_merch_bg_1789429576842.jpg';
+import designBrandingImg from '../assets/images/design_branding_studio_1794539555040.jpg';
+import apparelHoodieImg from '../assets/images/apparel_hoodie_showcase_1794539555139.jpg';
+import customMerchGoodiesImg from '../assets/images/custom_merch_goodies_1794539554301.jpg';
+import streamingHubImg from '../assets/images/streaming_entertainment_hub_1794539554356.jpg';
 
 export const POLYVERSE_INFO = {
   name: 'Polyverse',
@@ -309,7 +317,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: 'Conception d’un logo moderne et d’une charte graphique complète pour une boutique de mode locale.',
     results: 'Charte déclinée sur 500+ sacs, cartes et supports en ligne',
     tags: ['Logo Design', 'Branding', 'Charte Graphique'],
-    imageUrl: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
+    imageUrl: designBrandingImg,
     date: 'Juillet 2026',
     featured: true,
   },
@@ -345,7 +353,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: 'Création et gestion d’une campagne publicitaire géolocalisée pour promouvoir le nouveau menu.',
     results: 'Plus de 45 000 impressions et 180 réservations en 2 semaines',
     tags: ['Meta Ads', 'Marketing Digital', 'Social Media'],
-    imageUrl: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
+    imageUrl: servicesTechStudioBg,
     date: 'Avril 2026',
     featured: false,
   },
@@ -369,7 +377,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: 'Structuring du dossier de présentation et mise en relation directe avec un pool d’investisseurs privés.',
     results: 'Financement d’amorçage obtenu avec succès',
     tags: ['Financement', 'Pitch Deck', 'Mise en Relation'],
-    imageUrl: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=800&q=80',
+    imageUrl: partnershipDealBg,
     date: 'Février 2026',
     featured: false,
   },
@@ -580,7 +588,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 18,
     priceHTG: 2700,
     description: 'T-shirt 100% coton peigné 220g avec sérigraphie haute définition résistante aux lavages. Coupe moderne et confortable.',
-    imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
+    imageUrl: boutiqueMerchBg,
     badge: 'Bestseller',
     availableColors: ['Noir Onyx', 'Bleu Polyverse', 'Blanc Pur', 'Gris Anthracite'],
     availableSizes: ['S', 'M', 'L', 'XL', 'XXL'],
@@ -594,7 +602,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 45,
     priceHTG: 6750,
     description: 'Sweat à capuche molletonné ultra-doux avec impression sérigraphique dos & cœur et finitions premium.',
-    imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
+    imageUrl: apparelHoodieImg,
     badge: 'Édition Spéciale',
     availableColors: ['Noir', 'Bleu Marine', 'Beige Sable'],
     availableSizes: ['M', 'L', 'XL', 'XXL'],
@@ -608,7 +616,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 15,
     priceHTG: 2250,
     description: 'Casquette snapback avec broderie relief 3D et logo Polyverse. Fermeture ajustable à l’arrière.',
-    imageUrl: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80',
+    imageUrl: apparelHoodieImg,
     availableColors: ['Noir & Blanc', 'Total Black', 'Bleu & Orange'],
     availableSizes: ['Taille Unique (Ajustable)'],
     inStock: true,
@@ -621,7 +629,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 30,
     priceHTG: 4500,
     description: 'Carte bancaire virtuelle activée en 24h avec solde initial inclus, idéale pour publicités Facebook/Instagram Ads et abonnements.',
-    imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80',
+    imageUrl: carteVirtuelleImg,
     badge: 'Essentiel Biz',
     availableSizes: ['Solde 20$ inclus', 'Solde 50$ inclus', 'Solde 100$ inclus'],
     inStock: true,
@@ -634,7 +642,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 450,
     priceHTG: 67500,
     description: 'Offre spéciale pour écoles, promotions de graduation, associations et entreprises. Impression 1 à 3 couleurs incluse.',
-    imageUrl: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80',
+    imageUrl: serigraphieAtelierImg,
     badge: 'Pack Entreprise',
     availableColors: ['Couleurs au choix selon charte'],
     availableSizes: ['Mix S, M, L, XL, XXL'],
@@ -649,7 +657,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 10,
     priceHTG: 1500,
     description: 'Tasse haute qualité 350ml résistante au micro-ondes avec finition mate et typographie inspirante Polyverse.',
-    imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
+    imageUrl: customMerchGoodiesImg,
     availableColors: ['Noir Mat', 'Bleu Marine', 'Blanc Brillant'],
     availableSizes: ['350 ml'],
     inStock: true,
@@ -662,7 +670,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 120,
     priceHTG: 18000,
     description: 'Création de logo vectoriel, 3 propositions, charte graphique, fichiers HD (PNG, SVG, PDF) et templates réseaux sociaux.',
-    imageUrl: 'https://images.unsplash.com/photo-1634942537034-2531766767d1?auto=format&fit=crop&w=800&q=80',
+    imageUrl: designBrandingImg,
     badge: 'Populaire',
     availableSizes: ['Pack Complet'],
     inStock: true,
@@ -675,7 +683,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 250,
     priceHTG: 37500,
     description: 'Site web clé en main responsive, design soigné, intégration WhatsApp, formulaire de contact et 1 an de nom de domaine.',
-    imageUrl: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
+    imageUrl: webTechStudioImg,
     badge: 'Recommandé',
     availableSizes: ['Solution Clé en main'],
     inStock: true,
@@ -688,7 +696,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 25,
     priceHTG: 3750,
     description: 'Prise en charge complète de vos commandes Amazon, Shein ou AliExpress sans carte de crédit, avec réception et réexpédition sécurisée.',
-    imageUrl: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
+    imageUrl: shippingLogisticsBg,
     badge: 'Service Express',
     availableSizes: ['Jusqu’à 5 lbs', '5 à 10 lbs', 'Plus de 10 lbs'],
     inStock: true,
@@ -701,7 +709,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     priceUSD: 85,
     priceHTG: 12750,
     description: 'Kit promotionnel personnalisé pour séminaires, lancements de produit, mariages et conférences avec impression du logo Polyverse ou sur mesure.',
-    imageUrl: 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=800&q=80',
+    imageUrl: streamingHubImg,
     badge: 'Événement Pro',
     availableColors: ['Bleu Polyverse', 'Noir Élégant', 'Écru Naturel'],
     availableSizes: ['Lot de 25 kits'],

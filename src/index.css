@@ -5,56 +5,101 @@
     --polyverse-blue: #185FA5;
     --polyverse-navy: #0A2A4D;
     --polyverse-coral: #D85A30;
-    --polyverse-gray: #F1EFE8;
+    --polyverse-ink: #141414;
+    --polyverse-stone: #F4F3EF;
+    --font-display: 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
   }
 
   html {
     scroll-behavior: smooth;
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-sans);
     background-color: #FFFFFF;
-    color: #192338;
+    color: #141414;
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #192338;
+    font-family: var(--font-sans);
+    color: #141414;
     background-color: #FFFFFF;
+    line-height: 1.65;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  h1, h2, h3 {
+    font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.015em;
   }
 
   button, input, textarea, select {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-sans);
   }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.font-body {
+  font-family: var(--font-sans);
+}
+
+.font-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 .bg-polyverse-blue { background-color: #185FA5; }
 .bg-polyverse-navy { background-color: #0A2A4D; }
 .bg-polyverse-coral { background-color: #D85A30; }
-.bg-polyverse-gray { background-color: #F1EFE8; }
+.bg-polyverse-gray { background-color: #F4F3EF; }
 
 .text-polyverse-blue { color: #185FA5; }
 .text-polyverse-navy { color: #0A2A4D; }
 .text-polyverse-coral { color: #D85A30; }
-.text-polyverse-gray { color: #F1EFE8; }
+.text-polyverse-gray { color: #F4F3EF; }
 
 .border-polyverse-blue { border-color: #185FA5; }
 .border-polyverse-navy { border-color: #0A2A4D; }
 .border-polyverse-coral { border-color: #D85A30; }
-.border-polyverse-gray { border-color: #F1EFE8; }
+.border-polyverse-gray { border-color: #F4F3EF; }
 
-/* Custom utility styles */
-.gradient-navy-blue {
-  background: linear-gradient(135deg, #0A2A4D 0%, #185FA5 100%);
+/* Subtle editorial hover underline */
+.editorial-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
-.gradient-coral-accent {
-  background: linear-gradient(135deg, #D85A30 0%, #E87048 100%);
+.editorial-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.editorial-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}

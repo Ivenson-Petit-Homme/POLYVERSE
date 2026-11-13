@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NavigationTab, ServiceCategory } from '../types';
-import { PORTFOLIO_ITEMS, TARGET_AUDIENCES, POLYVERSE_INFO, PILLARS, PARTNER_ENTERPRISES } from '../data/polyverseData';
+import {
+  PORTFOLIO_ITEMS,
+  TARGET_AUDIENCES,
+  POLYVERSE_INFO,
+  PILLARS,
+  PARTNER_ENTERPRISES,
+  POLYVERSE_EXCHANGE_RATE,
+  POLYVERSE_SHIPPING_ADDRESS,
+} from '../data/polyverseData';
 import { TestimonialsSection } from './TestimonialsSection';
-import { ScrollReveal } from './ScrollReveal';
-import { SectionDarkDivider } from './SectionDarkDivider';
 import polyverseServicesBanner from '../assets/images/polyverse_hero_banner_1789375953738.jpg';
-import officialLogoImg from '../assets/images/polyverse_official_logo_1789375972137.jpg';
 import serigraphieAtelierImg from '../assets/images/serigraphie_atelier_1791841814507.jpg';
 import webTechStudioImg from '../assets/images/web_tech_studio_1791841815443.jpg';
 import shippingColisImg from '../assets/images/shipping_colis_haiti_1791841814328.jpg';
+import shippingLogisticsBg from '../assets/images/shipping_logistics_bg_1789429529421.jpg';
+import evenementGalaImg from '../assets/images/evenement_gala_prestige_1791841816024.jpg';
+import streamingHubImg from '../assets/images/streaming_entertainment_hub_1794539554356.jpg';
 import {
-  Palette,
-  Code,
-  CreditCard,
   ArrowRight,
-  Sparkles,
-  CheckCircle2,
+  ChevronDown,
+  MessageCircle,
+  Calculator,
+  Package,
   Building2,
   GraduationCap,
   Rocket,
   TrendingUp,
-  MessageCircle,
-  Calculator,
-  ChevronDown,
-  Check,
-  Star,
-  ShoppingBag,
-  Package,
-  Truck,
-  Laptop,
-  Zap,
-  Clock,
-  ThumbsUp,
-  Shield,
-  HelpCircle,
-  PlayCircle,
-  CalendarDays,
 } from 'lucide-react';
 
 interface HomeSectionProps {
@@ -46,76 +37,85 @@ interface HomeSectionProps {
   onSelectPortfolioProject: (id: string) => void;
 }
 
-type HeroTabKey = 'design' | 'tech' | 'shipping' | 'shop';
-
 export const HomeSection: React.FC<HomeSectionProps> = ({
   setActiveTab,
   setSelectedCategory,
   onOpenQuoteModal,
   onSelectPortfolioProject,
 }) => {
-  const [activeHeroTab, setActiveHeroTab] = useState<HeroTabKey>('design');
   const [portfolioFilter, setPortfolioFilter] = useState<'all' | 'design' | 'tech' | 'finance'>('all');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-  const [activeServiceIdx, setActiveServiceIdx] = useState<number>(0);
+  const [activeHeadlineIdx, setActiveHeadlineIdx] = useState<number>(0);
 
-  const ROTATING_SERVICES = [
+  const ROTATING_THEMES = [
     {
-      title: 'vos Sérigraphies & Textiles',
-      subtitle: 'Impression nette 1 à 4 couleurs, cotons peignés premium et emballage sur-mesure pour votre marque.',
-      badge: 'Atelier Textile & Goodies',
-      color: 'from-cyan-300 via-sky-200 to-blue-400',
-      tagColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30',
+      kicker: 'PÔLE 01 · DESIGN & IMPRESSION SUR MESURE',
+      headline: 'DONNEZ VIE À VOS MARQUES & TEXTILES',
+      lead: 'Conception de logos, flyers, bannières, sérigraphie haute précision et customisation de t-shirts, tasses, bidons, horloges et porte-clés.',
     },
     {
-      title: 'vos Sites Web & E-commerce',
-      subtitle: 'Sites responsives ultra-rapides, scoring Google 98/100 et campagnes Meta Ads génératrices de ventes.',
-      badge: 'Tech & Marketing Digital',
-      color: 'from-emerald-300 via-teal-200 to-cyan-300',
-      tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
+      kicker: 'PÔLE 02 · TECHNOLOGIE, RÉSEAUX & MÉDIAS',
+      headline: 'PROPULSEZ VOTRE PRÉSENCE DIGITALE',
+      lead: 'Création de sites web et portfolios modernes, gestion des réseaux sociaux, systèmes Wi-Fi, caméras de surveillance et campagnes de boost ciblées.',
     },
     {
-      title: 'vos Achats Amazon & Shein',
-      subtitle: 'Achetez sans carte bancaire internationale et réglez facilement en Gourdes par MonCash ou Natcash.',
-      badge: 'Achat Sans Carte & Shipping',
-      color: 'from-amber-300 via-orange-300 to-[#D85A30]',
-      tagColor: 'bg-orange-500/20 text-orange-300 border-orange-400/30',
+      kicker: 'PÔLE 03 · FINANCE & SHIPPING USA ➔ HAÏTI',
+      headline: 'ACHETEZ SANS CARTE AU TAUX DE 140 HTG',
+      lead: 'Commandez sur Amazon, Shein ou eBay en Gourdes via MonCash/Natcash, transférez vos fonds Zelle et recevez vos colis via notre adresse à Miami.',
     },
     {
-      title: 'vos Idées en Résultats Concrets',
-      subtitle: 'Accompagnement tout-en-un de la conception graphique initiale jusqu’à la livraison finale entre vos mains.',
-      badge: 'Solutions Clés en Main',
-      color: 'from-amber-200 via-yellow-100 to-emerald-300',
-      tagColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+      kicker: 'PÔLES 04 & 05 · STREAMING & ÉVÉNEMENTIEL',
+      headline: 'STREAMING HD & ÉVÉNEMENTS D’EXCEPTION',
+      lead: 'Abonnements Netflix, Amazon Prime et HBO Max en monnaie locale, ainsi que l’organisation complète et location de matériel pour vos réceptions.',
     },
   ];
 
-  // Auto-rotate hero texts every 3.2 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveServiceIdx((prev) => (prev + 1) % ROTATING_SERVICES.length);
-    }, 3200);
+      setActiveHeadlineIdx((prev) => (prev + 1) % ROTATING_THEMES.length);
+    }, 4500);
     return () => clearInterval(timer);
   }, []);
 
-  const handlePillarClick = (category: ServiceCategory) => {
-    setSelectedCategory(category);
-    setActiveTab('services');
+  const handlePillarNavigate = (pillarId: string) => {
+    if (pillarId === 'finance' || pillarId === 'streaming' || pillarId === 'events') {
+      setActiveTab('order-service');
+    } else {
+      setSelectedCategory(pillarId as ServiceCategory);
+      setActiveTab('services');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getPillarImage = (pillarId: string) => {
+    switch (pillarId) {
+      case 'design':
+        return serigraphieAtelierImg;
+      case 'tech':
+        return webTechStudioImg;
+      case 'finance':
+        return shippingColisImg;
+      case 'streaming':
+        return streamingHubImg;
+      case 'events':
+        return evenementGalaImg;
+      default:
+        return serigraphieAtelierImg;
+    }
   };
 
   const getAudienceIcon = (iconName: string) => {
     switch (iconName) {
       case 'Building2':
-        return <Building2 className="w-6 h-6 text-[#185FA5]" />;
+        return <Building2 className="w-5 h-5 text-[#0A2A4D]" />;
       case 'GraduationCap':
-        return <GraduationCap className="w-6 h-6 text-[#185FA5]" />;
+        return <GraduationCap className="w-5 h-5 text-[#185FA5]" />;
       case 'Rocket':
-        return <Rocket className="w-6 h-6 text-[#D85A30]" />;
+        return <Rocket className="w-5 h-5 text-[#D85A30]" />;
       case 'TrendingUp':
-        return <TrendingUp className="w-6 h-6 text-[#0A2A4D]" />;
+        return <TrendingUp className="w-5 h-5 text-[#0A2A4D]" />;
       default:
-        return <Sparkles className="w-6 h-6 text-[#185FA5]" />;
+        return <Building2 className="w-5 h-5 text-[#185FA5]" />;
     }
   };
 
@@ -126,217 +126,86 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
   const FAQS = [
     {
-      q: 'Ai-je besoin d’une carte de crédit pour commander sur Amazon ou Shein ?',
-      a: 'Non ! Grâce à notre service exclusif d’Achat Sans Carte, il vous suffit de nous transmettre les liens ou photos des articles souhaités. Nous calculons le montant en Gourdes (HTG) ou en Dollars (USD), vous effectuez votre paiement facilement par MonCash, Natcash ou virement bancaire, et notre équipe effectue la commande immédiatement.',
+      q: 'Ai-je besoin d’une carte de crédit pour commander sur Amazon, Shein ou eBay ?',
+      a: `Non. Avec le service d’Achat Sans Carte Polyverse, il vous suffit de coller le lien complet de votre panier et d’indiquer vos articles en description. Le montant total est calculé automatiquement en Dollars et en Gourdes au taux officiel de ${POLYVERSE_EXCHANGE_RATE} HTG/USD, payable par MonCash ou Natcash.`,
     },
     {
-      q: 'Comment s’effectue la livraison des colis entre les États-Unis et Haïti ?',
-      a: 'Nous disposons de notre propre adresse de transit sécurisée en Floride (Miami). Dès réception de votre marchandise, celle-ci est préparée pour l’expédition aérienne ou maritime. Vos colis arrivent en Haïti en 5 à 7 jours ouvrés, disponibles en retrait ou livrés directement à votre porte.',
+      q: 'Comment expédier un colis vers Haïti via votre adresse de Miami ?',
+      a: `Indiquez la nature et le poids de votre colis sur notre plateforme, puis utilisez l’adresse officielle : ${POLYVERSE_SHIPPING_ADDRESS.fullString}. Le tarif transparent est de ${POLYVERSE_SHIPPING_ADDRESS.rate1to5lbs} HTG/lb de 1 à 5 livres, et ${POLYVERSE_SHIPPING_ADDRESS.rate6plusLbs} HTG/lb à partir de 6 livres (plus frais de livraison locale selon votre ville).`,
     },
     {
-      q: 'Quels sont les délais pour la sérigraphie textile ou la création d’un site web ?',
-      a: 'Pour la sérigraphie (t-shirts personnalisés, uniformes, casquettes), le délai moyen est de 3 à 5 jours selon le volume. Pour un site web vitrine ou e-commerce, nous livrons une première version fonctionnelle en 7 à 14 jours, incluant design responsive, SEO et sécurité renforcée.',
+      q: 'Comment activer un abonnement Netflix, Amazon Prime ou HBO Max ?',
+      a: 'Sélectionnez votre abonnement dans l’espace Commande & Services, effectuez le paiement correspondant en MonCash ou Natcash puis envoyez votre capture d’écran de transaction sur notre formulaire ou WhatsApp. Votre accès est activé dans les minutes qui suivent.',
     },
     {
-      q: 'Comment puis-je générer des revenus avec la Boutique et le Programme d’Affiliation ?',
-      a: 'Tout créateur de contenu, étudiant ou entrepreneur peut rejoindre gratuitement notre programme d’ambassadeurs. Vous obtenez un code promo personnalisé (ex: POLYVIP). Lorsque votre communauté utilise votre code, elle bénéficie de 10% de réduction immédiate et vous touchez entre 10% et 15% de commission versée directement par MonCash ou virement.',
+      q: 'Comment fonctionne le Programme d’Affiliation Polyverse ?',
+      a: 'Rendez-vous dans la rubrique Affiliation pour choisir votre statut : Ambassadeur (avec dossier et référence), Partenaire (proposition d’intérêts communs), Investisseur (sélection sur la charte d’investissement officielle) ou Promoteur (avec génération automatique d’un code de parrainage personnel après signature du contrat).',
     },
     {
-      q: 'Le devis et l’étude de faisabilité sont-ils gratuits et sans engagement ?',
-      a: 'Oui, 100% gratuits et sans aucun engagement ! Utilisez notre calculateur de devis interactif en ligne ou contactez-nous directement sur WhatsApp pour échanger en direct avec les co-fondateurs de Polyverse.',
+      q: 'Quels sont les délais de livraison pour la sérigraphie et les sites web ?',
+      a: 'Les impressions textiles et objets personnalisés sont livrés en 3 à 5 jours ouvrables selon la quantité. Un site web vitrine ou portfolio est conçu et mis en ligne en 7 à 14 jours avec optimisation mobile et intégration WhatsApp.',
     },
   ];
 
+  const currentTheme = ROTATING_THEMES[activeHeadlineIdx];
+
   return (
-    <div className="font-['Montserrat',sans-serif] text-[#192338] bg-white">
+    <div className="bg-white text-[#141414]">
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 1: HERO SECTION (CLEAR VIBRANT BACKGROUND & PROMINENT SERVICES)
+          SECTION 1: HERO ÉDITORIAL PLEINE LARGEUR (STYLE WWF.FR)
          ───────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#06152B] pt-14 pb-20 lg:pt-24 lg:pb-32 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 overflow-hidden text-white">
-        {/* Animated Background Container - Crystal Clear Visibility */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Ken Burns gentle animated zoom on official services banner */}
-          <motion.div
-            animate={{
-              scale: [1.0, 1.06, 1.0],
-              x: [0, -14, 0],
-              y: [0, -8, 0],
-            }}
-            transition={{
-              duration: 24,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="absolute inset-0 w-full h-full"
-          >
-            <img
-              src={polyverseServicesBanner}
-              alt="Polyverse Services: Sérigraphie, Tech Web & Achat sans carte"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover opacity-90 filter contrast-110 saturate-110 brightness-95"
-            />
-          </motion.div>
-
-          {/* Targeted gradient protection so image remains 100% visible while text is crystal readable */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#06152B]/75 via-[#0A2A4D]/45 to-[#06152B]/90" />
-
-          {/* Floating Vibrant Orb 1: Polyverse Blue */}
-          <motion.div
-            animate={{
-              x: [-35, 35, -35],
-              y: [-25, 25, -25],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 16,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="absolute -top-32 left-1/5 w-[480px] h-[480px] bg-blue-500/20 rounded-full blur-3xl"
+      <section className="relative bg-[#08101C] text-white overflow-hidden">
+        {/* Background photography with clean directional editorial scrim */}
+        <div className="absolute inset-0">
+          <img
+            src={polyverseServicesBanner}
+            alt="Polyverse — Design, Technologie, Finance et Événementiel"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center opacity-80"
           />
-
-          {/* Floating Vibrant Orb 2: Polyverse Coral */}
-          <motion.div
-            animate={{
-              x: [30, -30, 30],
-              y: [20, -30, 20],
-              scale: [1, 1.25, 1],
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="absolute top-16 right-1/5 w-[420px] h-[420px] bg-orange-500/20 rounded-full blur-3xl"
-          />
-
-          {/* Floating Sparks / Micro Light Particles */}
-          {[
-            { left: '15%', top: '25%', duration: 7, delay: 0 },
-            { left: '80%', top: '35%', duration: 9, delay: 1 },
-            { left: '30%', top: '70%', duration: 8, delay: 2 },
-            { left: '65%', top: '65%', duration: 10, delay: 0.5 },
-            { left: '45%', top: '20%', duration: 7.5, delay: 1.5 },
-          ].map((p, idx) => (
-            <motion.div
-              key={idx}
-              animate={{
-                y: [-15, 15, -15],
-                opacity: [0.3, 0.8, 0.3],
-                scale: [0.8, 1.2, 0.8],
-              }}
-              transition={{
-                duration: p.duration,
-                repeat: Infinity,
-                delay: p.delay,
-                ease: 'easeInOut',
-              }}
-              style={{ left: p.left, top: p.top }}
-              className="absolute w-2 h-2 rounded-full bg-gradient-to-tr from-cyan-400 to-[#D85A30] blur-[0.5px]"
-            />
-          ))}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#08101C]/95 via-[#0A2A4D]/80 to-[#08101C]/35" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          {/* Top Pill / Eyebrow with official logo and animated live sync */}
-          <div className="flex justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center space-x-3 px-4 py-2 rounded-full bg-[#06152B]/90 border border-amber-400/30 shadow-lg text-xs font-semibold text-slate-200 backdrop-blur-md"
-            >
-              <div className="w-8 h-8 rounded-xl overflow-hidden shrink-0 border-2 border-amber-400 shadow-xs bg-[#06152B]">
-                <img
-                  src={officialLogoImg}
-                  alt="Polyverse Logo Officiel"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D85A30] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D85A30]"></span>
-              </span>
-              <span>Polyverse • FINANCE ET INVESTISSEMENT</span>
-              <span className="text-slate-600">|</span>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={activeServiceIdx}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-cyan-300 font-bold"
+        {/* Hero Main Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
+          <div className="max-w-3xl space-y-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeHeadlineIdx}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35 }}
+                className="space-y-4"
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#E87048]">
+                  {currentTheme.kicker}
+                </p>
+
+                <h1
+                  className="text-4xl sm:text-6xl lg:text-[68px] font-bold uppercase tracking-tight leading-[0.98] text-white"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
-                  {ROTATING_SERVICES[activeServiceIdx].badge}
-                </motion.span>
-              </AnimatePresence>
-            </motion.div>
-          </div>
+                  {currentTheme.headline}
+                </h1>
 
-          {/* Main Animated Title & Dynamic Rotating Subtitle */}
-          <div className="text-center max-w-4xl mx-auto mt-6 space-y-5">
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-white tracking-tight leading-[1.15] drop-shadow-lg"
-            >
-              <span>Créez et développez </span>
-              <br className="hidden sm:inline" />
-              <span className="relative inline-block min-h-[1.25em] min-w-[280px] sm:min-w-[480px] align-top overflow-hidden">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={activeServiceIdx}
-                    initial={{ y: 35, opacity: 0, filter: 'blur(4px)' }}
-                    animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
-                    exit={{ y: -35, opacity: 0, filter: 'blur(4px)' }}
-                    transition={{ duration: 0.45, ease: 'easeOut' }}
-                    className={`inline-block font-extrabold text-transparent bg-clip-text bg-gradient-to-r ${ROTATING_SERVICES[activeServiceIdx].color} drop-shadow-sm`}
-                  >
-                    {ROTATING_SERVICES[activeServiceIdx].title}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-              <br />
-              <span>avec </span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-[#D85A30] underline decoration-[#D85A30]/50 underline-offset-8">
-                Polyverse
-              </span>
-            </motion.h1>
+                <p className="text-base sm:text-lg text-stone-200 max-w-2xl leading-relaxed font-normal">
+                  {currentTheme.lead}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Dynamic Animated Subtitle synced with current service */}
-            <div className="min-h-[64px] sm:min-h-[52px] flex items-center justify-center max-w-2xl mx-auto">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={activeServiceIdx}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4 }}
-                  className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal text-center drop-shadow-md"
-                >
-                  {ROTATING_SERVICES[activeServiceIdx].subtitle}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-
-            {/* Pill Action Buttons with hover glow */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center justify-center gap-3 pt-3"
-            >
+            {/* Primary & Secondary Editorial Actions */}
+            <div className="pt-3 flex flex-wrap items-center gap-3.5">
               <button
                 type="button"
                 onClick={onOpenQuoteModal}
-                className="px-8 py-4 rounded-full bg-[#185FA5] hover:bg-[#1f73c5] text-white font-bold text-sm shadow-xl shadow-blue-950/60 hover:-translate-y-0.5 transition-all duration-200 active:scale-95 flex items-center space-x-2 cursor-pointer group border border-blue-400/30"
+                className="px-7 py-3.5 bg-[#D85A30] hover:bg-[#b84722] text-white font-bold uppercase tracking-wider transition-colors flex items-center space-x-2.5 cursor-pointer"
+                style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
               >
-                <Calculator className="w-4 h-4 group-hover:rotate-12 transition-transform text-cyan-300" />
-                <span>Commencer Gratuitement</span>
-                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                <Calculator className="w-4 h-4" />
+                <span>Lancer Mon Projet</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
 
               <button
@@ -345,9 +214,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                   setActiveTab('order-service');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-7 py-4 rounded-full bg-white/15 hover:bg-white/25 text-white font-bold text-sm border border-white/30 backdrop-blur-md shadow-lg hover:border-cyan-300 hover:-translate-y-0.5 transition-all flex items-center space-x-2 cursor-pointer"
+                className="px-7 py-3.5 border-2 border-white text-white hover:bg-white hover:text-[#0A2A4D] font-bold uppercase tracking-wider transition-colors flex items-center space-x-2 cursor-pointer"
+                style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
               >
-                <Package className="w-4 h-4 text-orange-400" />
+                <Package className="w-4 h-4" />
                 <span>Achat Sans Carte & Shipping</span>
               </button>
 
@@ -355,1288 +225,768 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=Bonjour%20Polyverse%2C%20je%20souhaite%20lancer%20un%20projet`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm shadow-xl shadow-emerald-950/50 hover:-translate-y-0.5 transition-all flex items-center space-x-2 border border-emerald-400/30"
+                className="px-5 py-3.5 text-sm font-semibold text-emerald-300 hover:text-white transition-colors flex items-center space-x-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp Direct</span>
               </a>
-            </motion.div>
-
-            {/* Trust Under-Notes */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="pt-2 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-300"
-            >
-              <span className="flex items-center space-x-1">
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span>100% Sans engagement</span>
-              </span>
-              <span className="text-slate-600">•</span>
-              <span className="flex items-center space-x-1">
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Paiement MonCash & Natcash</span>
-              </span>
-              <span className="text-slate-600">•</span>
-              <span className="flex items-center space-x-1 text-amber-400">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <span className="text-white font-bold">4.9/5</span>
-                <span className="text-slate-300">(150+ avis vérifiés)</span>
-              </span>
-            </motion.div>
-          </div>
-
-          {/* Webnode Interactive Browser Frame & Preview Canvas */}
-          <motion.div
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-14 max-w-5xl mx-auto"
-          >
-            <div className="relative rounded-2xl bg-white shadow-2xl border border-slate-200/90 overflow-hidden">
-              {/* Webnode Mockup Window Header */}
-              <div className="bg-[#F8F9FA] border-b border-slate-200 px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <span className="w-3 h-3 rounded-full bg-[#FF5F56] inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-[#FFBD2E] inline-block" />
-                  <span className="w-3 h-3 rounded-full bg-[#27C93F] inline-block" />
-                  <span className="text-xs font-mono text-slate-400 ml-2 hidden sm:inline">
-                    https://polyverse.pro/hub
-                  </span>
-                </div>
-
-                {/* Tab Switcher Pills */}
-                <div className="flex items-center space-x-1 bg-white p-1 rounded-xl border border-slate-200 shadow-2xs">
-                  <button
-                    type="button"
-                    onClick={() => setActiveHeroTab('design')}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                      activeHeroTab === 'design'
-                        ? 'bg-[#185FA5] text-white shadow-xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Sérigraphie
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveHeroTab('tech')}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                      activeHeroTab === 'tech'
-                        ? 'bg-[#0A2A4D] text-white shadow-xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Tech & Web
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveHeroTab('shipping')}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                      activeHeroTab === 'shipping'
-                        ? 'bg-[#D85A30] text-white shadow-xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Achat & Shipping
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveHeroTab('shop')}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
-                      activeHeroTab === 'shop'
-                        ? 'bg-purple-700 text-white shadow-xs font-bold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Boutique
-                  </button>
-                </div>
-              </div>
-
-              {/* Inner Canvas */}
-              <div className="relative min-h-[380px] bg-slate-50/70 p-6 sm:p-10 flex flex-col justify-between overflow-hidden">
-                <div className="absolute inset-0 opacity-15 pointer-events-none">
-                  <img
-                    src={polyverseServicesBanner}
-                    alt="Services Polyverse"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <AnimatePresence mode="wait">
-                  {activeHeroTab === 'design' && (
-                    <motion.div
-                      key="design"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
-                    >
-                      <div className="space-y-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-[#185FA5]">
-                          Atelier Sérigraphie & Textile
-                        </span>
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-[#192338]">
-                          Impression Textile Précise & Packaging
-                        </h3>
-                        <p className="text-sm text-[#4B5874] leading-relaxed">
-                          T-shirts, maillots, casquettes, sacs et goodies pour votre marque ou entreprise avec encre écologique haute résistance au lavage.
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 font-medium">
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#185FA5]" />
-                            <span>1 à 4 couleurs nettes</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#185FA5]" />
-                            <span>Livraison rapide 3-5j</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#185FA5]" />
-                            <span>100% Coton peigné</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#185FA5]" />
-                            <span>Tarifs dégressifs gros</span>
-                          </div>
-                        </div>
-                        <div className="pt-2">
-                          <button
-                            type="button"
-                            onClick={() => handlePillarClick('design')}
-                            className="px-6 py-2.5 rounded-full bg-[#185FA5] text-white text-xs font-bold hover:bg-[#0A2A4D] transition flex items-center space-x-2"
-                          >
-                            <span>Voir le catalogue Sérigraphie</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
-                          <img
-                            src={serigraphieAtelierImg}
-                            alt="Atelier Sérigraphie Polyverse"
-                            referrerPolicy="no-referrer"
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                        <motion.div
-                          animate={{ y: [-4, 4, -4] }}
-                          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                          className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 shadow-lg border border-slate-100 flex items-center space-x-3"
-                        >
-                          <div className="p-2 rounded-lg bg-emerald-100 text-emerald-700">
-                            <Check className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-bold text-[#192338]">Qualité Sérigraphie</p>
-                            <p className="text-[10px] text-slate-500 font-medium">+10,000 pièces imprimées</p>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {activeHeroTab === 'tech' && (
-                    <motion.div
-                      key="tech"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
-                    >
-                      <div className="space-y-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-200 text-[#0A2A4D]">
-                          Développement Web & Meta Ads
-                        </span>
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-[#192338]">
-                          Des Plateformes Web Rapides & Sécurisées
-                        </h3>
-                        <p className="text-sm text-[#4B5874] leading-relaxed">
-                          Création de sites vitrines élégants, boutiques e-commerce prêtes à vendre, et optimisation du référencement Google pour attirer des clients réguliers.
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 font-medium">
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>Score vitesse Google 98/100</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>100% Adapté Mobile / Tablette</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>Campagnes Meta Ads ciblées</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>Sécurité SSL & Sauvegardes</span>
-                          </div>
-                        </div>
-                        <div className="pt-2">
-                          <button
-                            type="button"
-                            onClick={() => handlePillarClick('tech')}
-                            className="px-6 py-2.5 rounded-full bg-[#0A2A4D] text-white text-xs font-bold hover:bg-[#185FA5] transition flex items-center space-x-2"
-                          >
-                            <span>Découvrir nos solutions Tech</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
-                          <img
-                            src={webTechStudioImg}
-                            alt="Studio Tech et Développement Web Polyverse"
-                            referrerPolicy="no-referrer"
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                        <motion.div
-                          animate={{ y: [-4, 4, -4] }}
-                          transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                          className="absolute -top-3 -right-3 bg-white rounded-xl p-3 shadow-lg border border-slate-100 flex items-center space-x-2"
-                        >
-                          <Zap className="w-5 h-5 text-amber-500" />
-                          <div>
-                            <p className="text-xs font-bold text-[#192338]">Temps de chargement</p>
-                            <p className="text-[10px] text-emerald-600 font-bold">0.6s • Ultra Rapide</p>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {activeHeroTab === 'shipping' && (
-                    <motion.div
-                      key="shipping"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
-                    >
-                      <div className="space-y-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-[#D85A30]">
-                          Achat Sans Carte & Shipping USA - Haïti
-                        </span>
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-[#192338]">
-                          Achetez sur Amazon ou Shein sans carte bancaire
-                        </h3>
-                        <p className="text-sm text-[#4B5874] leading-relaxed">
-                          Collez votre lien, nous achetons pour vous aux USA, nous réceptionnons votre colis dans notre entrepôt à Miami et nous l’acheminons directement en Haïti.
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 font-medium">
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#D85A30]" />
-                            <span>Paiement MonCash & Natcash</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#D85A30]" />
-                            <span>Colis garanti & assuré</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#D85A30]" />
-                            <span>Expédition 5-7 jours</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-[#D85A30]" />
-                            <span>Tarif transparent en Gourdes</span>
-                          </div>
-                        </div>
-                        <div className="pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveTab('order-service');
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            className="px-6 py-2.5 rounded-full bg-[#D85A30] text-white text-xs font-bold hover:bg-[#c24e27] transition flex items-center space-x-2"
-                          >
-                            <span>Remplir une commande sans carte</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
-                          <img
-                            src={shippingColisImg}
-                            alt="Logistique Achat Sans Carte & Colis Polyverse"
-                            referrerPolicy="no-referrer"
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                        <motion.div
-                          animate={{ y: [-4, 4, -4] }}
-                          transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-                          className="absolute -bottom-3 -right-3 bg-white rounded-xl p-3 shadow-lg border border-slate-100 flex items-center space-x-3"
-                        >
-                          <div className="p-2 rounded-lg bg-orange-100 text-[#D85A30]">
-                            <Truck className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-bold text-[#192338]">Suivi Miami ➔ Haïti</p>
-                            <p className="text-[10px] text-emerald-600 font-bold">Arrivée estimée : 5-7 jours</p>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {activeHeroTab === 'shop' && (
-                    <motion.div
-                      key="shop"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
-                    >
-                      <div className="space-y-4">
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-700">
-                          Boutique Officielle & Programme Affilié
-                        </span>
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-[#192338]">
-                          Collection Polyverse & Revenus d'Affiliation
-                        </h3>
-                        <p className="text-sm text-[#4B5874] leading-relaxed">
-                          Achetez nos articles exclusifs ou générez des revenus en partageant votre propre code promo personnalisé (10% à 15% de commission par vente).
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 font-medium">
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                            <span>T-shirts & Hoodies premium</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                            <span>10% de rabais avec code promo</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                            <span>Paiement commissions par MonCash</span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-                            <span>Inscriptions affiliés ouvertes</span>
-                          </div>
-                        </div>
-                        <div className="pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveTab('shop');
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            className="px-6 py-2.5 rounded-full bg-purple-700 text-white text-xs font-bold hover:bg-purple-800 transition flex items-center space-x-2"
-                          >
-                            <span>Visiter la Boutique & Devenir Affilié</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="relative">
-                        <div className="rounded-xl overflow-hidden shadow-lg border border-slate-200">
-                          <img
-                            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80"
-                            alt="Boutique et merchandising Polyverse"
-                            referrerPolicy="no-referrer"
-                            className="w-full h-64 object-cover"
-                          />
-                        </div>
-                        <motion.div
-                          animate={{ y: [-4, 4, -4] }}
-                          transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
-                          className="absolute -top-3 -left-3 bg-white rounded-xl p-3 shadow-lg border border-slate-100 flex items-center space-x-2"
-                        >
-                          <ShoppingBag className="w-5 h-5 text-purple-600" />
-                          <div>
-                            <p className="text-xs font-bold text-[#192338]">Code Partenaire</p>
-                            <p className="text-[10px] text-purple-600 font-bold">15% de commission direct</p>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Dark Separator 1 */}
-      <SectionDarkDivider label="Nos Entreprises Partenaires" />
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: ENTREPRISES PARTENAIRES OFFICIELLES
-         ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto space-y-6">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="text-xs font-black uppercase tracking-widest text-[#185FA5] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-200 inline-block mb-2">
-              Partenariats Stratégiques
-            </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0A2A4D] tracking-tight">
-              Nos Entreprises Partenaires Officielles
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Collaborations de confiance dans la production, le conseil institutionnel, la mode et l’innovation technologique
-            </p>
-          </div>
-
-          {/* Official Partner Enterprises from Document Modification 2 (TRANSPRODUS, MAS&ALLIES, JOSTREET, HVING4) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-4">
-            {PARTNER_ENTERPRISES.map((p, pIdx) => (
-              <div
-                key={pIdx}
-                className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:border-[#185FA5] hover:bg-white transition-all duration-300 shadow-2xs hover:shadow-lg text-center group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#185FA5] font-black text-sm flex items-center justify-center mx-auto mb-2 group-hover:scale-105 transition-transform">
-                    0{pIdx + 1}
-                  </div>
-                  <span className="font-black text-lg sm:text-xl text-[#0A2A4D] tracking-tight group-hover:text-[#185FA5] transition-colors block">
-                    {p.name}
-                  </span>
-                  <span className="text-[10px] uppercase font-bold text-[#D85A30] tracking-wider block mt-1">
-                    {p.tag}
-                  </span>
-                </div>
-                <span className="text-[11px] text-slate-500 block mt-3 font-medium border-t border-slate-100 pt-2">
-                  {p.desc}
-                </span>
-              </div>
-            ))}
+            {/* Slide Indicator Bars (WWF carousel style) */}
+            <div className="pt-4 flex items-center space-x-2">
+              {ROTATING_THEMES.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveHeadlineIdx(idx)}
+                  aria-label={`Afficher le thème ${idx + 1}`}
+                  className={`h-1 transition-all duration-300 cursor-pointer ${
+                    activeHeadlineIdx === idx ? 'w-10 bg-[#D85A30]' : 'w-5 bg-white/35 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Dark Separator 1.5 */}
-      <SectionDarkDivider label="Nos 5 Piliers d'Expertise Majeurs" />
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION: LES 5 PILIERS MAJEURS (DOKIMAN POLVERSE)
-         ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1 rounded-full border border-orange-200">
-                Catalogue Officiel des Services
+        {/* Bottom Anchored Quick-Access Strip (WWF Action Bar Style) */}
+        <div className="relative z-10 bg-white text-[#141414] border-b border-stone-200">
+          <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-stone-200">
+            <button
+              type="button"
+              onClick={() => handlePillarNavigate('design')}
+              className="p-5 sm:p-6 text-left hover:bg-[#F4F3EF] transition-colors group cursor-pointer"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#185FA5] block">
+                01 · Design & Impression
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#0A2A4D] tracking-tight">
-                Tous les Services Polyverse réunis sous un même toit
-              </h2>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                Découvrez nos 5 départements spécialisés : Design & Impression, Technologie & Médias, Finance & Logistique, Streaming & Divertissement, et Event Planning & Matériel.
+              <span
+                className="text-lg sm:text-xl font-bold uppercase text-[#141414] group-hover:text-[#D85A30] transition-colors flex items-center justify-between mt-1"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                <span>Logos, Textile & Objets</span>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#D85A30] group-hover:translate-x-1 transition-all" />
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handlePillarNavigate('tech')}
+              className="p-5 sm:p-6 text-left hover:bg-[#F4F3EF] transition-colors group cursor-pointer"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#185FA5] block">
+                02 · Technologie & Médias
+              </span>
+              <span
+                className="text-lg sm:text-xl font-bold uppercase text-[#141414] group-hover:text-[#D85A30] transition-colors flex items-center justify-between mt-1"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                <span>Sites Web, Wi-Fi & Caméras</span>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#D85A30] group-hover:translate-x-1 transition-all" />
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('order-service');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="p-5 sm:p-6 text-left hover:bg-[#F4F3EF] transition-colors group cursor-pointer"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#D85A30] block">
+                03 · Finance & Logistique
+              </span>
+              <span
+                className="text-lg sm:text-xl font-bold uppercase text-[#141414] group-hover:text-[#D85A30] transition-colors flex items-center justify-between mt-1"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                <span>Achat Sans Carte & Shipping</span>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#D85A30] group-hover:translate-x-1 transition-all" />
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('affiliation');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="p-5 sm:p-6 text-left hover:bg-[#F4F3EF] transition-colors group cursor-pointer"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#0A2A4D] block">
+                04 · Opportunités Revenus
+              </span>
+              <span
+                className="text-lg sm:text-xl font-bold uppercase text-[#141414] group-hover:text-[#D85A30] transition-colors flex items-center justify-between mt-1"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                <span>Programme d’Affiliation</span>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-[#D85A30] group-hover:translate-x-1 transition-all" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 2: NOS ENTREPRISES PARTENAIRES OFFICIELLES & CHIFFRES CLÉS
+         ───────────────────────────────────────────────────────────── */}
+      <section className="bg-[#F4F3EF] py-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto space-y-12">
+          {/* Official Partners Header & 4-Column Architectural Grid */}
+          <div className="space-y-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-300 pb-6">
+              <div className="space-y-1.5">
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#D85A30] block">
+                  Alliance & Confiance
+                </span>
+                <h2
+                  className="text-3xl sm:text-4xl font-bold uppercase text-[#141414]"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
+                >
+                  Nos Entreprises Partenaires Officielles
+                </h2>
+              </div>
+              <p className="text-sm text-stone-600 max-w-md">
+                Des collaborations stratégiques durables dans la production, le conseil institutionnel, la mode et l’innovation technologique.
               </p>
             </div>
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+            {/* Strictly the 4 official partner enterprises: TRANSPRODUS, MAS&ALLIES, JOSTREET, HVING4 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {PARTNER_ENTERPRISES.map((p, pIdx) => (
+                <div
+                  key={pIdx}
+                  className="bg-white p-6 border border-stone-200 hover:border-[#0A2A4D] transition-colors flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-bold text-stone-400 mb-3">
+                      <span className="font-tabular">0{pIdx + 1}</span>
+                      <span className="uppercase tracking-wider text-[#D85A30]">{p.tag}</span>
+                    </div>
+                    <h3
+                      className="text-2xl sm:text-3xl font-bold uppercase text-[#0A2A4D] tracking-tight"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
+                    >
+                      {p.name}
+                    </h3>
+                  </div>
+                  <p className="text-xs text-stone-600 font-medium mt-4 pt-3 border-t border-stone-100">
+                    {p.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* WWF-Style Key Metrics Strip */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-stone-300">
+            <div>
+              <p
+                className="text-3xl sm:text-4xl font-bold text-[#0A2A4D] font-tabular"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                {POLYVERSE_EXCHANGE_RATE} HTG
+              </p>
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mt-1">
+                Taux Officiel pour 1 USD
+              </p>
+            </div>
+
+            <div>
+              <p
+                className="text-3xl sm:text-4xl font-bold text-[#D85A30] font-tabular"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                {POLYVERSE_SHIPPING_ADDRESS.rate1to5lbs} HTG / LB
+              </p>
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mt-1">
+                Tarif Colis Miami (1 à 5 lbs)
+              </p>
+            </div>
+
+            <div>
+              <p
+                className="text-3xl sm:text-4xl font-bold text-[#141414] font-tabular"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                5 DÉPARTEMENTS
+              </p>
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mt-1">
+                Design, Tech, Finance, Streaming, Events
+              </p>
+            </div>
+
+            <div>
+              <p
+                className="text-3xl sm:text-4xl font-bold text-[#185FA5] font-tabular"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                5 À 7 JOURS
+              </p>
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mt-1">
+                Délai Express Miami ➔ Haïti
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 3: NOS 5 PILIERS D'ACTION (GRILLE PHOTOGRAPHIQUE WWF "NOS COMBATS")
+         ───────────────────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-stone-200 pb-6">
+            <div className="space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#185FA5] block">
+                Catalogue Officiel des Services
+              </span>
+              <h2
+                className="text-3xl sm:text-5xl font-bold uppercase text-[#141414]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Nos 5 Piliers d’Expertise
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('services');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="text-sm font-bold uppercase tracking-wider text-[#0A2A4D] hover:text-[#D85A30] inline-flex items-center space-x-2 cursor-pointer transition-colors"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              <span>Voir tous nos services en détail</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* WWF Asymmetric Photographic Mosaic (2 Wide Cards Top + 3 Cards Bottom) */}
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
             {PILLARS.map((pillar, idx) => {
-              const isDesign = pillar.id === 'design';
-              const isTech = pillar.id === 'tech';
-              const isFinance = pillar.id === 'finance';
-              const isStreaming = pillar.id === 'streaming';
-              const isEvents = pillar.id === 'events';
-
-              const headerBg = isDesign
-                ? 'from-[#185FA5] to-blue-700'
-                : isTech
-                ? 'from-[#0A2A4D] to-slate-900'
-                : isFinance
-                ? 'from-[#D85A30] to-orange-600'
-                : isStreaming
-                ? 'from-red-600 to-rose-800'
-                : 'from-purple-700 to-indigo-900';
-
-              const badgeColor = isDesign
-                ? 'text-[#185FA5] bg-blue-50 border-blue-200'
-                : isTech
-                ? 'text-cyan-700 bg-cyan-50 border-cyan-200'
-                : isFinance
-                ? 'text-[#D85A30] bg-orange-50 border-orange-200'
-                : isStreaming
-                ? 'text-red-700 bg-red-50 border-red-200'
-                : 'text-purple-700 bg-purple-50 border-purple-200';
+              const isLarge = idx < 2;
+              const colSpan = isLarge ? 'md:col-span-3' : 'md:col-span-2';
+              const heightClass = isLarge ? 'h-80 sm:h-[400px]' : 'h-72 sm:h-[340px]';
 
               return (
-                <ScrollReveal key={pillar.id} delay={idx * 0.1}>
-                  <div className="bg-[#FAF9F6] rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full overflow-hidden group">
-                    <div>
-                      {/* Card Top Banner */}
-                      <div className={`p-6 bg-gradient-to-r ${headerBg} text-white flex items-center justify-between`}>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center font-bold text-white border border-white/20">
-                            {isDesign && <Palette className="w-6 h-6 text-white" />}
-                            {isTech && <Code className="w-6 h-6 text-white" />}
-                            {isFinance && <CreditCard className="w-6 h-6 text-white" />}
-                            {isStreaming && <PlayCircle className="w-6 h-6 text-white" />}
-                            {isEvents && <CalendarDays className="w-6 h-6 text-white" />}
-                          </div>
-                          <div>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 block">
-                              Service 0{idx + 1}
-                            </span>
-                            <h3 className="text-xl font-extrabold text-white leading-tight">
-                              {pillar.title}
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
+                <div
+                  key={pillar.id}
+                  onClick={() => handlePillarNavigate(pillar.id)}
+                  className={`${colSpan} ${heightClass} relative overflow-hidden bg-stone-900 group cursor-pointer`}
+                >
+                  <img
+                    src={getPillarImage(pillar.id)}
+                    alt={pillar.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* Editorial dark scrim for guaranteed WCAG legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/15" />
 
-                      {/* Card Body */}
-                      <div className="p-6 sm:p-7 space-y-5">
-                        <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold border ${badgeColor}`}>
-                          {pillar.subtitle}
-                        </div>
-
-                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                          {pillar.shortDesc}
-                        </p>
-
-                        <div className="pt-2 border-t border-slate-200/60 space-y-2.5">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 block">
-                            Services & Prestations Clés :
-                          </span>
-                          {pillar.features.map((feat, fIdx) => (
-                            <div key={fIdx} className="flex items-start space-x-2 text-xs text-slate-700">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                              <span className="font-medium leading-snug">{feat}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card Action Footer */}
-                    <div className="p-6 pt-0 border-t border-slate-100 flex items-center justify-between gap-3">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (isFinance || isStreaming || isEvents) {
-                            setActiveTab('order-service');
-                          } else {
-                            handlePillarClick(pillar.id as ServiceCategory);
-                          }
-                        }}
-                        className={`w-full py-3 px-4 rounded-xl font-bold text-xs transition flex items-center justify-center space-x-2 text-white shadow-xs cursor-pointer ${
-                          isDesign
-                            ? 'bg-[#185FA5] hover:bg-[#0A2A4D]'
-                            : isTech
-                            ? 'bg-[#0A2A4D] hover:bg-[#185FA5]'
-                            : isFinance
-                            ? 'bg-[#D85A30] hover:bg-[#c24e27]'
-                            : isStreaming
-                            ? 'bg-red-600 hover:bg-red-700'
-                            : 'bg-purple-700 hover:bg-purple-800'
-                        }`}
-                      >
-                        <span>Commander ce service</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+                  <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end text-white">
+                    <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#E87048] mb-1.5">
+                      {pillar.subtitle}
+                    </span>
+                    <h3
+                      className="text-2xl sm:text-3xl font-bold uppercase text-white tracking-tight"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
+                    >
+                      {pillar.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-stone-200 mt-2 line-clamp-2 max-w-lg leading-relaxed">
+                      {pillar.shortDesc}
+                    </p>
+                    <div className="mt-4 pt-3 border-t border-white/20 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-white group-hover:text-[#E87048] transition-colors">
+                      <span>Commander ce service</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
-                </ScrollReveal>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Dark Separator 2 */}
-      <SectionDarkDivider label="Modèles & Réalisations Prêtes" />
-
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: TEMPLATES & SERVICES SHOWCASE (WEBNODE PALE BG #F4F6F9)
+          SECTION 4: FOCUS ÉDITORIAL 50/50 — ACHAT SANS CARTE & SHIPPING MIAMI
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#F4F6F9] py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto space-y-10">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between">
-              <div className="space-y-3">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5] block">
-                  Modèles & Réalisations
-                </span>
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] tracking-tight">
-                  Des solutions sur-mesure prêtes pour vous
-                </h2>
-                <p className="text-sm text-[#4B5874] max-w-xl">
-                  Parcourez nos réalisations concrètes et choisissez le service parfaitement adapté à vos objectifs.
-                </p>
-              </div>
+      <section className="bg-[#F4F3EF] border-b border-stone-200">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-stretch">
+          {/* Left Full-Bleed Image */}
+          <div className="relative min-h-[340px] lg:min-h-full overflow-hidden bg-stone-200">
+            <img
+              src={shippingLogisticsBg}
+              alt="Logistique Internationale Miami vers Haïti"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-              {/* Webnode Filter Pills */}
-              <div className="mt-6 md:mt-0 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPortfolioFilter('all')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 ${
-                    portfolioFilter === 'all'
-                      ? 'bg-[#0A2A4D] text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  Tous les projets
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPortfolioFilter('design')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 ${
-                    portfolioFilter === 'design'
-                      ? 'bg-[#185FA5] text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  Sérigraphie
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPortfolioFilter('tech')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 ${
-                    portfolioFilter === 'tech'
-                      ? 'bg-[#0A2A4D] text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  Web & Tech
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPortfolioFilter('finance')}
-                  className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 ${
-                    portfolioFilter === 'finance'
-                      ? 'bg-[#D85A30] text-white shadow-sm'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  Finance & Shipping
-                </button>
+          {/* Right Editorial Specifications Block */}
+          <div className="p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#D85A30]">
+              Focus Finance & Logistique
+            </span>
+
+            <h2
+              className="text-3xl sm:text-4xl lg:text-[44px] font-bold uppercase text-[#141414] leading-[1.03]"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              Achetez Sans Carte et Recevez Vos Colis en Haïti
+            </h2>
+
+            <p className="text-base text-stone-600 leading-relaxed">
+              Collez directement le lien de votre panier entier (Amazon, Shein, eBay) avec vos précisions en description : votre total en Dollars et en Gourdes est calculé instantanément au taux officiel de <strong>{POLYVERSE_EXCHANGE_RATE} HTG/USD</strong>.
+            </p>
+
+            {/* Structured Tabular Specifications */}
+            <div className="border-t border-b border-stone-300 divide-y divide-stone-300 text-sm">
+              <div className="py-3 flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="font-bold text-[#0A2A4D]">Adresse Officielle Miami</span>
+                <span className="font-tabular text-stone-700 font-medium">
+                  {POLYVERSE_SHIPPING_ADDRESS.fullString}
+                </span>
+              </div>
+              <div className="py-3 flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="font-bold text-[#0A2A4D]">Colis de 1 à 5 livres</span>
+                <span className="font-tabular text-[#D85A30] font-bold">
+                  {POLYVERSE_SHIPPING_ADDRESS.rate1to5lbs} HTG / livre + livraison locale
+                </span>
+              </div>
+              <div className="py-3 flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="font-bold text-[#0A2A4D]">Colis de 6 livres et plus</span>
+                <span className="font-tabular text-[#D85A30] font-bold">
+                  {POLYVERSE_SHIPPING_ADDRESS.rate6plusLbs} HTG / livre + livraison locale
+                </span>
+              </div>
+              <div className="py-3 flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="font-bold text-[#0A2A4D]">Streaming & Zelle</span>
+                <span className="text-stone-700">
+                  Netflix, Prime, HBO Max · Échange Zelle en MonCash/Natcash
+                </span>
               </div>
             </div>
-          </ScrollReveal>
 
-          {/* Grid of Projects */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPortfolio.map((item, index) => (
-              <ScrollReveal key={item.id} delay={index * 0.08}>
-                <div
-                  onClick={() => {
-                    setActiveTab('portfolio');
-                    onSelectPortfolioProject(item.id);
-                  }}
-                  className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-2xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full"
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('order-service');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="px-7 py-3.5 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold uppercase tracking-wider transition-colors inline-flex items-center space-x-2 cursor-pointer"
+                style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
+              >
+                <span>Calculer Ma Commande ou Mon Colis</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 5: MOBILISATION SOMBRE — PROGRAMME D'AFFILIATION (STYLE WWF)
+         ───────────────────────────────────────────────────────────── */}
+      <section className="bg-[#0A2A4D] text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 space-y-6">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#E87048]">
+              Programme d’Affiliation Polyverse
+            </span>
+            <h2
+              className="text-3xl sm:text-5xl font-bold uppercase text-white leading-[1.02]"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              Gagnez avec Polyverse Selon Votre Profil
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              Rejoignez l’écosystème Polyverse en choisissant l’un de nos quatre statuts officiels : remplissez votre dossier, signez votre contrat numérique et débloquez vos commissions ou dividendes.
+            </p>
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab('affiliation');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="px-7 py-3.5 bg-[#D85A30] hover:bg-[#b84722] text-white font-bold uppercase tracking-wider transition-colors inline-flex items-center space-x-2 cursor-pointer"
+                style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
+              >
+                <span>Accéder à l’Espace Affiliation</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {
+                num: '01',
+                title: 'Ambassadeur',
+                desc: 'Dossier complet (CIN, NIF, adresse, personne de référence) et contrat officiel signé.',
+              },
+              {
+                num: '02',
+                title: 'Partenaire',
+                desc: 'Proposition de collaboration stratégique et valeur ajoutée mutuelle avec signature contractuelle.',
+              },
+              {
+                num: '03',
+                title: 'Investisseur',
+                desc: 'Consultation de la charte d’investissement officielle (taux 140 HTG) et souscription encadrée.',
+              },
+              {
+                num: '04',
+                title: 'Promoteur',
+                desc: 'Sélection des produits à promouvoir et génération automatique de votre code de référence personnel.',
+              },
+            ].map((track) => (
+              <div
+                key={track.num}
+                onClick={() => {
+                  setActiveTab('affiliation');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="p-6 bg-[#071F3A] border border-white/15 hover:border-[#D85A30] transition-colors cursor-pointer group"
+              >
+                <span className="text-xs font-bold font-tabular text-[#E87048] block mb-2">
+                  STATUT {track.num}
+                </span>
+                <h3
+                  className="text-2xl font-bold uppercase text-white group-hover:text-[#E87048] transition-colors"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
-                  <div>
-                    <div className="relative h-52 overflow-hidden bg-slate-100">
-                      <img
-                        src={item.imageUrl}
-                        alt={item.title}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      />
-                      <div className="absolute top-3 left-3 bg-[#0A2A4D]/90 backdrop-blur-xs text-white text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
-                        {item.category === 'design'
-                          ? 'Design'
-                          : item.category === 'tech'
-                          ? 'Tech'
-                          : 'Finance'}
-                      </div>
-                    </div>
+                  {track.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                  {track.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                    <div className="p-6">
-                      <h3 className="font-bold text-base text-[#192338] group-hover:text-[#185FA5] transition line-clamp-1 mb-1">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs font-semibold text-[#D85A30] mb-2">{item.client}</p>
-                      <p className="text-xs text-[#4B5874] line-clamp-2 leading-relaxed font-normal">
-                        {item.description}
-                      </p>
-                    </div>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 6: RÉALISATIONS & PROJETS (GRILLE ÉDITORIALE WWF "ACTUALITÉS")
+         ───────────────────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-stone-200 pb-6">
+            <div className="space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#185FA5] block">
+                Réalisations Récentes
+              </span>
+              <h2
+                className="text-3xl sm:text-4xl font-bold uppercase text-[#141414]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Projets Déployés Pour Nos Clients
+              </h2>
+            </div>
+
+            {/* Interactive Filter Tabs */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: 'all', label: 'Tous' },
+                { id: 'design', label: 'Design' },
+                { id: 'tech', label: 'Web & Tech' },
+                { id: 'finance', label: 'Finance & Shipping' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setPortfolioFilter(tab.id as 'all' | 'design' | 'tech' | 'finance')}
+                  className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
+                    portfolioFilter === tab.id
+                      ? 'bg-[#141414] text-white border-[#141414]'
+                      : 'bg-white text-stone-700 border-stone-300 hover:border-[#141414]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 3-Column Editorial Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredPortfolio.map((item) => (
+              <article
+                key={item.id}
+                onClick={() => {
+                  setActiveTab('portfolio');
+                  onSelectPortfolioProject(item.id);
+                }}
+                className="group cursor-pointer flex flex-col justify-between border-b border-stone-200 pb-6"
+              >
+                <div>
+                  <div className="aspect-[16/10] overflow-hidden bg-stone-100 mb-4">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
 
-                  <div className="px-6 pb-6 pt-3 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100">
-                    <span className="font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
-                      {item.results || item.date}
+                  {/* Unboxed Clean Editorial Metadata */}
+                  <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-stone-500 mb-2">
+                    <span className="text-[#D85A30]">
+                      {item.category === 'design'
+                        ? 'Design'
+                        : item.category === 'tech'
+                        ? 'Tech & Médias'
+                        : 'Finance & Events'}
                     </span>
-                    <span className="text-[#185FA5] font-bold flex items-center space-x-1 group-hover:translate-x-1 transition">
-                      <span>Explorer</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </span>
+                    <span aria-hidden="true">·</span>
+                    <span>{item.client}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{item.date}</span>
                   </div>
+
+                  <h3
+                    className="text-xl sm:text-2xl font-bold uppercase text-[#141414] group-hover:text-[#185FA5] transition-colors leading-tight mb-2"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm text-stone-600 line-clamp-2 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-              </ScrollReveal>
+
+                <div className="pt-4 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#0A2A4D] group-hover:text-[#D85A30] transition-colors">
+                  <span>{item.results || 'Projet livré'}</span>
+                  <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </article>
             ))}
           </div>
 
-          <div className="text-center pt-4">
+          <div className="pt-2 text-center">
             <button
               type="button"
               onClick={() => {
                 setActiveTab('portfolio');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-7 py-3 rounded-full bg-white hover:bg-slate-100 text-[#192338] font-bold text-xs border border-slate-300 shadow-2xs transition"
+              className="px-7 py-3 border border-[#141414] text-[#141414] hover:bg-[#141414] hover:text-white font-bold text-sm uppercase tracking-wider transition-colors cursor-pointer"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
             >
-              Voir tout le Portfolio Polyverse →
+              Explorer Tout le Portfolio
             </button>
           </div>
         </div>
       </section>
 
-      {/* Dark Separator 3 */}
-      <SectionDarkDivider label="Méthodologie & Déploiement en 3 Étapes" />
-
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 4: 3 ÉTAPES FACILES (WEBNODE PURE WHITE BG #FFFFFF)
+          SECTION 7: MÉTHODOLOGIE EN 3 ÉTAPES & PUBLICS ACCOMPAGNÉS
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5]">
-                Processus Simple & Transparent
+      <section className="bg-[#F4F3EF] py-20 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto space-y-16">
+          {/* 3-Step Process */}
+          <div className="space-y-8">
+            <div className="max-w-2xl space-y-2">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#D85A30]">
+                Méthodologie Simple
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] tracking-tight">
-                Créer avec Polyverse est un jeu d'enfant
+              <h2
+                className="text-3xl sm:text-4xl font-bold uppercase text-[#141414]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Votre Projet Livré en 3 Étapes
               </h2>
-              <p className="text-[#4B5874] text-sm sm:text-base font-normal">
-                3 étapes claires de l'idée initiale jusqu'à la livraison finale entre vos mains.
-              </p>
             </div>
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <ScrollReveal delay={0.1}>
-              <div className="bg-[#F8F9FA] rounded-2xl p-8 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between group">
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-blue-100 text-[#185FA5] flex items-center justify-center font-extrabold text-xl mb-6 group-hover:bg-[#185FA5] group-hover:text-white transition">
-                    01
-                  </div>
-                  <h3 className="text-xl font-bold text-[#192338] mb-3">Exprimez votre besoin</h3>
-                  <p className="text-sm text-[#4B5874] leading-relaxed mb-4 font-normal">
-                    Choisissez votre service (Sérigraphie textile, Site internet vitrine, ou Achat Amazon/Shein). Remplissez le formulaire en ligne en 2 minutes ou écrivez-nous sur WhatsApp.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-slate-200/60 flex items-center text-xs font-bold text-[#185FA5]">
-                  <span>2 minutes requises</span>
-                  <Clock className="w-3.5 h-3.5 ml-1" />
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Step 2 */}
-            <ScrollReveal delay={0.2}>
-              <div className="bg-[#F8F9FA] rounded-2xl p-8 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between group">
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-orange-100 text-[#D85A30] flex items-center justify-center font-extrabold text-xl mb-6 group-hover:bg-[#D85A30] group-hover:text-white transition">
-                    02
-                  </div>
-                  <h3 className="text-xl font-bold text-[#192338] mb-3">Validation & Exécution</h3>
-                  <p className="text-sm text-[#4B5874] leading-relaxed mb-4 font-normal">
-                    Nous validons vos maquettes graphiques, codons votre plateforme ou effectuons vos achats immédiatement aux USA. Vous réglez simplement par MonCash ou Natcash.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-slate-200/60 flex items-center text-xs font-bold text-[#D85A30]">
-                  <span>Suivi transparent en direct</span>
-                  <ThumbsUp className="w-3.5 h-3.5 ml-1" />
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Step 3 */}
-            <ScrollReveal delay={0.3}>
-              <div className="bg-[#F8F9FA] rounded-2xl p-8 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between group">
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-extrabold text-xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
-                    03
-                  </div>
-                  <h3 className="text-xl font-bold text-[#192338] mb-3">Réception & Succès</h3>
-                  <p className="text-sm text-[#4B5874] leading-relaxed mb-4 font-normal">
-                    Récupérez vos textiles sérigraphiés, lancez votre site web devant vos clients ou recevez vos colis directement en Haïti en 5 à 7 jours ouvrables.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-slate-200/60 flex items-center text-xs font-bold text-emerald-700">
-                  <span>Livraison garantie</span>
-                  <Truck className="w-3.5 h-3.5 ml-1" />
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Dark Separator 4 */}
-      <SectionDarkDivider label="Pôles d'Excellence & Métiers Polyverse" />
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 5: ALTERNATING 2-COLUMN FEATURES (WEBNODE SIGNATURE)
-         ───────────────────────────────────────────────────────────── */}
-      <div className="space-y-0">
-        {/* Block 1: Sérigraphie (White Background) */}
-        <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto">
-            <ScrollReveal>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5] bg-blue-50 px-3.5 py-1 rounded-full border border-blue-100 inline-block">
-                    Atelier Sérigraphie & Packaging
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  step: '01',
+                  title: 'Exprimez Votre Besoin',
+                  desc: 'Sélectionnez votre service (Design, Tech, Achat Sans Carte, Streaming ou Événement) en ligne ou directement via WhatsApp.',
+                },
+                {
+                  step: '02',
+                  title: 'Validation & Paiement Local',
+                  desc: 'Nous validons votre cahier des charges ou panier au taux officiel de 140 HTG. Réglez facilement en MonCash, Natcash ou virement.',
+                },
+                {
+                  step: '03',
+                  title: 'Livraison & Résultats',
+                  desc: 'Réceptionnez vos impressions personnalisées, lancez votre plateforme web ou récupérez vos colis venus de Miami en toute sécurité.',
+                },
+              ].map((s) => (
+                <div key={s.step} className="bg-white p-8 border border-stone-200 space-y-4">
+                  <span
+                    className="text-4xl font-bold text-[#D85A30] font-tabular block"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    {s.step}
                   </span>
-                  <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] leading-tight tracking-tight">
-                    Une identité visuelle marquante pour habiller votre projet
-                  </h2>
-                  <p className="text-[#4B5874] text-sm sm:text-base leading-relaxed font-normal">
-                    Que vous soyez une entreprise cherchant des uniformes élégants, un artiste lançant une collection de streetwear, ou un organisateur d'événements, notre atelier de sérigraphie garantit un rendu professionnel impeccable.
-                  </p>
-
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-blue-100 text-[#185FA5] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Impression sur t-shirts, polos, hoodies, casquettes et goodies écologiques.
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-blue-100 text-[#185FA5] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Création complète de logos et chartes graphiques vectorielles sur-mesure.
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-blue-100 text-[#185FA5] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Délais express et contrôle qualité rigoureux avant chaque livraison.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex items-center space-x-4">
-                    <button
-                      type="button"
-                      onClick={() => handlePillarClick('design')}
-                      className="px-7 py-3 rounded-full bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold transition flex items-center space-x-2"
-                    >
-                      <span>Explorer les options Sérigraphie</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={onOpenQuoteModal}
-                      className="text-xs font-bold text-slate-700 hover:text-[#D85A30] underline underline-offset-4 transition"
-                    >
-                      Calculer un devis
-                    </button>
-                  </div>
+                  <h3
+                    className="text-2xl font-bold uppercase text-[#141414]"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    {s.title}
+                  </h3>
+                  <p className="text-sm text-stone-600 leading-relaxed">{s.desc}</p>
                 </div>
-
-                <div className="relative">
-                  <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
-                    <img
-                      src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1000&q=80"
-                      alt="Atelier Textile et Sérigraphie Polyverse"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
-                    />
-                  </div>
-                  <div className="absolute -bottom-5 -right-5 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 max-w-xs">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#185FA5]">
-                        <Palette className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-[#192338]">100% Maquettes Validées</p>
-                        <p className="text-[11px] text-slate-500 font-medium">Validation gratuite avant tirage</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
+              ))}
+            </div>
           </div>
-        </section>
 
-        {/* Dark Separator between Features Block 1 and 2 */}
-        <SectionDarkDivider label="Ingénierie Web & Accélération Digitale" />
-
-        {/* Block 2: Tech & Marketing (Pale Background #F4F6F9) */}
-        <section className="bg-[#F4F6F9] py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto">
-            <ScrollReveal>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="relative order-2 lg:order-1">
-                  <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
-                    <img
-                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"
-                      alt="Développement Web et Solutions Digitales Polyverse"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
-                    />
-                  </div>
-                  <div className="absolute -top-5 -left-5 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 max-w-xs">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                        <Laptop className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-[#192338]">Sites Haute Performance</p>
-                        <p className="text-[11px] text-emerald-600 font-bold">SEO & Mobile-Ready</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-6 order-1 lg:order-2">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#0A2A4D] bg-slate-200/70 px-3.5 py-1 rounded-full border border-slate-300 inline-block">
-                    Développement Web & Marketing
-                  </span>
-                  <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] leading-tight tracking-tight">
-                    Propulsez votre visibilité avec des outils digitaux modernes
-                  </h2>
-                  <p className="text-[#4B5874] text-sm sm:text-base leading-relaxed font-normal">
-                    Un site web lent ou mal structuré fait fuir vos prospects. Nous concevons des sites responsives ultra-rapides et déployons des campagnes Meta Ads géolocalisées pour convertir vos visiteurs en acheteurs réguliers.
-                  </p>
-
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-slate-200 text-[#0A2A4D] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Développement web sur-mesure (React, Tailwind, WordPress, Shopify).
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-slate-200 text-[#0A2A4D] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Gestion professionnelle de publicités Facebook & Instagram Ads.
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-slate-200 text-[#0A2A4D] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Cartes virtuelles Visa/Mastercard pour vos paiements de campagnes publicitaires.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex items-center space-x-4">
-                    <button
-                      type="button"
-                      onClick={() => handlePillarClick('tech')}
-                      className="px-7 py-3 rounded-full bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold transition flex items-center space-x-2"
-                    >
-                      <span>Découvrir les services Tech</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={onOpenQuoteModal}
-                      className="text-xs font-bold text-slate-700 hover:text-[#D85A30] underline underline-offset-4 transition"
-                    >
-                      Obtenir un devis web
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        {/* Dark Separator between Features Block 2 and 3 */}
-        <SectionDarkDivider label="Logistique Internationale & Achats USA" />
-
-        {/* Block 3: Achat Sans Carte (White Background) */}
-        <section className="bg-white py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto">
-            <ScrollReveal>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1 rounded-full border border-orange-100 inline-block">
-                    Finance & Logistique Internationale
-                  </span>
-                  <h2 className="text-2xl sm:text-4xl font-extrabold text-[#192338] leading-tight tracking-tight">
-                    Accédez à tous les magasins du monde sans carte bancaire
-                  </h2>
-                  <p className="text-[#4B5874] text-sm sm:text-base leading-relaxed font-normal">
-                    Ne soyez plus bloqué par l’absence de carte internationale. Commandez vêtements, électronique ou matériel professionnel sur Amazon, Shein ou AliExpress et réglez simplement par MonCash ou Natcash.
-                  </p>
-
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-orange-100 text-[#D85A30] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Achat sécurisé immédiat avec notre carte bancaire aux USA.
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-orange-100 text-[#D85A30] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Réception en entrepôt à Miami et réexpédition sécurisée vers Haïti.
-                      </p>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="p-1 rounded-full bg-orange-100 text-[#D85A30] mt-0.5">
-                        <Check className="w-3.5 h-3.5" />
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                        Paiement 100% en Gourdes (MonCash / Natcash) au taux transparent du jour.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex items-center space-x-4">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setActiveTab('order-service');
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                      className="px-7 py-3 rounded-full bg-[#D85A30] hover:bg-[#c24e27] text-white text-xs font-bold transition flex items-center space-x-2"
-                    >
-                      <span>Lancer une commande sans carte</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
-                    <img
-                      src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1000&q=80"
-                      alt="Achat Sans Carte et Livraison de Colis Polyverse"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition duration-500"
-                    />
-                  </div>
-                  <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 max-w-xs">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#D85A30]">
-                        <CreditCard className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-[#192338]">100% MonCash & Natcash</p>
-                        <p className="text-[11px] text-slate-500 font-medium">Zéro frais cachés</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-      </div>
-
-      {/* Dark Separator 5 */}
-      <SectionDarkDivider label="Profils & Secteurs Accompagnés" />
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 6: POUR QUI TRAVAILLONS-NOUS (WEBNODE PALE BG #F4F6F9)
-         ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#F4F6F9] py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#185FA5]">
-                Pour Qui Travaillons-nous ?
+          {/* Target Audiences */}
+          <div className="space-y-8 pt-8 border-t border-stone-300">
+            <div className="max-w-2xl space-y-2">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#185FA5]">
+                Pour Qui Travaillons-Nous ?
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#192338] tracking-tight">
-                À Qui S’adresse Polyverse ?
+              <h2
+                className="text-3xl sm:text-4xl font-bold uppercase text-[#141414]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Des Solutions Adaptées à Chaque Profil
               </h2>
-              <p className="text-[#4B5874] text-sm font-normal">
-                Que vous soyez une entreprise établie, un étudiant ou un créateur, nous avons la réponse adaptée à votre besoin.
-              </p>
             </div>
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TARGET_AUDIENCES.map((audience, idx) => (
-              <ScrollReveal key={audience.id} delay={idx * 0.1}>
-                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-2xs hover:shadow-lg transition-all duration-300 h-full flex flex-col justify-between">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {TARGET_AUDIENCES.map((audience) => (
+                <div
+                  key={audience.id}
+                  className="bg-white p-6 border border-stone-200 flex flex-col justify-between space-y-4"
+                >
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-                      {getAudienceIcon(audience.icon)}
-                    </div>
-                    <h3 className="font-bold text-base text-[#192338] mb-2">{audience.title}</h3>
-                    <p className="text-xs text-[#4B5874] leading-relaxed mb-4 font-normal">{audience.description}</p>
+                    <div className="mb-3">{getAudienceIcon(audience.icon)}</div>
+                    <h3
+                      className="text-xl font-bold uppercase text-[#141414] mb-2"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
+                    >
+                      {audience.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                      {audience.description}
+                    </p>
                   </div>
-                  <div className="flex flex-wrap gap-1 pt-3 border-t border-slate-100">
-                    {audience.suitableServices.map((srv, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-semibold text-slate-700"
-                      >
-                        {srv}
-                      </span>
-                    ))}
+                  <div className="pt-3 border-t border-stone-100 text-[11px] font-semibold text-stone-500">
+                    {audience.suitableServices.join(' · ')}
                   </div>
                 </div>
-              </ScrollReveal>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Dark Separator 6 */}
-      <SectionDarkDivider label="Avis Vérifiés & Témoignages Clients" />
-
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 7: TÉMOIGNAGES & AVIS CLIENTS (WEBNODE PURE WHITE BG #FFFFFF)
+          SECTION 8: TÉMOIGNAGES & FOIRE AUX QUESTIONS
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-white py-16 border-b border-slate-200/80">
-        <ScrollReveal>
-          <TestimonialsSection onOpenQuoteModal={onOpenQuoteModal} />
-        </ScrollReveal>
+      <section className="bg-white py-16 border-b border-stone-200">
+        <TestimonialsSection onOpenQuoteModal={onOpenQuoteModal} />
       </section>
 
-      {/* Dark Separator 7 */}
-      <SectionDarkDivider label="Transparence & Questions Fréquentes" />
+      <section className="bg-[#F4F3EF] py-20 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-4xl mx-auto space-y-10">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#D85A30]">
+              Informations Pratiques
+            </span>
+            <h2
+              className="text-3xl sm:text-4xl font-bold uppercase text-[#141414]"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              Questions Fréquentes
+            </h2>
+          </div>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 8: FOIRE AUX QUESTIONS / FAQ (WEBNODE PALE BG #F4F6F9)
-         ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#F4F6F9] py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80">
-        <div className="max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-12 space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30]">
-                Questions Fréquentes
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#192338] tracking-tight">
-                Tout ce que vous devez savoir
-              </h2>
-              <p className="text-[#4B5874] text-sm font-normal">
-                Réponses claires à vos questions sur nos services, délais et paiements.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-4">
+          <div className="bg-white border border-stone-200 divide-y divide-stone-200">
             {FAQS.map((faq, index) => {
               const isOpen = openFaqIndex === index;
               return (
-                <ScrollReveal key={index} delay={index * 0.05}>
-                  <div className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs transition">
-                    <button
-                      type="button"
-                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                      className="w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-[#192338] hover:text-[#185FA5] transition cursor-pointer"
-                    >
-                      <span className="pr-4">{faq.q}</span>
-                      <ChevronDown
-                        className={`w-5 h-5 shrink-0 text-slate-400 transition-transform duration-300 ${
-                          isOpen ? 'rotate-180 text-[#D85A30]' : ''
-                        }`}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <div className="px-5 pb-5 text-xs sm:text-sm text-[#4B5874] leading-relaxed border-t border-slate-100 pt-3 font-normal">
-                            {faq.a}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </ScrollReveal>
+                <div key={index}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                    className="w-full p-6 text-left flex items-center justify-between gap-4 hover:bg-stone-50 transition-colors cursor-pointer"
+                  >
+                    <span className="font-bold text-base text-[#141414]">{faq.q}</span>
+                    <ChevronDown
+                      className={`w-5 h-5 shrink-0 text-stone-500 transition-transform duration-200 ${
+                        isOpen ? 'rotate-180 text-[#D85A30]' : ''
+                      }`}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-6 pb-6 text-sm text-stone-600 leading-relaxed">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Dark Separator 8 */}
-      <SectionDarkDivider label="Lancement de Projet & Devis en Direct" />
-
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 9: PRE-FOOTER FINAL CTA BANNER (WEBNODE SIGNATURE NAVY #0A2A4D)
+          SECTION 9: PRE-FOOTER ACTION CALLOUT (STYLE WWF MOBILISATION)
          ───────────────────────────────────────────────────────────── */}
-      <section className="bg-slate-900 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <div className="relative rounded-3xl overflow-hidden bg-[#0A2A4D] p-8 sm:p-14 text-white shadow-2xl border border-slate-700/80">
-              {/* High-visibility background image with dark gradient */}
-              <div className="absolute inset-0 z-0">
-                <img
-                  src={polyverseServicesBanner}
-                  alt="Polyverse Services Banner"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center filter brightness-110 contrast-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/95" />
-              </div>
+      <section className="bg-[#D85A30] text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="max-w-2xl space-y-3">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/90 block">
+              Passez à l’action dès maintenant
+            </span>
+            <h2
+              className="text-3xl sm:text-5xl font-bold uppercase text-white leading-[1.02]"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              Prêt à Concrétiser Votre Projet avec Polyverse ?
+            </h2>
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+              Obtenez un devis immédiat sans engagement, commandez vos articles aux USA sans carte bancaire ou rejoignez notre programme d’affiliation.
+            </p>
+          </div>
 
-              <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-                <div className="inline-flex items-center space-x-2 bg-white/15 px-4 py-1.5 rounded-full text-xs font-semibold text-blue-100 backdrop-blur-md">
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span>Commencez dès aujourd'hui sans frais initiaux</span>
-                </div>
+          <div className="flex flex-wrap items-center gap-3.5 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenQuoteModal}
+              className="px-7 py-4 bg-[#141414] hover:bg-black text-white font-bold uppercase tracking-wider transition-colors flex items-center space-x-2 cursor-pointer"
+              style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
+            >
+              <Calculator className="w-4 h-4" />
+              <span>Calculer Mon Devis Gratuit</span>
+            </button>
 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                  Prêt à créer votre propre projet ?
-                </h2>
-
-                <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl mx-auto font-normal">
-                  Discutez directement avec nos deux associés fondateurs pour obtenir un devis personnalisé, une assistance technique ou passer une commande sans carte de crédit.
-                </p>
-
-                <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-                  <button
-                    type="button"
-                    onClick={onOpenQuoteModal}
-                    className="px-8 py-4 rounded-full bg-[#D85A30] hover:bg-[#c24e27] text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center space-x-2 cursor-pointer"
-                  >
-                    <Calculator className="w-4 h-4" />
-                    <span>Calculer Mon Devis Gratuit</span>
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </button>
-
-                  <a
-                    href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=Bonjour%20Polyverse%2C%20je%20souhaite%20lancer%20un%20projet`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-7 py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-all flex items-center space-x-2"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>WhatsApp Direct</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
+            <a
+              href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=Bonjour%20Polyverse%2C%20je%20souhaite%20lancer%20un%20projet`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-4 bg-white text-[#141414] hover:bg-stone-100 font-bold uppercase tracking-wider transition-colors flex items-center space-x-2"
+              style={{ fontFamily: "'Oswald', sans-serif", fontSize: '16px' }}
+            >
+              <MessageCircle className="w-4 h-4 text-emerald-700" />
+              <span>WhatsApp Direct</span>
+            </a>
+          </div>
         </div>
       </section>
     </div>

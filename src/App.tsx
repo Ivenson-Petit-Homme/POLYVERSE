@@ -41,10 +41,10 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#0A2A4D] selection:bg-[#D85A30] selection:text-white relative">
+      <div className="min-h-screen flex flex-col bg-white text-[#141414] selection:bg-[#D85A30] selection:text-white relative">
         {/* Scroll Progress Bar */}
         <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#D85A30] via-[#185FA5] to-emerald-500 z-50 origin-left shadow-xs"
+          className="fixed top-0 left-0 right-0 h-1 bg-[#D85A30] z-50 origin-left"
           style={{ scaleX }}
         />
 
