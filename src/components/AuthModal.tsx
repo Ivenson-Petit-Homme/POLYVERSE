@@ -10,8 +10,6 @@ import {
   ShieldCheck,
   X,
   ArrowRight,
-  Sparkles,
-  ShoppingBag,
   CheckCircle2,
   AlertCircle,
 } from 'lucide-react';
@@ -27,18 +25,15 @@ export const AuthModal: React.FC = () => {
     adminEmail,
   } = useAuth();
 
-  // Login form state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
-  // Register form state
   const [regName, setRegName] = useState('');
   const [regEmail, setRegEmail] = useState('');
   const [regPhone, setRegPhone] = useState('');
   const [regAddress, setRegAddress] = useState('');
   const [regPassword, setRegPassword] = useState('');
 
-  // UI state
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -113,63 +108,60 @@ export const AuthModal: React.FC = () => {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsAuthModalOpen(false)}
-          className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"
+          className="absolute inset-0 bg-black/65 backdrop-blur-xs"
         />
 
-        {/* Modal Window */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
+          initial={{ opacity: 0, scale: 0.97, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="relative bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100 z-10"
+          exit={{ opacity: 0, scale: 0.97, y: 12 }}
+          className="relative bg-white max-w-md w-full shadow-2xl overflow-hidden border border-stone-300 z-10"
         >
-          {/* Header banner */}
-          <div className="bg-gradient-to-r from-[#0A2A4D] via-[#185FA5] to-[#D85A30] p-6 text-white relative">
+          {/* Editorial Navy Header */}
+          <div className="bg-[#0A2A4D] p-6 text-white relative">
             <button
               onClick={() => setIsAuthModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition cursor-pointer"
+              className="absolute top-4 right-4 p-1.5 text-stone-300 hover:text-white transition-colors cursor-pointer"
               aria-label="Fermer"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center space-x-2.5 mb-2">
-              <div className="p-2 rounded-xl bg-white/15 backdrop-blur-xs">
-                <ShieldCheck className="w-5 h-5 text-amber-300" />
-              </div>
-              <span className="text-xs uppercase tracking-wider font-extrabold text-orange-200">
-                Espace Membre & Administration
+            <div className="flex items-center space-x-2 mb-1.5">
+              <ShieldCheck className="w-4 h-4 text-[#E87048]" />
+              <span className="text-[11px] uppercase tracking-[0.16em] font-bold text-[#E87048]">
+                Espace Membre &amp; Administration
               </span>
             </div>
 
-            <h3 className="text-xl font-black tracking-tight">
+            <h3
+              className="text-2xl font-bold uppercase tracking-wide"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
               {authModalMode === 'login' ? 'Connexion à Polyverse' : 'Créer un Compte Client'}
             </h3>
-            <p className="text-xs text-blue-100 mt-1">
+            <p className="text-xs text-stone-300 mt-1">
               {authModalMode === 'login'
-                ? 'Accédez à votre espace client, suivez vos commandes ou ouvrez le tableau de bord administrateur.'
-                : 'Créez un compte sécurisé pour passer commande, valider un achat sans carte et bénéficier de vos remises.'}
+                ? 'Accédez à votre espace client, suivez vos commandes ou accédez au tableau de bord administrateur.'
+                : 'Créez un compte pour valider vos commandes, achats sans carte et suivis de colis.'}
             </p>
           </div>
 
-          {/* Mode Switcher Tabs */}
-          <div className="flex border-b border-slate-200 bg-slate-50/70 p-1">
+          {/* Sharp Switcher Tabs */}
+          <div className="grid grid-cols-2 border-b border-stone-200 bg-[#F4F3EF]">
             <button
               type="button"
               onClick={() => {
                 setAuthModalMode('login');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                authModalMode === 'login'
-                  ? 'bg-white text-[#0A2A4D] shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+              className={`py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                authModalMode === 'login' ? 'bg-white text-[#0A2A4D]' : 'text-stone-600 hover:text-[#141414]'
               }`}
             >
               Se Connecter
@@ -180,89 +172,81 @@ export const AuthModal: React.FC = () => {
                 setAuthModalMode('register');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                authModalMode === 'register'
-                  ? 'bg-white text-[#D85A30] shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+              className={`py-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                authModalMode === 'register' ? 'bg-white text-[#D85A30]' : 'text-stone-600 hover:text-[#141414]'
               }`}
             >
               Créer un Compte
             </button>
           </div>
 
-          {/* Content Area */}
           <div className="p-6">
-            {/* Quick Admin Access One-Click Button */}
             {authModalMode === 'login' && (
-              <div className="mb-5 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-slate-800">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <ShieldCheck className="w-5 h-5 text-amber-600 shrink-0" />
-                    <div>
-                      <p className="text-xs font-extrabold text-[#0A2A4D]">Accès Administrateur Express</p>
-                      <p className="text-[11px] text-slate-600">Pour le gestionnaire de la plateforme</p>
-                    </div>
+              <div className="mb-5 p-3.5 bg-[#F4F3EF] border border-stone-300 flex items-center justify-between gap-2">
+                <div className="flex items-center space-x-2">
+                  <ShieldCheck className="w-5 h-5 text-[#D85A30] shrink-0" />
+                  <div>
+                    <p className="text-xs font-bold uppercase text-[#141414]">Accès Administrateur</p>
+                    <p className="text-[11px] text-stone-600">Ouverture directe de la gestion</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleQuickAdminLogin}
-                    disabled={loading}
-                    className="px-3 py-1.5 rounded-lg bg-[#0A2A4D] hover:bg-[#185FA5] text-amber-300 font-extrabold text-[11px] shadow-xs transition cursor-pointer"
-                  >
-                    ⚡ Entrer Admin
-                  </button>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleQuickAdminLogin}
+                  disabled={loading}
+                  className="px-3.5 py-2 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold uppercase tracking-wider text-[11px] transition-colors cursor-pointer shrink-0"
+                >
+                  Entrer Admin
+                </button>
               </div>
             )}
 
-            {/* Alerts */}
             {errorMsg && (
-              <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center space-x-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+              <div className="mb-4 p-3 bg-red-50 border border-red-300 text-red-700 text-xs flex items-center space-x-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+              <div className="mb-4 p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs flex items-center space-x-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-700" />
                 <span>{successMsg}</span>
               </div>
             )}
 
-            {/* LOGIN FORM */}
             {authModalMode === 'login' ? (
               <form onSubmit={handleLoginSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    Adresse E-mail (ou E-mail Administrateur) *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Adresse E-mail *
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
                     <input
                       type="text"
                       required
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      placeholder="Ex: client@gmail.com ou admin@polyverse.com"
-                      className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none transition"
+                      placeholder="client@exemple.com ou admin@polyverse.com"
+                      className="w-full pl-9 pr-3 py-2.5 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    Mot de passe *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Mot de Passe *
                   </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                    <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
                     <input
                       type="password"
                       required
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:border-[#185FA5] focus:ring-2 focus:ring-blue-100 outline-none transition"
+                      className="w-full pl-9 pr-3 py-2.5 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
@@ -270,101 +254,98 @@ export const AuthModal: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3.5 bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-sm font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
                   {loading ? (
                     <span>Connexion en cours...</span>
                   ) : (
                     <>
-                      <span>Se connecter</span>
+                      <span>Se Connecter</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
 
-                {/* Info credentials */}
-                <div className="pt-2 text-center">
-                  <p className="text-[11px] text-slate-500">
-                    Compte Administrateur : <span className="font-semibold text-slate-700">admin@polyverse.com</span> (ou votre e-mail)
-                  </p>
-                </div>
+                <p className="text-[11px] text-stone-500 text-center pt-1">
+                  Compte Administrateur : <span className="font-semibold text-stone-800">admin@polyverse.com</span>
+                </p>
               </form>
             ) : (
-              /* REGISTER FORM */
               <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
                     Nom et Prénom *
                   </label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    <User className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       required
                       value={regName}
                       onChange={(e) => setRegName(e.target.value)}
-                      placeholder="Ex: Jean-Baptiste Moïse"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
+                      placeholder="Ex : Jean-Baptiste Moïse"
+                      className="w-full pl-9 pr-3 py-2 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
                     Adresse E-mail *
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
                     <input
                       type="email"
                       required
                       value={regEmail}
                       onChange={(e) => setRegEmail(e.target.value)}
                       placeholder="votre-email@exemple.com"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
+                      className="w-full pl-9 pr-3 py-2 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
                     Téléphone / WhatsApp *
                   </label>
                   <div className="relative">
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
                     <input
                       type="tel"
                       required
                       value={regPhone}
                       onChange={(e) => setRegPhone(e.target.value)}
-                      placeholder="+509 37XX-XXXX ou WhatsApp"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
+                      placeholder="+509 37XX-XXXX"
+                      className="w-full pl-9 pr-3 py-2 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Adresse de livraison (Ville, Rue)
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Adresse de Livraison
                   </label>
                   <div className="relative">
-                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    <MapPin className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
                     <input
                       type="text"
                       value={regAddress}
                       onChange={(e) => setRegAddress(e.target.value)}
-                      placeholder="Ex: Caracol, Cap-Haïtien, Port-au-Prince..."
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
+                      placeholder="Ex : Caracol, Cap-Haïtien..."
+                      className="w-full pl-9 pr-3 py-2 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    Créer un mot de passe (au moins 6 caractères) *
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Mot de Passe (6 caractères min.) *
                   </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                    <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
                     <input
                       type="password"
                       required
@@ -372,7 +353,7 @@ export const AuthModal: React.FC = () => {
                       value={regPassword}
                       onChange={(e) => setRegPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#D85A30] focus:ring-2 focus:ring-orange-100 outline-none transition"
+                      className="w-full pl-9 pr-3 py-2 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                     />
                   </div>
                 </div>
@@ -380,14 +361,15 @@ export const AuthModal: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 bg-[#D85A30] hover:bg-[#bf4821] text-white text-xs font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50 mt-2"
+                  className="w-full py-3.5 bg-[#D85A30] hover:bg-[#b84722] text-white text-sm font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50 mt-2"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
                   {loading ? (
                     <span>Création du compte...</span>
                   ) : (
                     <>
-                      <span>Créer mon compte</span>
-                      <Sparkles className="w-4 h-4" />
+                      <span>Créer Mon Compte</span>
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>

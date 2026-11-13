@@ -201,84 +201,84 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
       {/* Controls Bar: Filters & Navigation Controls */}
       <ScrollReveal delay={0.1}>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-[#F4F3EF] p-4 border border-stone-200">
           {/* Pillar Filter Tabs */}
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className={`px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'bg-[#0A2A4D] text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-[#0A2A4D] text-white'
+                  : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
               }`}
             >
               Tous ({testimonialsList.length})
             </button>
             <button
               onClick={() => setSelectedCategory('design')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className={`px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
                 selectedCategory === 'design'
-                  ? 'bg-[#185FA5] text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-[#0A2A4D] text-white'
+                  : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
               }`}
             >
-              Design & Sérigraphie
+              Design &amp; Sérigraphie
             </button>
             <button
               onClick={() => setSelectedCategory('tech')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className={`px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
                 selectedCategory === 'tech'
-                  ? 'bg-[#0A2A4D] text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-[#0A2A4D] text-white'
+                  : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
               }`}
             >
-              Tech & Marketing
+              Tech &amp; Marketing
             </button>
             <button
               onClick={() => setSelectedCategory('finance')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+              className={`px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
                 selectedCategory === 'finance'
-                  ? 'bg-[#D85A30] text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-[#D85A30] text-white'
+                  : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
               }`}
             >
-              Finance & Investissement
+              Finance &amp; Shipping
             </button>
           </div>
 
           {/* Carousel Auto-scroll Controls & Action */}
           <div className="flex items-center space-x-3 shrink-0">
-            <div className="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+            <div className="flex items-center space-x-1 bg-white p-1 border border-stone-300">
               <button
                 onClick={() => setIsAutoplay(!isAutoplay)}
-                className="p-1.5 rounded-lg text-slate-600 hover:bg-white transition flex items-center space-x-1 cursor-pointer"
+                className="p-1.5 text-stone-700 hover:bg-[#F4F3EF] transition-colors flex items-center space-x-1 cursor-pointer"
                 title={isAutoplay ? 'Mettre en pause le défilement automatique' : 'Démarrer le défilement automatique'}
               >
                 {isAutoplay ? (
                   <>
-                    <Pause className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Pause</span>
+                    <Pause className="w-3.5 h-3.5 text-emerald-700" />
+                    <span className="text-[11px] font-bold uppercase hidden sm:inline">Pause</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3.5 h-3.5 text-slate-700" />
-                    <span className="text-[11px] font-medium text-slate-700 hidden sm:inline">Auto</span>
+                    <Play className="w-3.5 h-3.5 text-stone-700" />
+                    <span className="text-[11px] font-bold uppercase hidden sm:inline">Auto</span>
                   </>
                 )}
               </button>
 
-              <div className="h-4 w-px bg-slate-300"></div>
+              <div className="h-4 w-px bg-stone-300"></div>
 
               <button
                 onClick={handleScrollLeft}
-                className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition cursor-pointer"
+                className="p-1.5 hover:bg-[#F4F3EF] text-stone-700 transition-colors cursor-pointer"
                 aria-label="Faire défiler vers la gauche"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={handleScrollRight}
-                className="p-1.5 rounded-lg hover:bg-white text-slate-700 transition cursor-pointer"
+                className="p-1.5 hover:bg-[#F4F3EF] text-stone-700 transition-colors cursor-pointer"
                 aria-label="Faire défiler vers la droite"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -287,10 +287,11 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition flex items-center space-x-1.5 active:scale-95 cursor-pointer"
+              className="px-4 py-2.5 bg-[#D85A30] hover:bg-[#b84722] text-white font-bold uppercase tracking-wider text-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
             >
               <MessageSquarePlus className="w-4 h-4" />
-              <span>Donner mon avis</span>
+              <span>Donner Mon Avis</span>
             </button>
           </div>
         </div>
@@ -298,244 +299,249 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
       {/* HORIZONTAL AUTO-SCROLLING CAROUSEL TRACK */}
       <ScrollReveal delay={0.15}>
-      {filteredTestimonials.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-3">
-          <Quote className="w-10 h-10 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-[#0A2A4D]">
-            Aucun témoignage trouvé dans cette catégorie
-          </h3>
-          <p className="text-xs text-slate-500">
-            Soyez le premier à ajouter votre retour d'expérience sur nos services !
-          </p>
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className="mt-2 text-xs font-bold text-[#185FA5] underline cursor-pointer"
-          >
-            Afficher tous les témoignages
-          </button>
-        </div>
-      ) : (
-        <div className="relative group">
-          {/* Scroll Container */}
-          <div
-            ref={scrollContainerRef}
-            onMouseEnter={() => setIsAutoplay(false)}
-            onMouseLeave={() => setIsAutoplay(true)}
-            className="flex space-x-6 overflow-x-auto scrollbar-none py-4 px-2 scroll-smooth"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {filteredTestimonials.map((item) => {
-              const badge = getCategoryBadge(item.category);
-              return (
-                <div
-                  key={item.id}
-                  className="min-w-[300px] sm:min-w-[340px] max-w-[340px] bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:shadow-xl transition-all flex flex-col justify-between shrink-0 group/card hover:-translate-y-1"
-                >
-                  <div>
-                    {/* Header: Rating & Pillar Badge */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-1">
-                        {[...Array(5)].map((_, idx) => (
-                          <Star
-                            key={idx}
-                            className={`w-4 h-4 ${
-                              idx < item.rating
-                                ? 'fill-amber-400 text-amber-400'
-                                : 'fill-slate-200 text-slate-200'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span
-                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${badge.bg}`}
-                      >
-                        {badge.label}
-                      </span>
-                    </div>
-
-                    {/* Feedback Content */}
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-6 line-clamp-4">
-                      "{item.content}"
-                    </p>
-                  </div>
-
-                  {/* Footer: Client Info */}
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0A2A4D] to-[#185FA5] text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
-                        {item.name.charAt(0)}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-xs text-[#0A2A4D] flex items-center space-x-1">
-                          <span className="truncate max-w-[130px]">{item.name}</span>
-                          {item.verified && (
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" title="Avis Vérifié" />
-                          )}
-                        </h4>
-                        <p className="text-[10px] text-slate-500 font-medium line-clamp-1">
-                          {item.role} • <span className="text-[#D85A30] font-semibold">{item.company}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] text-slate-400 font-medium shrink-0">{item.date}</span>
-                  </div>
-                </div>
-              );
-            })}
+        {filteredTestimonials.length === 0 ? (
+          <div className="bg-[#F4F3EF] p-12 text-center border border-stone-200 space-y-3">
+            <Quote className="w-10 h-10 text-stone-400 mx-auto" />
+            <h3
+              className="text-lg font-bold uppercase text-[#141414]"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              Aucun témoignage dans cette catégorie
+            </h3>
+            <p className="text-xs text-stone-600">
+              Soyez le premier à partager votre retour d’expérience sur nos services.
+            </p>
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className="mt-2 text-xs font-bold uppercase tracking-wider text-[#D85A30] underline cursor-pointer"
+            >
+              Afficher tous les témoignages
+            </button>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="relative group">
+            <div
+              ref={scrollContainerRef}
+              onMouseEnter={() => setIsAutoplay(false)}
+              onMouseLeave={() => setIsAutoplay(true)}
+              className="flex space-x-5 overflow-x-auto scrollbar-none py-2 scroll-smooth"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {filteredTestimonials.map((item) => {
+                const badge = getCategoryBadge(item.category);
+                return (
+                  <div
+                    key={item.id}
+                    className="min-w-[300px] sm:min-w-[350px] max-w-[350px] bg-white p-6 border border-stone-200 hover:border-[#0A2A4D] transition-colors flex flex-col justify-between shrink-0"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, idx) => (
+                            <Star
+                              key={idx}
+                              className={`w-3.5 h-3.5 ${
+                                idx < item.rating
+                                  ? 'fill-amber-400 text-amber-400'
+                                  : 'fill-stone-200 text-stone-200'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#D85A30]">
+                          {badge.label}
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-stone-700 leading-relaxed mb-6 line-clamp-4">
+                        « {item.content} »
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-stone-200 flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-9 h-9 bg-[#0A2A4D] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                          {item.name.charAt(0)}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-xs text-[#141414] flex items-center space-x-1">
+                            <span className="truncate max-w-[140px]">{item.name}</span>
+                            {item.verified && (
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0" title="Avis Vérifié" />
+                            )}
+                          </h4>
+                          <p className="text-[11px] text-stone-500 font-medium line-clamp-1">
+                            {item.role} · <span className="text-[#D85A30] font-semibold">{item.company}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] text-stone-400 font-medium shrink-0">{item.date}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </ScrollReveal>
 
       {/* SUBMIT TESTIMONIAL MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative animate-in zoom-in-95 duration-200">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100 transition"
-              aria-label="Fermer la fenêtre"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#185FA5] flex items-center space-x-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Polyverse Feedback</span>
-              </span>
-              <h3 className="text-xl font-extrabold text-[#0A2A4D]">
-                Partagez Votre Expérience Client
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Votre avis nous aide à maintenir l'excellence de nos services en Design, Tech et Finance.
-              </p>
+        <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-stone-300 max-w-lg w-full shadow-2xl overflow-hidden relative">
+            <div className="bg-[#0A2A4D] text-white p-6 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#E87048] block">
+                  Retours Clients Polyverse
+                </span>
+                <h3
+                  className="text-xl font-bold uppercase mt-0.5"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
+                >
+                  Partagez Votre Expérience
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="p-1.5 text-stone-300 hover:text-white transition-colors cursor-pointer"
+                aria-label="Fermer la fenêtre"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {submittedSuccess ? (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 text-center space-y-3">
-                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-                <h4 className="font-bold text-emerald-900 text-base">Merci pour votre avis !</h4>
-                <p className="text-xs text-emerald-700">
-                  Votre témoignage a été ajouté avec succès à la liste client de Polyverse.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleAddTestimonial} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 block">
-                      Votre Nom Complet <span className="text-[#D85A30]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={newFeedback.name}
-                      onChange={(e) => setNewFeedback({ ...newFeedback, name: e.target.value })}
-                      placeholder="Ex: Jean Marc"
-                      className="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 block">
-                      Votre Rôle / Fonction
-                    </label>
-                    <input
-                      type="text"
-                      value={newFeedback.role}
-                      onChange={(e) => setNewFeedback({ ...newFeedback, role: e.target.value })}
-                      placeholder="Ex: Fondateur / Étudiant"
-                      className="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
-                    />
-                  </div>
+            <div className="p-6 space-y-5">
+              {submittedSuccess ? (
+                <div className="bg-emerald-50 border border-emerald-300 p-6 text-center space-y-3">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-700 mx-auto" />
+                  <h4
+                    className="font-bold uppercase text-emerald-900 text-lg"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    Merci pour votre avis
+                  </h4>
+                  <p className="text-xs text-emerald-800">
+                    Votre témoignage a bien été publié dans la section clients Polyverse.
+                  </p>
                 </div>
+              ) : (
+                <form onSubmit={handleAddTestimonial} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                        Nom Complet *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={newFeedback.name}
+                        onChange={(e) => setNewFeedback({ ...newFeedback, name: e.target.value })}
+                        placeholder="Ex : Jean Marc"
+                        className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
+                      />
+                    </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 block">
-                      Nom de l'Entreprise / Organisation
-                    </label>
-                    <input
-                      type="text"
-                      value={newFeedback.company}
-                      onChange={(e) => setNewFeedback({ ...newFeedback, company: e.target.value })}
-                      placeholder="Ex: Bistro Créole / Particulier"
-                      className="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
-                    />
+                    <div>
+                      <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                        Fonction / Statut
+                      </label>
+                      <input
+                        type="text"
+                        value={newFeedback.role}
+                        onChange={(e) => setNewFeedback({ ...newFeedback, role: e.target.value })}
+                        placeholder="Ex : Fondateur / Étudiant"
+                        className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 block">
-                      Pilier Concerné <span className="text-[#D85A30]">*</span>
-                    </label>
-                    <select
-                      value={newFeedback.category}
-                      onChange={(e) =>
-                        setNewFeedback({
-                          ...newFeedback,
-                          category: e.target.value as ServiceCategory,
-                        })
-                      }
-                      className="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5] bg-white"
-                    >
-                      <option value="design">Design & Sérigraphie</option>
-                      <option value="tech">Tech & Marketing digital</option>
-                      <option value="finance">Finance & Investissement</option>
-                    </select>
-                  </div>
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                        Entreprise / Organisation
+                      </label>
+                      <input
+                        type="text"
+                        value={newFeedback.company}
+                        onChange={(e) => setNewFeedback({ ...newFeedback, company: e.target.value })}
+                        placeholder="Ex : Bistro Créole / Particulier"
+                        className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
+                      />
+                    </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 block">
-                    Votre Note globale
-                  </label>
-                  <div className="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setNewFeedback({ ...newFeedback, rating: star })}
-                        className="p-1 hover:scale-110 transition"
+                    <div>
+                      <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                        Département Concerné *
+                      </label>
+                      <select
+                        value={newFeedback.category}
+                        onChange={(e) =>
+                          setNewFeedback({
+                            ...newFeedback,
+                            category: e.target.value as ServiceCategory,
+                          })
+                        }
+                        className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none bg-white"
                       >
-                        <Star
-                          className={`w-6 h-6 ${
-                            star <= newFeedback.rating
-                              ? 'fill-amber-400 text-amber-400'
-                              : 'fill-slate-200 text-slate-300'
-                          }`}
-                        />
-                      </button>
-                    ))}
-                    <span className="text-xs font-bold text-slate-700 ml-2">
-                      {newFeedback.rating} / 5 étoiles
-                    </span>
+                        <option value="design">Design &amp; Impression</option>
+                        <option value="tech">Tech &amp; Marketing Digital</option>
+                        <option value="finance">Finance &amp; Shipping</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700 block">
-                    Votre Message / Témoignage <span className="text-[#D85A30]">*</span>
-                  </label>
-                  <textarea
-                    required
-                    rows={4}
-                    value={newFeedback.content}
-                    onChange={(e) => setNewFeedback({ ...newFeedback, content: e.target.value })}
-                    placeholder="Racontez votre expérience avec Polyverse..."
-                    className="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5] resize-none"
-                  ></textarea>
-                </div>
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                      Note Globale
+                    </label>
+                    <div className="flex items-center space-x-2 bg-[#F4F3EF] p-2.5 border border-stone-300">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setNewFeedback({ ...newFeedback, rating: star })}
+                          className="p-1 cursor-pointer"
+                        >
+                          <Star
+                            className={`w-5 h-5 ${
+                              star <= newFeedback.rating
+                                ? 'fill-amber-400 text-amber-400'
+                                : 'fill-stone-300 text-stone-300'
+                            }`}
+                          />
+                        </button>
+                      ))}
+                      <span className="text-xs font-bold font-tabular text-stone-700 ml-2">
+                        {newFeedback.rating} / 5
+                      </span>
+                    </div>
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-3 px-4 rounded-lg bg-[#185FA5] hover:bg-[#0A2A4D] text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Publier mon témoignage</span>
-                </button>
-              </form>
-            )}
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-wider text-stone-700 block mb-1">
+                      Votre Témoignage *
+                    </label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={newFeedback.content}
+                      onChange={(e) => setNewFeedback({ ...newFeedback, content: e.target.value })}
+                      placeholder="Décrivez votre expérience avec Polyverse..."
+                      className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none resize-none"
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 px-4 bg-[#D85A30] hover:bg-[#b84722] text-white font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 cursor-pointer"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Publier Mon Témoignage</span>
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       )}

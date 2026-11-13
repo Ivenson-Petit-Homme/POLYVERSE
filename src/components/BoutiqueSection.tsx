@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShopProduct, CartItem, AffiliateCode } from '../types';
-import { SHOP_PRODUCTS, AFFILIATE_CODES_SAMPLE, POLYVERSE_INFO } from '../data/polyverseData';
-import { ScrollReveal } from './ScrollReveal';
-import { SectionDarkDivider } from './SectionDarkDivider';
+import { SHOP_PRODUCTS, AFFILIATE_CODES_SAMPLE, POLYVERSE_INFO, POLYVERSE_EXCHANGE_RATE } from '../data/polyverseData';
 import boutiqueMerchBg from '../assets/images/boutique_merch_bg_1789429576842.jpg';
 import { useAuth } from '../context/AuthContext';
 import {
   ShoppingBag,
   ShoppingCart,
   Tag,
-  Sparkles,
   CheckCircle2,
   X,
   Plus,
   Minus,
   MessageCircle,
   Users,
-  ShieldCheck,
-  ArrowRight,
-  Gift,
   Copy,
   Check,
   Percent,
-  Search,
-  Filter,
+  Gift,
   Lock,
 } from 'lucide-react';
 
@@ -32,20 +25,17 @@ interface BoutiqueSectionProps {
   onOpenQuoteModal: () => void;
 }
 
-export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteModal }) => {
-  // Products & Category filter
+export const BoutiqueSection: React.FC<BoutiqueSectionProps> = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAffiliateModalOpen, setIsAffiliateModalOpen] = useState(false);
 
-  // Promo code & Influencer state
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<AffiliateCode | null>(null);
   const [promoError, setPromoError] = useState('');
   const [activeAffiliateCodes, setActiveAffiliateCodes] = useState<AffiliateCode[]>(AFFILIATE_CODES_SAMPLE);
 
-  // New Affiliate Request Form
   const [influencerName, setInfluencerName] = useState('');
   const [influencerSocial, setInfluencerSocial] = useState('');
   const [influencerWhatsapp, setInfluencerWhatsapp] = useState('');
@@ -54,7 +44,6 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
   const { currentUser, requireAuth, placeOrder, setIsAccountModalOpen } = useAuth();
 
-  // Checkout Client Info
   const [buyerName, setBuyerName] = useState(currentUser?.name || '');
   const [buyerPhone, setBuyerPhone] = useState(currentUser?.phone || '');
   const [buyerAddress, setBuyerAddress] = useState(currentUser?.address || '');
@@ -71,7 +60,6 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     }
   }, [currentUser]);
 
-  // Per-product selection state (Color & Size)
   const [selectedProductSizes, setSelectedProductSizes] = useState<Record<string, string>>({
     'prod-tshirt-signature': 'L',
     'prod-hoodie-streetwear': 'L',
@@ -85,13 +73,11 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     'prod-mug-ceramic': 'Noir Mat',
   });
 
-  // Filter products
   const filteredProducts = SHOP_PRODUCTS.filter((product) => {
     if (selectedCategory === 'all') return true;
     return product.category === selectedCategory;
   });
 
-  // Cart Management
   const addToCart = (product: ShopProduct) => {
     const size = selectedProductSizes[product.id] || (product.availableSizes ? product.availableSizes[0] : undefined);
     const color = selectedProductColors[product.id] || (product.availableColors ? product.availableColors[0] : undefined);
@@ -130,15 +116,10 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
 
   const totalItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const subtotalUSD = cart.reduce((sum, item) => sum + item.product.priceUSD * item.quantity, 0);
-
-  const discountAmountUSD = appliedPromo
-    ? (subtotalUSD * appliedPromo.discountPercentage) / 100
-    : 0;
-
+  const discountAmountUSD = appliedPromo ? (subtotalUSD * appliedPromo.discountPercentage) / 100 : 0;
   const finalTotalUSD = Math.max(0, subtotalUSD - discountAmountUSD);
-  const finalTotalHTG = Math.round(finalTotalUSD * 150);
+  const finalTotalHTG = Math.round(finalTotalUSD * POLYVERSE_EXCHANGE_RATE);
 
-  // Apply promo / affiliate code
   const handleApplyPromo = () => {
     setPromoError('');
     const clean = promoCodeInput.trim().toUpperCase();
@@ -157,10 +138,10 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     }
   };
 
-  // Submit influencer application
   const handleCreateAffiliateCode = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanCode = influencerDesiredCode.trim().toUpperCase() || `POLY-${Math.floor(100 + Math.random() * 900)}`;
+    const cleanCode =
+      influencerDesiredCode.trim().toUpperCase() || `POLY-${Math.floor(100 + Math.random() * 900)}`;
     const newAffiliate: AffiliateCode = {
       code: cleanCode,
       influencerName: influencerName,
@@ -175,40 +156,37 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
     setPromoCodeInput(cleanCode);
   };
 
-  // Generate WhatsApp message for checkout
   const handleGenerateOrderWhatsApp = (orderRefCode?: string) => {
     let msg = `*NOUVELLE COMMANDE BOUTIQUE POLYVERSE*\n`;
     if (orderRefCode) {
-      msg += `🔖 *Code Référence Commande:* ${orderRefCode}\n`;
+      msg += `*Code Référence Commande :* ${orderRefCode}\n`;
     }
     msg += `----------------------------------------\n`;
     cart.forEach((item, idx) => {
       msg += `${idx + 1}. *${item.product.name}*\n`;
-      msg += `   • Quantité: ${item.quantity}\n`;
-      if (item.selectedSize) msg += `   • Taille: ${item.selectedSize}\n`;
-      if (item.selectedColor) msg += `   • Couleur: ${item.selectedColor}\n`;
-      msg += `   • Prix unitaire: $${item.product.priceUSD} USD\n`;
+      msg += `   • Quantité : ${item.quantity}\n`;
+      if (item.selectedSize) msg += `   • Taille : ${item.selectedSize}\n`;
+      if (item.selectedColor) msg += `   • Couleur : ${item.selectedColor}\n`;
+      msg += `   • Prix unitaire : $${item.product.priceUSD} USD\n`;
     });
     msg += `----------------------------------------\n`;
-    msg += `💵 *Sous-total:* $${subtotalUSD.toFixed(2)} USD\n`;
+    msg += `*Sous-total :* $${subtotalUSD.toFixed(2)} USD\n`;
     if (appliedPromo) {
-      msg += `🎁 *Code Promo Appliqué:* ${appliedPromo.code} (-${appliedPromo.discountPercentage}%)\n`;
-      msg += `👤 *Ambassadeur Référent:* ${appliedPromo.influencerName}\n`;
-      msg += `✂️ *Remise Immédiate:* -$${discountAmountUSD.toFixed(2)} USD\n`;
+      msg += `*Code Promo Appliqué :* ${appliedPromo.code} (-${appliedPromo.discountPercentage}%)\n`;
+      msg += `*Ambassadeur Référent :* ${appliedPromo.influencerName}\n`;
+      msg += `*Remise Immédiate :* -$${discountAmountUSD.toFixed(2)} USD\n`;
     }
-    msg += `💰 *TOTAL FINAL:* $${finalTotalUSD.toFixed(2)} USD (≈ ${finalTotalHTG.toLocaleString()} HTG)\n`;
+    msg += `*TOTAL FINAL :* $${finalTotalUSD.toFixed(2)} USD (≈ ${finalTotalHTG.toLocaleString()} HTG)\n`;
     msg += `----------------------------------------\n`;
-    msg += `👤 *Client:* ${buyerName || currentUser?.name || 'Client Polyverse'}\n`;
-    msg += `📱 *Téléphone / WhatsApp:* ${buyerPhone || currentUser?.phone || 'Non précisé'}\n`;
-    msg += `📍 *Adresse de livraison:* ${buyerAddress || currentUser?.address || 'À confirmer'}\n`;
-    msg += `💳 *Mode de Paiement:* ${buyerPaymentMethod}\n`;
+    msg += `*Client :* ${buyerName || currentUser?.name || 'Client Polyverse'}\n`;
+    msg += `*Téléphone / WhatsApp :* ${buyerPhone || currentUser?.phone || 'Non précisé'}\n`;
+    msg += `*Adresse de livraison :* ${buyerAddress || currentUser?.address || 'À confirmer'}\n`;
+    msg += `*Mode de Paiement :* ${buyerPaymentMethod}\n`;
 
     return `https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${encodeURIComponent(msg)}`;
   };
 
-  // Finalize order with mandatory account requirement
   const handleFinalizeOrder = () => {
-    // 1. User must have an account to buy
     if (!requireAuth(() => handleFinalizeOrder())) {
       return;
     }
@@ -226,7 +204,6 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
       return;
     }
 
-    // 2. Save order in the database for client history and admin dashboard
     const saved = placeOrder({
       userId: currentUser?.id || 'client',
       userEmail: currentUser?.email || '',
@@ -245,13 +222,12 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
       totalHTG: finalTotalHTG,
       paymentMethod: buyerPaymentMethod,
       promoCode: appliedPromo?.code,
-      notes: appliedPromo ? `Enfliyansè: ${appliedPromo.influencerName}` : undefined,
+      notes: appliedPromo ? `Ambassadeur : ${appliedPromo.influencerName}` : undefined,
     });
 
     setConfirmedOrderId(saved.id);
     setOrderConfirmed(true);
 
-    // 3. Open WhatsApp confirmation
     const waUrl = handleGenerateOrderWhatsApp(saved.id);
     window.open(waUrl, '_blank');
   };
@@ -264,281 +240,269 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 relative">
-      {/* Header Banner */}
-      <ScrollReveal>
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#D85A30] bg-orange-50 px-3.5 py-1.5 rounded-full border border-orange-200">
-            Boutique & Merchandising Officiel
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2A4D] tracking-tight">
-            La Boutique Polyverse
-          </h1>
-          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-            Commandez t-shirts sérigraphiés, hoodies premium, casquettes, cartes virtuelles et packs entreprise. Profitez des codes promo ambassadeurs pour obtenir 10% de réduction immédiate !
-          </p>
-        </div>
-      </ScrollReveal>
-
-      {/* Top Banner: Influenceurs / Affiliation CTA with Boutique Merch Background */}
-      <div className="relative overflow-hidden bg-[#0A2A4D] text-white p-6 sm:p-7 rounded-3xl shadow-xl border border-slate-700/80">
-        {/* High-visibility background image */}
-        <div className="absolute inset-0 z-0">
+    <div className="bg-white text-[#141414] relative">
+      {/* 1. FULL-BLEED EDITORIAL HERO (WWF.FR STYLE) */}
+      <section className="relative bg-[#08101C] text-white overflow-hidden">
+        <div className="absolute inset-0">
           <img
             src={boutiqueMerchBg}
-            alt="Boutique Merchandising Polyverse"
+            alt="Boutique Officielle et Merchandising Polyverse"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center filter brightness-105 contrast-110"
+            className="w-full h-full object-cover object-center opacity-45"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#06152B]/95 via-[#0A2A4D]/85 to-[#06152B]/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#08101C]/95 via-[#0A2A4D]/85 to-[#08101C]/50" />
         </div>
 
-        <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-3 text-left">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-              <Sparkles className="w-5 h-5 text-[#D85A30]" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm sm:text-base flex items-center gap-2">
-                <span>Vous êtes créateur de contenu ou influenceur ?</span>
-                <span className="text-[10px] bg-[#D85A30] text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                  10-15% Commission
-                </span>
-              </h3>
-              <p className="text-xs text-slate-200">
-                Générez votre code promo personnalisé pour offrir des réductions à votre communauté et toucher des commissions directes sur chaque vente !
-              </p>
-            </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div className="max-w-2xl space-y-4">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#E87048] block">
+              Boutique &amp; Merchandising Officiel
+            </span>
+            <h1
+              className="text-4xl sm:text-5xl lg:text-[60px] font-bold uppercase leading-[1.0] text-white"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
+            >
+              La Boutique Polyverse
+            </h1>
+            <p className="text-base sm:text-lg text-stone-200 leading-relaxed">
+              T-shirts sérigraphiés, hoodies premium, casquettes, objets personnalisés et packs entreprise. Utilisez un code ambassadeur pour bénéficier de 10% de remise immédiate.
+            </p>
           </div>
 
-          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setIsAffiliateModalOpen(true)}
-              className="flex-1 sm:flex-initial flex items-center justify-center space-x-2 px-4 py-2.5 bg-[#D85A30] hover:bg-[#c04b24] text-white text-xs font-bold rounded-xl shadow-xs transition duration-150 cursor-pointer"
+              className="flex items-center space-x-2 px-5 py-3.5 bg-[#D85A30] hover:bg-[#b84722] text-white text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
             >
               <Users className="w-4 h-4" />
-              <span>Espace Ambassadeurs</span>
+              <span>Espace Ambassadeurs (10–15%)</span>
             </button>
 
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center space-x-2 px-4 py-2.5 bg-white text-[#0A2A4D] hover:bg-slate-100 text-xs font-bold rounded-xl shadow-xs transition duration-150 relative cursor-pointer"
+              className="flex items-center space-x-2 px-5 py-3.5 bg-white text-[#141414] hover:bg-stone-100 text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              style={{ fontFamily: "'Oswald', sans-serif" }}
             >
-              <ShoppingCart className="w-4 h-4 text-[#185FA5]" />
-              <span>Panier</span>
-              {totalItemCount > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#D85A30] text-white text-[10px] font-bold flex items-center justify-center">
-                  {totalItemCount}
-                </span>
-              )}
+              <ShoppingCart className="w-4 h-4 text-[#0A2A4D]" />
+              <span>Panier ({totalItemCount})</span>
             </button>
           </div>
         </div>
-      </div>
 
-      <SectionDarkDivider label="Catalogue & Articles Polyverse" />
-
-      {/* Category Tabs */}
-      <div className="flex justify-center">
-        <div className="bg-[#F1EFE8] p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1.5 max-w-2xl w-full justify-center shadow-xs">
-          {[
-            { id: 'all', label: 'Tous les Produits' },
-            { id: 'textile', label: 'Textile & Sérigraphie' },
-            { id: 'goodies', label: 'Goodies & Casquettes' },
-            { id: 'tech-finance', label: 'Tech & Cartes' },
-            { id: 'branding', label: 'Packs Branding' },
-          ].map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer ${
-                selectedCategory === cat.id
-                  ? 'bg-[#185FA5] text-white shadow-xs'
-                  : 'text-slate-700 hover:text-[#0A2A4D] hover:bg-white/60'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Category Filter Architectural Bar */}
+        <div className="relative z-10 bg-[#F4F3EF] border-t border-b border-stone-200 text-[#141414]">
+          <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-stone-200">
+            {[
+              { id: 'all', label: 'Tous les Produits' },
+              { id: 'textile', label: 'Textile & Sérigraphie' },
+              { id: 'goodies', label: 'Goodies & Casquettes' },
+              { id: 'tech-finance', label: 'Tech & Cartes' },
+              { id: 'branding', label: 'Packs Branding' },
+            ].map((cat) => {
+              const isSelected = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`p-4 text-left text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    isSelected ? 'bg-[#0A2A4D] text-white' : 'bg-white hover:bg-[#F4F3EF] text-[#141414]'
+                  }`}
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition duration-200 flex flex-col justify-between"
-          >
-            {/* Image Container */}
-            <div className="relative aspect-square overflow-hidden bg-slate-100">
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-              />
-              {product.badge && (
-                <span className="absolute top-3 left-3 bg-[#0A2A4D]/90 backdrop-blur-xs text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-xs">
-                  {product.badge}
-                </span>
-              )}
-              <span className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-xs text-[#0A2A4D] text-xs font-bold px-2.5 py-1 rounded-lg shadow-xs">
-                ${product.priceUSD} USD
-              </span>
-            </div>
-
-            {/* Product Body */}
-            <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-wider font-bold text-[#185FA5]">
-                  {product.categoryLabel}
-                </span>
-                <h3 className="font-bold text-[#0A2A4D] text-sm leading-snug">
-                  {product.name}
-                </h3>
-                <p className="text-xs text-slate-500 line-clamp-2">
-                  {product.description}
-                </p>
-              </div>
-
-              {/* Options: Sizes & Colors if available */}
-              <div className="space-y-2.5 pt-2 border-t border-slate-100">
-                {product.availableSizes && (
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-                      Gwosè / Size
-                    </label>
-                    <div className="flex flex-wrap gap-1">
-                      {product.availableSizes.map((s) => (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() =>
-                            setSelectedProductSizes((prev) => ({ ...prev, [product.id]: s }))
-                          }
-                          className={`px-2 py-1 text-[10px] font-bold rounded-md border transition ${
-                            selectedProductSizes[product.id] === s ||
-                            (!selectedProductSizes[product.id] && product.availableSizes?.[0] === s)
-                              ? 'bg-[#185FA5] text-white border-[#185FA5]'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {product.availableColors && (
-                  <div>
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-                      Koulè
-                    </label>
-                    <div className="flex flex-wrap gap-1">
-                      {product.availableColors.map((c) => (
-                        <button
-                          key={c}
-                          type="button"
-                          onClick={() =>
-                            setSelectedProductColors((prev) => ({ ...prev, [product.id]: c }))
-                          }
-                          className={`px-2 py-0.5 text-[10px] font-medium rounded-md border transition ${
-                            selectedProductColors[product.id] === c ||
-                            (!selectedProductColors[product.id] && product.availableColors?.[0] === c)
-                              ? 'bg-[#0A2A4D] text-white border-[#0A2A4D]'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
-                        >
-                          {c}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Price & Add to Cart Button */}
-              <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
-                <div>
-                  <span className="text-xs font-extrabold text-[#0A2A4D]">
+      {/* 2. PRODUCTS EDITORIAL CATALOGUE GRID */}
+      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <article
+              key={product.id}
+              className="group bg-white border border-stone-200 hover:border-[#0A2A4D] transition-colors flex flex-col justify-between"
+            >
+              <div>
+                <div className="relative aspect-square overflow-hidden bg-stone-100">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute bottom-0 right-0 bg-[#0A2A4D] text-white text-xs font-bold font-tabular px-3 py-1.5">
                     ${product.priceUSD} USD
-                  </span>
-                  <span className="block text-[10px] text-slate-400">
-                    ≈ {product.priceHTG.toLocaleString()} HTG
-                  </span>
+                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => addToCart(product)}
-                  className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#185FA5] hover:bg-[#0A2A4D] text-white rounded-xl text-xs font-bold transition shadow-xs"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Kòmande</span>
-                </button>
+                <div className="p-5 space-y-2.5">
+                  <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
+                    <span className="text-[#D85A30]">{product.categoryLabel}</span>
+                    {product.badge && <span className="text-[#0A2A4D]">{product.badge}</span>}
+                  </div>
+                  <h3
+                    className="text-lg font-bold uppercase text-[#141414] leading-snug"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    {product.name}
+                  </h3>
+                  <p className="text-xs text-stone-600 leading-relaxed line-clamp-2">{product.description}</p>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Cart Drawer / Panel */}
+              <div className="px-5 pb-5 space-y-4">
+                {/* Size & Color options */}
+                {(product.availableSizes || product.availableColors) && (
+                  <div className="space-y-2.5 pt-3 border-t border-stone-200">
+                    {product.availableSizes && (
+                      <div>
+                        <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-1">
+                          Taille
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {product.availableSizes.map((s) => (
+                            <button
+                              key={s}
+                              type="button"
+                              onClick={() =>
+                                setSelectedProductSizes((prev) => ({ ...prev, [product.id]: s }))
+                              }
+                              className={`px-2.5 py-1 text-[10px] font-bold border transition-colors cursor-pointer ${
+                                selectedProductSizes[product.id] === s ||
+                                (!selectedProductSizes[product.id] && product.availableSizes?.[0] === s)
+                                  ? 'bg-[#0A2A4D] text-white border-[#0A2A4D]'
+                                  : 'bg-[#F4F3EF] text-stone-700 border-stone-300 hover:bg-stone-200'
+                              }`}
+                            >
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {product.availableColors && (
+                      <div>
+                        <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-1">
+                          Couleur
+                        </span>
+                        <div className="flex flex-wrap gap-1">
+                          {product.availableColors.map((c) => (
+                            <button
+                              key={c}
+                              type="button"
+                              onClick={() =>
+                                setSelectedProductColors((prev) => ({ ...prev, [product.id]: c }))
+                              }
+                              className={`px-2.5 py-1 text-[10px] font-semibold border transition-colors cursor-pointer ${
+                                selectedProductColors[product.id] === c ||
+                                (!selectedProductColors[product.id] && product.availableColors?.[0] === c)
+                                  ? 'bg-[#0A2A4D] text-white border-[#0A2A4D]'
+                                  : 'bg-[#F4F3EF] text-stone-700 border-stone-300 hover:bg-stone-200'
+                              }`}
+                            >
+                              {c}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Footer Action */}
+                <div className="pt-3 border-t border-stone-200 flex items-center justify-between gap-2">
+                  <div>
+                    <span className="text-sm font-bold font-tabular text-[#0A2A4D] block">
+                      ${product.priceUSD} USD
+                    </span>
+                    <span className="text-[11px] font-tabular text-stone-500 block">
+                      ≈ {(product.priceUSD * POLYVERSE_EXCHANGE_RATE).toLocaleString()} HTG
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => addToCart(product)}
+                    className="flex items-center space-x-1.5 px-4 py-2.5 bg-[#D85A30] hover:bg-[#b84722] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Commander</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. CART DRAWER */}
       <AnimatePresence>
         {isCartOpen && (
           <div className="fixed inset-0 z-50 overflow-hidden">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsCartOpen(false)}
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-xs"
+              className="absolute inset-0 bg-black/60 backdrop-blur-xs"
             />
 
-            {/* Slide-over Cart Panel */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              transition={{ type: 'spring', damping: 28, stiffness: 240 }}
               className="absolute inset-y-0 right-0 max-w-full flex pl-10"
             >
-              <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
-                {/* Cart Header */}
-                <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-[#FAF9F6]">
-                  <div className="flex items-center space-x-2">
-                    <ShoppingCart className="w-5 h-5 text-[#185FA5]" />
-                    <h3 className="font-bold text-lg text-[#0A2A4D]">Votre Panier de Commande</h3>
-                    <span className="text-xs bg-blue-100 text-[#185FA5] px-2 py-0.5 rounded-full font-bold">
-                      {totalItemCount}
-                    </span>
+              <div className="w-screen max-w-md bg-white border-l border-stone-300 shadow-2xl flex flex-col justify-between">
+                {/* Drawer Header */}
+                <div className="p-5 border-b border-stone-200 flex items-center justify-between bg-[#0A2A4D] text-white">
+                  <div className="flex items-center space-x-2.5">
+                    <ShoppingCart className="w-5 h-5 text-[#E87048]" />
+                    <h3
+                      className="text-lg font-bold uppercase tracking-wide"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
+                    >
+                      Votre Panier ({totalItemCount})
+                    </h3>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsCartOpen(false)}
-                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-200/60 transition"
+                    className="p-1.5 text-stone-300 hover:text-white transition-colors cursor-pointer"
+                    aria-label="Fermer le panier"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                {/* Cart Body */}
+                {/* Drawer Body */}
                 <div className="p-5 overflow-y-auto flex-1 space-y-6">
                   {orderConfirmed ? (
-                    <div className="py-12 text-center space-y-4">
-                      <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                        <CheckCircle2 className="w-8 h-8" />
+                    <div className="py-10 text-center space-y-4">
+                      <div className="w-14 h-14 bg-emerald-700 text-white flex items-center justify-center mx-auto">
+                        <CheckCircle2 className="w-7 h-7" />
                       </div>
-                      <h4 className="font-extrabold text-lg text-[#0A2A4D]">Commande enregistrée avec succès !</h4>
-                      <p className="text-xs text-slate-600">
-                        Référence de commande : <strong className="font-mono text-[#185FA5]">{confirmedOrderId}</strong>
+                      <h4
+                        className="text-xl font-bold uppercase text-[#141414]"
+                        style={{ fontFamily: "'Oswald', sans-serif" }}
+                      >
+                        Commande Enregistrée avec Succès
+                      </h4>
+                      <p className="text-xs text-stone-600">
+                        Référence : <strong className="font-mono text-[#0A2A4D]">{confirmedOrderId}</strong>
                       </p>
-                      <p className="text-xs text-slate-500 max-w-xs mx-auto">
-                        Votre commande est enregistrée dans votre compte et le récapitulatif WhatsApp est prêt pour l'équipe Polyverse.
+                      <p className="text-xs text-stone-500 max-w-xs mx-auto">
+                        Votre commande est archivée dans votre compte et le récapitulatif WhatsApp est prêt.
                       </p>
                       <div className="pt-2 flex flex-col gap-2">
                         <button
@@ -548,9 +512,9 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             setOrderConfirmed(false);
                             setIsAccountModalOpen(true);
                           }}
-                          className="w-full py-2.5 bg-[#185FA5] hover:bg-[#0A2A4D] text-white text-xs font-bold rounded-xl transition cursor-pointer"
+                          className="w-full py-3 bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                         >
-                          Consulter l'Historique de Mes Commandes
+                          Historique de Mes Commandes
                         </button>
                         <button
                           type="button"
@@ -558,66 +522,62 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             setOrderConfirmed(false);
                             setIsCartOpen(false);
                           }}
-                          className="w-full py-2 text-slate-500 hover:text-slate-800 text-xs font-semibold cursor-pointer"
+                          className="w-full py-2 text-stone-600 hover:text-[#141414] text-xs font-semibold cursor-pointer"
                         >
-                          Continuer mes achats dans la boutique
+                          Continuer mes achats
                         </button>
                       </div>
                     </div>
                   ) : cart.length === 0 ? (
                     <div className="py-16 text-center space-y-3">
-                      <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto" />
-                      <p className="text-sm font-semibold text-slate-600">Votre panier est actuellement vide.</p>
+                      <ShoppingBag className="w-10 h-10 text-stone-300 mx-auto" />
+                      <p className="text-sm font-semibold text-stone-600">Votre panier est vide.</p>
                       <button
                         type="button"
                         onClick={() => setIsCartOpen(false)}
-                        className="text-xs font-bold text-[#185FA5] hover:underline cursor-pointer"
+                        className="text-xs font-bold uppercase tracking-wider text-[#D85A30] hover:underline cursor-pointer"
                       >
-                        Découvrir les articles de la boutique →
+                        Parcourir le catalogue →
                       </button>
                     </div>
                   ) : (
                     <>
-                      {/* Cart Items List */}
                       <div className="space-y-3">
                         {cart.map((item, idx) => (
                           <div
                             key={`${item.product.id}-${idx}`}
-                            className="flex items-center space-x-3 p-3 rounded-xl border border-slate-100 bg-[#FAF9F6]"
+                            className="flex items-center space-x-3 p-3 border border-stone-200 bg-[#F4F3EF]"
                           >
                             <img
                               src={item.product.imageUrl}
                               alt={item.product.name}
                               referrerPolicy="no-referrer"
-                              className="w-14 h-14 object-cover rounded-lg shrink-0 border border-slate-200"
+                              className="w-14 h-14 object-cover shrink-0 border border-stone-300"
                             />
                             <div className="flex-1 min-w-0">
-                              <h4 className="text-xs font-bold text-[#0A2A4D] truncate">
-                                {item.product.name}
-                              </h4>
-                              <p className="text-[10px] text-slate-500">
-                                {item.selectedSize && `Size: ${item.selectedSize}`}
-                                {item.selectedColor && ` • ${item.selectedColor}`}
+                              <h4 className="text-xs font-bold text-[#141414] truncate">{item.product.name}</h4>
+                              <p className="text-[11px] text-stone-500">
+                                {item.selectedSize && `Taille : ${item.selectedSize}`}
+                                {item.selectedColor && ` · ${item.selectedColor}`}
                               </p>
-                              <p className="text-xs font-extrabold text-[#185FA5]">
+                              <p className="text-xs font-bold font-tabular text-[#0A2A4D]">
                                 ${item.product.priceUSD * item.quantity} USD
                               </p>
                             </div>
 
-                            {/* Quantity Controls */}
-                            <div className="flex items-center space-x-1 border border-slate-200 rounded-lg bg-white p-1">
+                            <div className="flex items-center space-x-1 border border-stone-300 bg-white p-1">
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(idx, item.quantity - 1)}
-                                className="p-1 text-slate-600 hover:text-black"
+                                className="p-1 text-stone-600 hover:text-black cursor-pointer"
                               >
                                 <Minus className="w-3 h-3" />
                               </button>
-                              <span className="text-xs font-bold px-1.5">{item.quantity}</span>
+                              <span className="text-xs font-bold font-tabular px-1.5">{item.quantity}</span>
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(idx, item.quantity + 1)}
-                                className="p-1 text-slate-600 hover:text-black"
+                                className="p-1 text-stone-600 hover:text-black cursor-pointer"
                               >
                                 <Plus className="w-3 h-3" />
                               </button>
@@ -626,11 +586,11 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                         ))}
                       </div>
 
-                      {/* --- CODE PROMO / AFFILIATION --- */}
-                      <div className="p-4 rounded-xl bg-orange-50/70 border border-orange-200 space-y-2.5">
+                      {/* Promo Code */}
+                      <div className="p-4 bg-[#FAF9F6] border border-stone-300 space-y-2.5">
                         <div className="flex items-center space-x-1.5">
                           <Tag className="w-4 h-4 text-[#D85A30]" />
-                          <label className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
+                          <label className="text-xs font-bold text-[#141414] uppercase tracking-wider">
                             Code Promo ou Code Affilié
                           </label>
                         </div>
@@ -640,28 +600,26 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                             type="text"
                             value={promoCodeInput}
                             onChange={(e) => setPromoCodeInput(e.target.value)}
-                            placeholder="Ex: POLYVIP, ALEX509..."
-                            className="flex-1 px-3 py-2 text-xs font-bold uppercase rounded-lg border border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+                            placeholder="Ex : POLYVIP, ALEX509..."
+                            className="flex-1 px-3 py-2 text-xs font-bold uppercase border border-stone-300 bg-white outline-none focus:border-[#0A2A4D]"
                           />
                           <button
                             type="button"
                             onClick={handleApplyPromo}
-                            className="px-4 py-2 bg-[#D85A30] hover:bg-[#bf4821] text-white text-xs font-bold rounded-lg transition"
+                            className="px-4 py-2 bg-[#D85A30] hover:bg-[#b84722] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                           >
                             Appliquer
                           </button>
                         </div>
 
-                        {promoError && (
-                          <p className="text-[11px] text-red-600 font-semibold">{promoError}</p>
-                        )}
+                        {promoError && <p className="text-[11px] text-red-600 font-semibold">{promoError}</p>}
 
                         {appliedPromo && (
-                          <div className="bg-emerald-50 border border-emerald-200 p-2 rounded-lg text-emerald-800 text-xs flex items-center justify-between">
+                          <div className="bg-emerald-50 border border-emerald-300 p-2.5 text-emerald-900 text-xs flex items-center justify-between">
                             <div>
-                              <span className="font-bold">🎉 Code {appliedPromo.code} validé !</span>
-                              <p className="text-[10px] text-emerald-700">
-                                Recommandé par : {appliedPromo.influencerName} (-{appliedPromo.discountPercentage}% de remise)
+                              <span className="font-bold">Code {appliedPromo.code} validé</span>
+                              <p className="text-[11px] text-emerald-800">
+                                Référent : {appliedPromo.influencerName} (-{appliedPromo.discountPercentage}%)
                               </p>
                             </div>
                             <button
@@ -670,7 +628,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                                 setAppliedPromo(null);
                                 setPromoCodeInput('');
                               }}
-                              className="text-slate-400 hover:text-slate-600 p-1"
+                              className="text-stone-500 hover:text-stone-800 p-1"
                             >
                               <X className="w-3.5 h-3.5" />
                             </button>
@@ -678,52 +636,30 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                         )}
                       </div>
 
-                      {/* Client info in checkout */}
-                      <div className="space-y-3 pt-2 border-t border-slate-200">
+                      {/* Delivery Info */}
+                      <div className="space-y-3 pt-2 border-t border-stone-200">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-xs font-bold text-[#0A2A4D] uppercase tracking-wide">
+                          <h4 className="text-xs font-bold text-[#141414] uppercase tracking-wider">
                             Informations de Livraison
                           </h4>
                           {currentUser && (
-                            <span className="text-[10px] text-emerald-600 font-bold flex items-center space-x-1">
-                              <CheckCircle2 className="w-3 h-3" />
-                              <span>Compte connecté</span>
-                            </span>
+                            <span className="text-[11px] text-emerald-700 font-bold">Compte connecté</span>
                           )}
                         </div>
 
-                        {/* Account Requirement Warning / Status */}
-                        {!currentUser ? (
-                          <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs text-amber-900">
+                        {!currentUser && (
+                          <div className="p-3 bg-[#F4F3EF] border border-stone-300 flex items-center justify-between text-xs text-stone-800">
                             <div className="flex items-center space-x-2">
-                              <Lock className="w-4 h-4 text-amber-600 shrink-0" />
-                              <div>
-                                <span className="font-bold">Un compte est requis pour finaliser l'achat</span>
-                                <p className="text-[10px] text-amber-700">Connectez-vous ou créez votre compte avant de finaliser votre commande.</p>
-                              </div>
+                              <Lock className="w-4 h-4 text-[#D85A30] shrink-0" />
+                              <span>Connexion requise pour finaliser l’achat.</span>
                             </div>
                             <button
                               type="button"
                               onClick={() => requireAuth()}
-                              className="px-2.5 py-1.5 bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold text-[11px] rounded-lg transition cursor-pointer shrink-0 ml-2"
+                              className="px-3 py-1.5 bg-[#0A2A4D] text-white font-bold text-[11px] uppercase tracking-wider cursor-pointer ml-2"
                             >
                               Connexion
                             </button>
-                          </div>
-                        ) : (
-                          <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between text-xs text-[#0A2A4D]">
-                            <div className="flex items-center space-x-2 truncate">
-                              <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-                                {currentUser.name.charAt(0).toUpperCase()}
-                              </div>
-                              <div className="truncate">
-                                <span className="font-bold text-xs truncate block">{currentUser.name}</span>
-                                <span className="text-[10px] text-slate-500 truncate block">{currentUser.email}</span>
-                              </div>
-                            </div>
-                            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full shrink-0">
-                              Valide
-                            </span>
                           </div>
                         )}
 
@@ -733,7 +669,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           value={buyerName}
                           onChange={(e) => setBuyerName(e.target.value)}
                           placeholder="Nom et Prénom *"
-                          className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
+                          className="w-full px-3.5 py-2.5 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                         />
 
                         <input
@@ -742,7 +678,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           value={buyerPhone}
                           onChange={(e) => setBuyerPhone(e.target.value)}
                           placeholder="Numéro WhatsApp / Téléphone *"
-                          className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
+                          className="w-full px-3.5 py-2.5 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                         />
 
                         <input
@@ -751,17 +687,17 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                           value={buyerAddress}
                           onChange={(e) => setBuyerAddress(e.target.value)}
                           placeholder="Adresse de livraison (Ville, Quartier, Rue) *"
-                          className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 focus:border-[#185FA5] outline-none"
+                          className="w-full px-3.5 py-2.5 text-xs border border-stone-300 focus:border-[#0A2A4D] outline-none"
                         />
 
                         <div>
-                          <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">
+                          <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-1">
                             Mode de Paiement Préféré
                           </label>
                           <select
                             value={buyerPaymentMethod}
                             onChange={(e) => setBuyerPaymentMethod(e.target.value)}
-                            className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 font-semibold text-[#0A2A4D] bg-white outline-none"
+                            className="w-full px-3.5 py-2.5 text-xs border border-stone-300 font-semibold text-[#141414] bg-white outline-none"
                           >
                             <option value="MonCash">MonCash (Paiement en Gourdes)</option>
                             <option value="Natcash">Natcash (Paiement en Gourdes)</option>
@@ -774,27 +710,25 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                   )}
                 </div>
 
-                {/* Cart Footer / Totals & Final Checkout */}
+                {/* Drawer Footer Totals */}
                 {cart.length > 0 && !orderConfirmed && (
-                  <div className="p-5 border-t border-slate-200 bg-[#FAF9F6] space-y-3">
-                    <div className="space-y-1.5 text-xs">
-                      <div className="flex justify-between text-slate-600">
+                  <div className="p-5 border-t border-stone-200 bg-[#F4F3EF] space-y-3">
+                    <div className="space-y-1.5 text-xs font-tabular">
+                      <div className="flex justify-between text-stone-600">
                         <span>Sous-total :</span>
                         <span>${subtotalUSD.toFixed(2)} USD</span>
                       </div>
                       {appliedPromo && (
-                        <div className="flex justify-between text-emerald-600 font-bold">
-                          <span>Remise Ambassadeur ({appliedPromo.discountPercentage}%) :</span>
+                        <div className="flex justify-between text-emerald-700 font-bold">
+                          <span>Remise ({appliedPromo.discountPercentage}%) :</span>
                           <span>-${discountAmountUSD.toFixed(2)} USD</span>
                         </div>
                       )}
-                      <div className="flex justify-between text-base font-extrabold text-[#0A2A4D] pt-1 border-t border-slate-200">
+                      <div className="flex justify-between text-base font-bold text-[#141414] pt-2 border-t border-stone-300">
                         <span>Total :</span>
                         <div className="text-right">
                           <div>${finalTotalUSD.toFixed(2)} USD</div>
-                          <div className="text-xs text-[#D85A30] font-bold">
-                            ≈ {finalTotalHTG.toLocaleString()} HTG
-                          </div>
+                          <div className="text-xs text-[#D85A30]">≈ {finalTotalHTG.toLocaleString()} HTG</div>
                         </div>
                       </div>
                     </div>
@@ -802,10 +736,11 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
                     <button
                       type="button"
                       onClick={handleFinalizeOrder}
-                      className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md transition cursor-pointer"
+                      className="w-full flex items-center justify-center space-x-2 py-3.5 bg-emerald-700 hover:bg-emerald-600 text-white text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
                     >
-                      <MessageCircle className="w-5 h-5" />
-                      <span>{currentUser ? 'Confirmer la Commande sur WhatsApp' : 'Se Connecter pour Valider la Commande'}</span>
+                      <MessageCircle className="w-4 h-4" />
+                      <span>{currentUser ? 'Confirmer sur WhatsApp' : 'Se Connecter pour Valider'}</span>
                     </button>
                   </div>
                 )}
@@ -815,7 +750,7 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
         )}
       </AnimatePresence>
 
-      {/* --- MODALE D'AFFILIATION & AMBASSADEURS --- */}
+      {/* 4. AFFILIATE MODAL */}
       <AnimatePresence>
         {isAffiliateModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -824,159 +759,158 @@ export const BoutiqueSection: React.FC<BoutiqueSectionProps> = ({ onOpenQuoteMod
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAffiliateModalOpen(false)}
-              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"
+              className="absolute inset-0 bg-black/65 backdrop-blur-xs"
             />
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              initial={{ opacity: 0, scale: 0.97, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto"
+              exit={{ opacity: 0, scale: 0.97, y: 12 }}
+              className="relative bg-white border border-stone-300 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto z-10"
             >
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div className="flex items-center space-x-2">
-                  <div className="p-2 rounded-xl bg-orange-100 text-[#D85A30]">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-extrabold text-[#0A2A4D] text-lg">
-                      Espace Ambassadeurs & Influenceurs
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Créez votre code promo personnalisé pour toucher des commissions
-                    </p>
-                  </div>
+              <div className="bg-[#0A2A4D] text-white p-6 flex items-center justify-between">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#E87048] block">
+                    Programme Ambassadeurs
+                  </span>
+                  <h3
+                    className="text-xl font-bold uppercase mt-0.5"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    Créer Votre Code Promo Personnel
+                  </h3>
                 </div>
-
                 <button
                   type="button"
                   onClick={() => setIsAffiliateModalOpen(false)}
-                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition cursor-pointer"
+                  className="p-1.5 text-stone-300 hover:text-white transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* How it works breakdown */}
-              <div className="grid grid-cols-2 gap-3 text-left">
-                <div className="p-3 bg-blue-50/70 border border-blue-100 rounded-xl">
-                  <div className="flex items-center space-x-1.5 text-[#185FA5] font-bold text-xs mb-1">
-                    <Percent className="w-3.5 h-3.5" />
-                    <span>Pour Vos Abonnés</span>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-2 gap-3 text-left">
+                  <div className="p-4 bg-[#F4F3EF] border border-stone-200">
+                    <div className="flex items-center space-x-1.5 text-[#0A2A4D] font-bold text-xs uppercase mb-1">
+                      <Percent className="w-3.5 h-3.5 text-[#D85A30]" />
+                      <span>Pour Vos Abonnés</span>
+                    </div>
+                    <p className="text-xs text-stone-700">
+                      <strong>10% de réduction immédiate</strong> sur tout le catalogue.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-700">
-                    Ils bénéficient de <strong>10% de réduction immédiate</strong> sur tout le catalogue.
-                  </p>
-                </div>
 
-                <div className="p-3 bg-orange-50/70 border border-orange-100 rounded-xl">
-                  <div className="flex items-center space-x-1.5 text-[#D85A30] font-bold text-xs mb-1">
-                    <Gift className="w-3.5 h-3.5" />
-                    <span>Pour Vous</span>
+                  <div className="p-4 bg-[#F4F3EF] border border-stone-200">
+                    <div className="flex items-center space-x-1.5 text-[#0A2A4D] font-bold text-xs uppercase mb-1">
+                      <Gift className="w-3.5 h-3.5 text-[#D85A30]" />
+                      <span>Pour Vous</span>
+                    </div>
+                    <p className="text-xs text-stone-700">
+                      <strong>10% à 15% de commission</strong> versée par MonCash ou espèces.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-700">
-                    Vous touchez <strong>10% à 15% de commission</strong> en espèces ou par MonCash sur chaque vente !
-                  </p>
-                </div>
-              </div>
-
-              {/* Form to generate influencer promo code */}
-              <form onSubmit={handleCreateAffiliateCode} className="space-y-4 text-left">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Votre Nom ou Nom de Page *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={influencerName}
-                    onChange={(e) => setInfluencerName(e.target.value)}
-                    placeholder="Ex: Vanessa Lifestyle, Alex Créateur..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-medium outline-none"
-                  />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {affiliateSuccess && (
+                  <div className="p-4 bg-emerald-50 border border-emerald-300 text-xs text-emerald-900">
+                    Votre code <strong>{promoCodeInput}</strong> est actif et appliqué automatiquement à votre panier.
+                  </div>
+                )}
+
+                <form onSubmit={handleCreateAffiliateCode} className="space-y-4 text-left">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Votre Réseau (Instagram, TikTok, YouTube...)
-                    </label>
-                    <input
-                      type="text"
-                      value={influencerSocial}
-                      onChange={(e) => setInfluencerSocial(e.target.value)}
-                      placeholder="@votre_compte sur TikTok / IG"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-medium outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                      Code Promo Souhaité *
+                    <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+                      Votre Nom ou Nom de Page *
                     </label>
                     <input
                       type="text"
                       required
-                      value={influencerDesiredCode}
-                      onChange={(e) => setInfluencerDesiredCode(e.target.value.toUpperCase())}
-                      placeholder="Ex: ALEX509, POLYVIP..."
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-bold uppercase outline-none"
+                      value={influencerName}
+                      onChange={(e) => setInfluencerName(e.target.value)}
+                      placeholder="Ex : Vanessa Lifestyle, Alex Créateur..."
+                      className="w-full px-3.5 py-2.5 border border-stone-300 focus:border-[#0A2A4D] text-xs outline-none"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
-                    Numéro WhatsApp pour Percevoir vos Commissions *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={influencerWhatsapp}
-                    onChange={(e) => setInfluencerWhatsapp(e.target.value)}
-                    placeholder="+509 41 61 3156"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#185FA5] text-xs font-medium outline-none"
-                  />
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+                        Réseau Social Principal
+                      </label>
+                      <input
+                        type="text"
+                        value={influencerSocial}
+                        onChange={(e) => setInfluencerSocial(e.target.value)}
+                        placeholder="@votre_compte TikTok / IG"
+                        className="w-full px-3.5 py-2.5 border border-stone-300 focus:border-[#0A2A4D] text-xs outline-none"
+                      />
+                    </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-3 bg-[#0A2A4D] hover:bg-[#185FA5] text-white text-xs font-bold rounded-xl shadow-md transition cursor-pointer"
-                >
-                  Générer & Activer Mon Code Promo Immédiatement
-                </button>
-              </form>
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+                        Code Promo Souhaité *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={influencerDesiredCode}
+                        onChange={(e) => setInfluencerDesiredCode(e.target.value.toUpperCase())}
+                        placeholder="Ex : ALEX509, POLYVIP..."
+                        className="w-full px-3.5 py-2.5 border border-stone-300 focus:border-[#0A2A4D] text-xs font-bold uppercase outline-none"
+                      />
+                    </div>
+                  </div>
 
-              {/* Sample Active Codes List for immediate testing */}
-              <div className="pt-2 border-t border-slate-100 space-y-2 text-left">
-                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-                  Codes Promo Actifs Disponibles Pour Essai :
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  {activeAffiliateCodes.map((item) => (
-                    <button
-                      key={item.code}
-                      type="button"
-                      onClick={() => copyPromoToClipboard(item.code)}
-                      className="flex items-center justify-between p-2 rounded-lg border border-slate-200 hover:border-[#D85A30] bg-[#FAF9F6] text-left transition group"
-                    >
-                      <div>
-                        <span className="font-mono font-bold text-xs text-[#0A2A4D] block group-hover:text-[#D85A30]">
-                          {item.code}
-                        </span>
-                        <span className="text-[10px] text-slate-500">
-                          {item.influencerName}
-                        </span>
-                      </div>
-                      <div className="text-[#D85A30]">
-                        {copiedCode === item.code ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100" />
-                        )}
-                      </div>
-                    </button>
-                  ))}
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1">
+                      Numéro WhatsApp pour Vos Commissions *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={influencerWhatsapp}
+                      onChange={(e) => setInfluencerWhatsapp(e.target.value)}
+                      placeholder="+509 41 61 3156"
+                      className="w-full px-3.5 py-2.5 border border-stone-300 focus:border-[#0A2A4D] text-xs outline-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 bg-[#D85A30] hover:bg-[#b84722] text-white text-sm font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    style={{ fontFamily: "'Oswald', sans-serif" }}
+                  >
+                    Générer &amp; Activer Mon Code Promo
+                  </button>
+                </form>
+
+                <div className="pt-4 border-t border-stone-200 space-y-2 text-left">
+                  <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">
+                    Codes Promo Actifs Pour Test Rapide :
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {activeAffiliateCodes.map((item) => (
+                      <button
+                        key={item.code}
+                        type="button"
+                        onClick={() => copyPromoToClipboard(item.code)}
+                        className="flex items-center justify-between p-2.5 border border-stone-200 hover:border-[#D85A30] bg-[#F4F3EF] text-left transition-colors cursor-pointer"
+                      >
+                        <div>
+                          <span className="font-mono font-bold text-xs text-[#0A2A4D] block">{item.code}</span>
+                          <span className="text-[10px] text-stone-500">{item.influencerName}</span>
+                        </div>
+                        <div className="text-[#D85A30]">
+                          {copiedCode === item.code ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-700" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>

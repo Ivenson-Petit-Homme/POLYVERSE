@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ServiceCategory } from '../types';
 import { POLYVERSE_INFO, QUOTE_ITEMS } from '../data/polyverseData';
 import { X, Calculator, MessageCircle, Send, CheckCircle2 } from 'lucide-react';
 
@@ -40,55 +39,64 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className="bg-white max-w-xl w-full overflow-hidden shadow-2xl border border-stone-300 max-h-[92vh] flex flex-col">
         {/* Header */}
         <div className="bg-[#0A2A4D] text-white p-6 flex items-center justify-between shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-[#D85A30] rounded-xl text-white">
+            <div className="p-2.5 bg-[#D85A30] text-white">
               <Calculator className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-extrabold">Demander un Devis Gratuit</h2>
-              <p className="text-xs text-blue-200">Sélectionnez vos besoins pour Polyverse</p>
+              <h2
+                className="text-xl font-bold uppercase tracking-wide"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Demander un Devis Gratuit
+              </h2>
+              <p className="text-xs text-stone-300">Sélectionnez vos prestations Polyverse</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-300 hover:text-white p-1 rounded-lg transition"
+            className="text-stone-300 hover:text-white p-1.5 transition-colors cursor-pointer"
             aria-label="Fermer"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Body */}
+        {/* Body */}
         <div className="p-6 overflow-y-auto space-y-6">
           {sentSuccess ? (
-            <div className="bg-emerald-50 border border-emerald-200 p-8 rounded-xl text-center space-y-4">
-              <div className="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto">
+            <div className="bg-[#F4F3EF] border border-stone-300 p-8 text-center space-y-4">
+              <div className="w-12 h-12 bg-emerald-700 text-white flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-emerald-900">Demande de Devis Transmise !</h3>
-              <p className="text-xs text-emerald-800 leading-relaxed">
-                Merci {clientName || 'cher client'}. Notre équipe d'associés étudie votre demande et vous répondra très rapidement avec une proposition détaillée.
+              <h3
+                className="text-xl font-bold uppercase text-[#141414]"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
+                Demande de Devis Transmise
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Merci {clientName || 'cher client'}. Notre équipe étudie votre besoin et vous répondra rapidement avec une proposition détaillée.
               </p>
               <button
                 onClick={() => {
                   setSentSuccess(false);
                   onClose();
                 }}
-                className="px-5 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition"
+                className="px-6 py-3 bg-[#0A2A4D] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#185FA5] transition-colors cursor-pointer"
               >
                 Fermer
               </button>
             </div>
           ) : (
             <form onSubmit={handleSendEmailQuote} className="space-y-5">
-              {/* Service Selection */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-[#0A2A4D] block uppercase tracking-wider">
-                  1. Choisissez les services à inclure dans votre devis :
+                  01 · Sélectionnez Vos Services :
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {QUOTE_ITEMS.map((item) => {
@@ -97,21 +105,23 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
                       <div
                         key={item.id}
                         onClick={() => toggleService(item.id)}
-                        className={`p-3 rounded-lg border text-xs cursor-pointer transition flex items-start justify-between ${
+                        className={`p-3 border text-xs cursor-pointer transition-colors flex items-start justify-between ${
                           isChecked
-                            ? 'bg-blue-50/80 border-[#185FA5] text-[#0A2A4D] font-bold shadow-2xs'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                            ? 'bg-[#0A2A4D] border-[#0A2A4D] text-white font-bold'
+                            : 'bg-[#F4F3EF] border-stone-200 text-stone-800 hover:border-stone-400'
                         }`}
                       >
                         <div>
                           <p>{item.name}</p>
-                          <p className="text-[10px] text-slate-500 font-normal">{item.category}</p>
+                          <p className={`text-[10px] font-normal ${isChecked ? 'text-stone-300' : 'text-stone-500'}`}>
+                            {item.category}
+                          </p>
                         </div>
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => {}}
-                          className="rounded text-[#D85A30] h-4 w-4 mt-0.5"
+                          className="accent-[#D85A30] h-4 w-4 mt-0.5 cursor-pointer"
                         />
                       </div>
                     );
@@ -119,10 +129,9 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* User Details */}
-              <div className="space-y-3 pt-2 border-t border-slate-100">
+              <div className="space-y-3 pt-4 border-t border-stone-200">
                 <label className="text-xs font-bold text-[#0A2A4D] block uppercase tracking-wider">
-                  2. Vos coordonnées de contact :
+                  02 · Vos Coordonnées de Contact :
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
@@ -131,15 +140,15 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="Votre Nom Complet *"
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
+                    className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
                   />
                   <input
                     type="email"
                     required
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
-                    placeholder="Votre Adresse Email *"
-                    className="w-full text-xs p-2.5 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
+                    placeholder="Votre Adresse E-mail *"
+                    className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
                   />
                 </div>
                 <input
@@ -147,34 +156,35 @@ export const QuoteModal: React.FC<QuoteModalProps> = ({ isOpen, onClose }) => {
                   value={clientPhone}
                   onChange={(e) => setClientPhone(e.target.value)}
                   placeholder="Téléphone / WhatsApp (optionnel)"
-                  className="w-full text-xs p-2.5 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5]"
+                  className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none"
                 />
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Notes, quantité, précisions supplémentaires..."
-                  className="w-full text-xs p-2.5 rounded-lg border border-slate-200 focus:outline-hidden focus:border-[#185FA5] h-20 resize-none"
+                  placeholder="Notes, quantités ou précisions supplémentaires..."
+                  className="w-full text-xs p-3 border border-stone-300 focus:border-[#0A2A4D] outline-none h-20 resize-none"
                 ></textarea>
               </div>
 
-              {/* Submission Buttons */}
-              <div className="space-y-2 pt-2">
+              <div className="space-y-2.5 pt-2">
                 <a
                   href={`https://wa.me/${POLYVERSE_INFO.whatsappNumber.replace('+', '')}?text=${buildWhatsAppMessage()}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center space-x-2 transition shadow-xs"
+                  className="w-full py-3.5 px-4 bg-emerald-700 hover:bg-emerald-600 text-white font-bold uppercase tracking-wider text-sm flex items-center justify-center space-x-2 transition-colors"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Envoyer la demande via WhatsApp</span>
+                  <span>Envoyer sur WhatsApp Direct</span>
                 </a>
 
                 <button
                   type="submit"
-                  className="w-full py-3 px-4 rounded-lg bg-[#0A2A4D] hover:bg-[#185FA5] text-white font-bold text-xs transition flex items-center justify-center space-x-2"
+                  className="w-full py-3.5 px-4 bg-[#D85A30] hover:bg-[#b84722] text-white font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 cursor-pointer"
+                  style={{ fontFamily: "'Oswald', sans-serif" }}
                 >
                   <Send className="w-4 h-4" />
-                  <span>Envoyer par Email à Polyverse</span>
+                  <span>Envoyer la Demande par E-mail</span>
                 </button>
               </div>
             </form>
